@@ -547,16 +547,45 @@ function sTab(slug){
       <h2 class="section-title"><?= cms($__s,'home_process_title') ?: (isNepali() ? 'पहिलो कलदेखि लाइभसम्म — <span class="tg">४ चरण</span>' : 'From first call to go-live — <span class="tg">4 steps</span>') ?></h2>
       <p style="color:var(--muted-foreground);max-width:38rem;margin:0 auto;"><?= e(cms($__s,'home_process_sub') ?: (isNepali() ? 'डाटा माइग्रेसन, स्टाफ तालिम र ३०-दिन पोस्ट-लन्च सहयोगसहित सम्पूर्ण कार्यान्वयन हामी गर्छौं।' : 'We handle the full implementation — data migration, staff training and 30-day post-launch support.')) ?></p>
     </div>
-    <div id="proc-grid" class="stagger-children grid-4">
+    <style>
+    #proc-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.25rem;
+    }
+    @media (max-width: 540px) {
+      #proc-grid { grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
+    }
+    @media (max-width: 320px) {
+      #proc-grid { grid-template-columns: 1fr; }
+    }
+    #proc-grid .pi { position: relative; }
+    .proc-con {
+      display: none;
+    }
+    @media (min-width: 541px) {
+      .proc-con {
+        display: block;
+        position: absolute;
+        top: 2.875rem;
+        left: calc(50% + 2rem);
+        right: calc(-50% + 1rem);
+        height: 1px;
+        background: linear-gradient(90deg, rgba(37,99,235,.35), rgba(37,99,235,.1));
+        pointer-events: none;
+      }
+    }
+    </style>
+    <div id="proc-grid" class="stagger-children">
       <?php foreach($processSteps as $i=>[$icon,$title,$desc]): ?>
-      <div class="pi" style="text-align:center;padding:2rem 1.5rem;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-2xl);">
+      <div class="pi" style="text-align:center;padding:1.75rem 1.25rem;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-2xl);">
         <?php if($i<3): ?><div class="proc-con"></div><?php endif; ?>
         <div style="position:relative;display:inline-flex;align-items:center;justify-content:center;width:3.5rem;height:3.5rem;border-radius:9999px;background:var(--primary-light);border:2px solid rgba(37,99,235,.2);margin-bottom:1.25rem;">
           <i data-lucide="<?= e($icon) ?>" style="width:20px;height:20px;color:var(--primary);"></i>
           <span style="position:absolute;top:-6px;right:-6px;width:1.375rem;height:1.375rem;border-radius:9999px;background:var(--primary);color:#fff;font-size:var(--text-2xs);font-weight:800;display:grid;place-items:center;font-family:var(--font-display);"><?= $i+1 ?></span>
         </div>
-        <h3 style="font-family:var(--font-display);font-weight:700;color:var(--foreground);margin-bottom:.625rem;"><?= e($title) ?></h3>
-        <p style="font-size:var(--text-sm);color:var(--muted-foreground);line-height:1.65;max-width:18rem;margin:0 auto;"><?= e($desc) ?></p>
+        <h3 style="font-family:var(--font-display);font-weight:700;color:var(--foreground);margin-bottom:.625rem;font-size:var(--text-sm);"><?= e($title) ?></h3>
+        <p style="font-size:var(--text-xs);color:var(--muted-foreground);line-height:1.65;margin:0 auto;"><?= e($desc) ?></p>
       </div>
       <?php endforeach; ?>
     </div>
