@@ -109,11 +109,11 @@ require __DIR__ . '/includes/head.php';
 <div style="width:100%;max-width:26rem;">
   <a href="<?= url('index.php') ?>" style="display:flex;align-items:center;justify-content:center;gap:0.625rem;font-family:var(--font-display);font-weight:700;font-size:var(--text-lg);color:var(--foreground);text-decoration:none;margin-bottom:2rem;">
     <?php if(!empty($__s['logo_url'])):?>
-    <img src="<?=e($__s['logo_url'])?>" alt="<?=e($__s['site_name']??SITE_NAME)?>" loading="eager" decoding="async" style="height:2.5rem;width:2.5rem;border-radius:0.75rem;object-fit:cover;">
+    <img src="<?=e($__s['logo_url'])?>" alt="<?=e($__s['site_name']??SITE_NAME)?>" loading="eager" decoding="async" style="height:2.5rem;width:auto;max-width:14rem;object-fit:contain;">
     <?php else:?>
     <span style="display:grid;place-items:center;width:2.5rem;height:2.5rem;border-radius:0.75rem;background:var(--gradient-primary);color:#fff;font-weight:800;font-size:var(--text-sm);">ST</span>
-    <?php endif;?>
     <?= e($__s['site_name'] ?? SITE_NAME) ?>
+    <?php endif;?>
   </a>
 
   <div class="st-card" style="padding:2rem;">

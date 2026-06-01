@@ -154,9 +154,10 @@ html.dark .st-dropdown {
 }
 #st-brand-logo {
   height: 2rem;
-  width: 2rem;
-  border-radius: 0.5rem;
-  object-fit: cover;
+  width: auto;
+  max-width: 13rem;
+  object-fit: contain;
+  border-radius: 0;
 }
 #st-brand-monogram {
   display: grid;
@@ -224,7 +225,7 @@ html.dark .st-dropdown {
     <!-- Brand -->
     <a id="st-brand" href="<?= url('index.php') ?>">
       <?php if (!empty($__s['logo_url'])): ?>
-        <img id="st-brand-logo" src="<?= e($__s['logo_url']) ?>" alt="<?= e($__s['site_name'] ?? SITE_NAME) ?>" loading="eager" decoding="async" style="height:2.25rem;width:auto;max-width:10rem;object-fit:contain;">
+        <img id="st-brand-logo" src="<?= e($__s['logo_url']) ?>" alt="<?= e($__s['site_name'] ?? SITE_NAME) ?>" loading="eager" decoding="async">
       <?php else: ?>
         <span id="st-brand-monogram"><?= strtoupper(substr(defined('SITE_NAME') ? SITE_NAME : 'NI', 0, 2)) ?></span>
         <span><?= e($__s['site_name'] ?? SITE_NAME) ?></span>
