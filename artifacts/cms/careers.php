@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['apply_job_id'])) {
     } else {
         try {
             execute(
-                "INSERT INTO job_applications (job_listing_id, full_name, email, phone, cover_letter, resume_url) VALUES (?,?,?,?,?,?)",
+                "INSERT INTO job_applications (job_listing_id, name, email, phone, cover_letter, resume_url) VALUES (?,?,?,?,?,?)",
                 [$job_id, $full_name, $email, $phone ?: null, $cover ?: null, $resume ?: null]
             );
             $apply_success = true;

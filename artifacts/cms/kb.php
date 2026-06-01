@@ -2,6 +2,7 @@
 // kb.php — Public knowledge base index (search + categories)
 require_once 'includes/config.php';
 require_once 'includes/db.php';
+require_once 'includes/auth.php';
 require_once 'includes/helpers.php';
 require_once 'includes/lang.php';
 $pageTitle = 'Knowledge Base';

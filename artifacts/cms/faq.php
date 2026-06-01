@@ -51,13 +51,13 @@ include 'includes/page-hero.php';
         <button @click="activecat='all'"
                 :class="activecat==='all' ? 'btn btn-primary btn-sm' : 'btn btn-outline btn-sm'">All Topics</button>
         <?php foreach ($cats as $c): ?>
-        <button @click="activecat=<?= json_encode($c) ?>"
-                :class="activecat===<?= json_encode($c) ?> ? 'btn btn-primary btn-sm' : 'btn btn-outline btn-sm'"><?= e($c) ?></button>
+        <button @click="activecat='<?= addslashes(e($c)) ?>'"
+                :class="activecat==='<?= addslashes(e($c)) ?>' ? 'btn btn-primary btn-sm' : 'btn btn-outline btn-sm'"><?= e($c) ?></button>
         <?php endforeach; ?>
       </div>
 
       <?php foreach ($byCategory as $cat => $items): ?>
-      <div class="faq-group" x-show="activecat==='all' || activecat===<?= json_encode($cat) ?>" x-transition>
+      <div class="faq-group" x-show="activecat==='all' || activecat==='<?= addslashes(e($cat)) ?>'" x-transition>
         <h2 class="faq-category"><?= e($cat) ?></h2>
         <div style="border:1px solid var(--border);border-radius:0.875rem;overflow:hidden;">
           <?php foreach ($items as $idx => $faq): ?>

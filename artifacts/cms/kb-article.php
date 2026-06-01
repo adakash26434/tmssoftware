@@ -2,6 +2,7 @@
 // kb-article.php — Single KB article (with helpful Yes/No)
 require_once 'includes/config.php';
 require_once 'includes/db.php';
+require_once 'includes/auth.php';
 require_once 'includes/helpers.php';
 require_once 'includes/lang.php';
 
