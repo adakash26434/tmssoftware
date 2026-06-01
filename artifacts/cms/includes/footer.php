@@ -163,7 +163,7 @@
       <p style="font-size:var(--text-sm);color:var(--muted-foreground);margin:0;">Hi there! Tell us your name and we'll connect you with our support team right away.</p>
       <input type="text" id="st-visitor-name" placeholder="Your name" class="form-input" style="font-size:var(--text-sm);">
       <input type="email" id="st-visitor-email" placeholder="Email (optional)" class="form-input" style="font-size:var(--text-sm);">
-      <button onclick="stChatStart()" class="btn btn-primary" style="width:100%;font-size:var(--text-sm);">Start Chat →</button>
+      <button onclick="stChatStart()" class="btn btn-primary btn-sm" style="width:100%;">Start Chat →</button>
       <p style="font-size:var(--text-xs);color:var(--muted-foreground);text-align:center;margin:0;">
         Or <a href="<?= url('portal/tickets-new.php') ?>" class="text-primary">open a tracked support ticket</a>
       </p>

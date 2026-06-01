@@ -38,7 +38,7 @@ $PRI = ['low'=>'Low','normal'=>'Normal','high'=>'High','urgent'=>'Urgent'];
     <h1 style="font-family:var(--font-display);font-size:1.375rem;font-weight:700;color:var(--foreground);">My Tickets</h1>
     <p style="font-size:0.875rem;color:var(--muted-foreground);margin-top:0.25rem;"><?= count($tickets) ?> ticket<?= count($tickets)!==1?'s':'' ?></p>
   </div>
-  <a href="<?= url('portal/tickets-new.php') ?>" class="btn btn-primary">+ New Ticket</a>
+  <a href="<?= url('portal/tickets-new.php') ?>" class="btn btn-primary btn-sm">+ New Ticket</a>
 </div>
 
 <!-- Filters -->

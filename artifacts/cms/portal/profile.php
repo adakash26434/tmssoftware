@@ -214,10 +214,10 @@ $DISTRICTS = ['Achham','Arghakhanchi','Baglung','Baitadi','Bajhang','Bajura','Ba
     <div class="st-card p-tile">
       <h2 style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--foreground);margin-bottom:1rem;"> Quick Actions</h2>
       <div style="display:flex;flex-direction:column;gap:0.5rem;">
-        <a href="<?= url('portal/tickets-new.php') ?>" class="btn btn-primary" style="width:100%;justify-content:center;"> Open Support Ticket</a>
-        <a href="<?= url('portal/tickets.php') ?>" class="btn btn-outline" style="width:100%;justify-content:center;"> View My Tickets</a>
-        <a href="<?= url('portal/orders.php') ?>" class="btn btn-outline" style="width:100%;justify-content:center;"> My Products & Orders</a>
-        <a href="<?= url('contact.php') ?>" class="btn btn-ghost" style="width:100%;justify-content:center;"> Send General Enquiry</a>
+        <a href="<?= url('portal/tickets-new.php') ?>" class="btn btn-primary btn-sm" style="width:100%;justify-content:center;"> Open Support Ticket</a>
+        <a href="<?= url('portal/tickets.php') ?>" class="btn btn-outline btn-sm" style="width:100%;justify-content:center;"> View My Tickets</a>
+        <a href="<?= url('portal/orders.php') ?>" class="btn btn-outline btn-sm" style="width:100%;justify-content:center;"> My Products & Orders</a>
+        <a href="<?= url('contact.php') ?>" class="btn btn-ghost btn-sm" style="width:100%;justify-content:center;"> Send General Enquiry</a>
       </div>
     </div>
   </div>

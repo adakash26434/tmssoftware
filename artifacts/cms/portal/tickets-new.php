@@ -200,8 +200,8 @@ $PRODUCTS   = ['Custom Software', 'Mobile App', 'DMS', 'HR & Payroll', 'Website 
     </div>
 
     <div style="display:flex;gap:0.75rem;align-items:center;padding-top:0.5rem;">
-      <button type="submit" class="btn btn-primary btn-lg flex-1">Submit Ticket →</button>
-      <a href="<?= url('portal/tickets.php') ?>" class="btn btn-outline btn-lg">Cancel</a>
+      <button type="submit" class="btn btn-primary btn-md flex-1">Submit Ticket →</button>
+      <a href="<?= url('portal/tickets.php') ?>" class="btn btn-outline btn-md">Cancel</a>
     </div>
   </form>
 </div>

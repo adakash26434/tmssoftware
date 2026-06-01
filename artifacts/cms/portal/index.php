@@ -51,7 +51,7 @@ try {
       <?= e($__user['display_name'] ?? explode('@',$__user['email'])[0]) ?>'s Overview
     </h1>
   </div>
-  <a href="<?= url('portal/tickets-new.php') ?>" class="btn btn-primary">+ New Ticket</a>
+  <a href="<?= url('portal/tickets-new.php') ?>" class="btn btn-primary btn-sm">+ New Ticket</a>
 </div>
 
 <?php if(!empty($__user['client_code'])): ?>

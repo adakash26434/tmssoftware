@@ -45,8 +45,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <form method="POST">
       <?= csrfField() ?>
       <div style="display:flex;gap:0.75rem;flex-wrap:wrap;">
-        <button type="submit" class="btn btn-primary">Send Verification Email</button>
-        <a href="<?= url('portal/index.php') ?>" class="btn btn-ghost">Cancel</a>
+        <button type="submit" class="btn btn-primary btn-md">Send Verification Email</button>
+        <a href="<?= url('portal/index.php') ?>" class="btn btn-ghost btn-md">Cancel</a>
       </div>
     </form>
   </div>

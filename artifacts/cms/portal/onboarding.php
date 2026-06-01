@@ -175,13 +175,13 @@ $pct = (int)round(($step / 5) * 100);
 
     <div style="display:flex;justify-content:space-between;gap:0.75rem;margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--border);">
       <?php if ($step > 1): ?>
-        <button type="submit" name="action" value="back" class="btn btn-outline">← <?= isNepali()?'पछाडि':'Back' ?></button>
+        <button type="submit" name="action" value="back" class="btn btn-outline btn-md">← <?= isNepali()?'पछाडि':'Back' ?></button>
       <?php else: ?><span></span><?php endif; ?>
 
       <?php if ($step < 5): ?>
-        <button type="submit" name="action" value="next" class="btn btn-primary"><?= isNepali()?'अर्को':'Continue' ?> →</button>
+        <button type="submit" name="action" value="next" class="btn btn-primary btn-md"><?= isNepali()?'अर्को':'Continue' ?> →</button>
       <?php else: ?>
-        <button type="submit" name="action" value="finish" class="btn btn-primary"><?= isNepali()?'सकियो':'Finish' ?> ✓</button>
+        <button type="submit" name="action" value="finish" class="btn btn-primary btn-md"><?= isNepali()?'सकियो':'Finish' ?> ✓</button>
       <?php endif; ?>
     </div>
   </form>
