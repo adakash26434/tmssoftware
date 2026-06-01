@@ -18,6 +18,7 @@ function getDB(): PDO {
         // Auto-init schema + seed data if DB is empty
         require_once __DIR__ . '/sqlite-init.php';
         if (!sqliteIsInitialized($pdo)) sqliteInit($pdo);
+        else sqliteMigrate($pdo);  // ensure new tables exist on every boot
         return $pdo;
     }
 

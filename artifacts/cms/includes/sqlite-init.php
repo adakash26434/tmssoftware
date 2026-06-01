@@ -374,6 +374,138 @@ function sqliteInit(PDO $pdo): void {
     );
     ");
 
+    // ── Tables added after initial release (idempotent) ──────
+    sqliteMigrate($pdo);
+
+    // Seed default data
+    _sqliteInitSeedData($pdo);
+}
+
+/**
+ * Creates any tables that were added after the initial sqliteInit().
+ * Safe to run on every request — uses CREATE TABLE IF NOT EXISTS.
+ */
+function sqliteMigrate(PDO $pdo): void {
+    $pdo->exec("
+    CREATE TABLE IF NOT EXISTS notifications (
+        id         INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id    INTEGER NOT NULL,
+        type       TEXT NOT NULL DEFAULT 'info',
+        title      TEXT NOT NULL,
+        body       TEXT,
+        link_url   TEXT,
+        icon       TEXT DEFAULT 'bell',
+        seen_at    TEXT DEFAULT NULL,
+        created_at TEXT NOT NULL DEFAULT (datetime('now'))
+    );
+
+    CREATE TABLE IF NOT EXISTS status_components (
+        id          INTEGER PRIMARY KEY AUTOINCREMENT,
+        name        TEXT NOT NULL,
+        description TEXT,
+        status      TEXT NOT NULL DEFAULT 'operational',
+        sort_order  INTEGER NOT NULL DEFAULT 10,
+        active      INTEGER NOT NULL DEFAULT 1,
+        updated_at  TEXT NOT NULL DEFAULT (datetime('now'))
+    );
+
+    CREATE TABLE IF NOT EXISTS status_incidents (
+        id           INTEGER PRIMARY KEY AUTOINCREMENT,
+        title        TEXT NOT NULL,
+        body         TEXT,
+        severity     TEXT NOT NULL DEFAULT 'investigating',
+        impact       TEXT NOT NULL DEFAULT 'minor',
+        component_id INTEGER DEFAULT NULL,
+        started_at   TEXT NOT NULL DEFAULT (datetime('now')),
+        resolved_at  TEXT DEFAULT NULL
+    );
+
+    CREATE TABLE IF NOT EXISTS status_incident_updates (
+        id            INTEGER PRIMARY KEY AUTOINCREMENT,
+        incident_id   INTEGER NOT NULL,
+        status        TEXT NOT NULL DEFAULT 'investigating',
+        message       TEXT,
+        created_at    TEXT NOT NULL DEFAULT (datetime('now'))
+    );
+
+    CREATE TABLE IF NOT EXISTS orders (
+        id              INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id         INTEGER DEFAULT NULL,
+        order_no        TEXT NOT NULL UNIQUE,
+        customer_email  TEXT,
+        product_name    TEXT,
+        plan_name       TEXT,
+        total           REAL DEFAULT 0,
+        currency        TEXT NOT NULL DEFAULT 'NPR',
+        status          TEXT NOT NULL DEFAULT 'pending',
+        notes           TEXT,
+        created_at      TEXT NOT NULL DEFAULT (datetime('now')),
+        updated_at      TEXT NOT NULL DEFAULT (datetime('now'))
+    );
+
+    CREATE TABLE IF NOT EXISTS tickets (
+        id              INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id         INTEGER NOT NULL,
+        number          TEXT NOT NULL UNIQUE,
+        subject         TEXT NOT NULL,
+        body            TEXT,
+        category        TEXT DEFAULT 'General',
+        product         TEXT DEFAULT NULL,
+        priority        TEXT NOT NULL DEFAULT 'normal',
+        status          TEXT NOT NULL DEFAULT 'open',
+        sla_deadline    TEXT DEFAULT NULL,
+        last_message_at TEXT DEFAULT NULL,
+        created_at      TEXT NOT NULL DEFAULT (datetime('now')),
+        updated_at      TEXT NOT NULL DEFAULT (datetime('now'))
+    );
+
+    CREATE TABLE IF NOT EXISTS ticket_replies (
+        id             INTEGER PRIMARY KEY AUTOINCREMENT,
+        ticket_id      INTEGER NOT NULL,
+        author_id      INTEGER DEFAULT NULL,
+        author_role    TEXT NOT NULL DEFAULT 'client',
+        body           TEXT NOT NULL,
+        attachment_url TEXT DEFAULT NULL,
+        created_at     TEXT NOT NULL DEFAULT (datetime('now'))
+    );
+
+    CREATE TABLE IF NOT EXISTS support_contacts (
+        id          INTEGER PRIMARY KEY AUTOINCREMENT,
+        label       TEXT NOT NULL,
+        type        TEXT NOT NULL DEFAULT 'phone',
+        department  TEXT DEFAULT NULL,
+        value       TEXT NOT NULL,
+        description TEXT DEFAULT NULL,
+        is_primary  INTEGER NOT NULL DEFAULT 0,
+        active      INTEGER NOT NULL DEFAULT 1,
+        position    INTEGER NOT NULL DEFAULT 0,
+        created_at  TEXT NOT NULL DEFAULT (datetime('now')),
+        updated_at  TEXT NOT NULL DEFAULT (datetime('now'))
+    );
+
+    CREATE TABLE IF NOT EXISTS support_conversations (
+        id             INTEGER PRIMARY KEY AUTOINCREMENT,
+        visitor_name   TEXT NOT NULL DEFAULT 'Guest',
+        visitor_email  TEXT DEFAULT NULL,
+        status         TEXT NOT NULL DEFAULT 'open',
+        last_message_at TEXT DEFAULT NULL,
+        unread_visitor INTEGER NOT NULL DEFAULT 0,
+        unread_admin   INTEGER NOT NULL DEFAULT 0,
+        created_at     TEXT NOT NULL DEFAULT (datetime('now'))
+    );
+
+    CREATE TABLE IF NOT EXISTS support_messages (
+        id              INTEGER PRIMARY KEY AUTOINCREMENT,
+        conversation_id INTEGER NOT NULL,
+        sender          TEXT NOT NULL DEFAULT 'visitor',
+        message         TEXT NOT NULL,
+        created_at      TEXT NOT NULL DEFAULT (datetime('now'))
+    );
+    ");
+}
+
+function _sqliteInitSeedData(PDO $pdo): void
+{
     // Seed admin user (password: Admin@12345)
     $hash = password_hash('Admin@12345', PASSWORD_BCRYPT, ['cost' => 10]);
     $pdo->prepare("INSERT OR IGNORE INTO users (display_name, email, password_hash, role, email_verified, active)
