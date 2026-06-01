@@ -103,3 +103,4 @@ Add these to your hosting control panel's cron scheduler:
 - Change the default admin password immediately after first login.
 - The `uploads/` directory should be excluded from version control (add to `.gitignore`) after initial setup.
 - All database queries run through the `sqliteCompat()` helper in `includes/db.php`, keeping MySQL and SQLite syntax consistent.
+# ankurinotech
