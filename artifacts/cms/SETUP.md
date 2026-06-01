@@ -57,6 +57,20 @@ assets/
 */5 * * * *   php /path/to/cron/sla-check.php
 ```
 
+## Automated deployment (GitHub Actions)
+
+Every push to `main` that passes the PHP syntax check is automatically deployed to `public_html/` on the cPanel server via FTP. No manual upload needed.
+
+**Required GitHub Actions secrets** (set in your repo → Settings → Secrets → Actions):
+
+| Secret | Description |
+|---|---|
+| `FTP_SERVER` | Your cPanel FTP hostname, e.g. `ftp.ankurinfotech.com.np` or the server IP |
+| `FTP_USERNAME` | FTP username (usually your cPanel username or `user@domain`) |
+| `FTP_PASSWORD` | FTP password for the account above |
+
+The deploy job uploads everything under `artifacts/cms/` into `public_html/`, skipping `.git`, `.env`, `node_modules`, and `dev-config.php` so local-only files never reach production.
+
 ## Security checklist before going live
 
 - [ ] Change default admin password
