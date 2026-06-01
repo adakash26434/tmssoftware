@@ -87,8 +87,12 @@ body { font-family: var(--font-body); }
 
 <div style="width:100%;max-width:26rem;">
   <a href="<?= url('index.php') ?>" style="display:flex;align-items:center;justify-content:center;gap:0.625rem;font-family:var(--font-display);font-weight:700;font-size:var(--text-lg);color:var(--foreground);text-decoration:none;margin-bottom:2rem;">
-    <span style="display:grid;place-items:center;width:2.5rem;height:2.5rem;border-radius:0.75rem;background:var(--gradient-primary);color:#fff;font-weight:800;font-size:var(--text-sm);"><?= strtoupper(substr(defined('SITE_NAME') ? SITE_NAME : 'NI', 0, 2)) ?></span>
-    <?= e($__s['site_name'] ?? SITE_NAME) ?>
+    <?php if (!empty($__s['logo_url'])): ?>
+      <img src="<?= e($__s['logo_url']) ?>" alt="<?= e($__s['site_name'] ?? SITE_NAME) ?>" style="height:2.75rem;width:auto;max-width:14rem;object-fit:contain;">
+    <?php else: ?>
+      <span style="display:grid;place-items:center;width:2.5rem;height:2.5rem;border-radius:0.75rem;background:var(--gradient-primary);color:#fff;font-weight:800;font-size:var(--text-sm);"><?= strtoupper(substr($__s['site_name'] ?? (defined('SITE_NAME') ? SITE_NAME : 'AI'), 0, 2)) ?></span>
+      <?= e($__s['site_name'] ?? SITE_NAME) ?>
+    <?php endif; ?>
   </a>
 
   <div class="st-card" style="padding:2.25rem;box-shadow:0 8px 40px rgba(0,0,0,0.08);">

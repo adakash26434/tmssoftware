@@ -58,7 +58,7 @@ html.dark #st-navbar {
   padding: 0.375rem 0.8125rem;
   border-radius: 0.5rem;
   font-size: 0.8125rem;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--muted-foreground);
   text-decoration: none;
   background: transparent;
@@ -71,13 +71,13 @@ html.dark #st-navbar {
   white-space: nowrap;
 }
 .nav-pill:hover {
-  color: var(--foreground);
-  background: var(--muted);
+  color: var(--primary);
+  background: var(--primary-light, rgba(59,130,246,0.08));
 }
 .nav-pill.active {
   color: var(--primary);
-  background: var(--primary-light, rgba(59,130,246,0.08));
-  font-weight: 600;
+  background: var(--primary-light, rgba(59,130,246,0.1));
+  font-weight: 700;
 }
 .nav-pill .chev {
   width: 11px;
@@ -314,7 +314,7 @@ html.dark .st-dropdown {
          title="<?= $__lang === 'en' ? 'नेपालीमा हेर्नुस' : 'Switch to English' ?>"
          class="st-lang-btn">
         <i data-lucide="globe" style="width:11px;height:11px;" aria-hidden="true"></i>
-        <?= $__lang === 'en' ? 'नेपाली' : 'English' ?>
+        <span><?= $__lang === 'en' ? 'NP' : 'EN' ?></span>
       </a>
 
       <!-- Dark mode toggle -->
@@ -335,13 +335,13 @@ html.dark .st-dropdown {
       <?php if ($__user): ?>
       <!-- Logged-in user menu -->
       <div class="pos-rel" x-data="{ userOpen: false }" style="position:relative;">
-        <button @click="userOpen = !userOpen" class="st-user-btn">
+        <button onclick="stUserToggle()" @click="userOpen = !userOpen" id="st-user-toggle" class="st-user-btn">
           <span class="avatar avatar-sm"><?= strtoupper(substr($__user['display_name'] ?? $__user['email'], 0, 1)) ?></span>
           <span><?= e(mb_strimwidth($__user['display_name'] ?? $__user['email'], 0, 16, '…')) ?></span>
-          <i data-lucide="chevron-down" style="width:11px;height:11px;opacity:0.5;" aria-hidden="true"></i>
+          <i data-lucide="chevron-down" id="st-user-chev" style="width:11px;height:11px;opacity:0.5;transition:transform .2s;" aria-hidden="true"></i>
         </button>
         <div x-show="userOpen" @click.outside="userOpen=false" x-transition
-          class="st-dropdown" style="right:0;min-width:11rem;display:none;">
+          id="st-dd-user" class="st-dropdown" style="right:0;min-width:11rem;display:none;">
           <div class="st-dd-caret" style="right:1.25rem;"></div>
           <a href="<?= url('portal/index.php') ?>" class="st-dd-item">
             <i data-lucide="layout-dashboard" class="st-dd-icon" aria-hidden="true"></i>
@@ -372,7 +372,9 @@ html.dark .st-dropdown {
 
     <!-- Mobile trigger -->
     <div id="st-mobile-trigger" style="align-items:center;gap:0.5rem;">
-      <a href="<?= e(langToggleUrl()) ?>" class="st-lang-btn" style="padding:0.25rem 0.5rem;">
+      <a href="<?= e(langToggleUrl()) ?>" class="st-lang-btn" style="padding:0.25rem 0.5rem;"
+         title="<?= $__lang === 'en' ? 'नेपालीमा हेर्नुस' : 'Switch to English' ?>">
+        <i data-lucide="globe" style="width:11px;height:11px;" aria-hidden="true"></i>
         <?= $__lang === 'en' ? 'NP' : 'EN' ?>
       </a>
       <button @click="open = !open" :aria-expanded="open.toString()" aria-label="Toggle menu" aria-controls="mobile-menu"
@@ -387,6 +389,7 @@ html.dark .st-dropdown {
   <script>
   (function(){
     var openId=null;
+    var userOpen=false;
     function closeAll(){
       ['st-dd-company','st-dd-more'].forEach(function(id){
         var el=document.getElementById(id);if(el)el.style.display='none';
@@ -394,6 +397,11 @@ html.dark .st-dropdown {
         var ch=document.getElementById(key);if(ch)ch.style.transform='';
       });
       openId=null;
+      var ud=document.getElementById('st-dd-user');
+      var uc=document.getElementById('st-user-chev');
+      if(ud)ud.style.display='none';
+      if(uc)uc.style.transform='';
+      userOpen=false;
     }
     window.stDropToggle=function(id,btn){
       var el=document.getElementById(id);if(!el)return;
@@ -404,8 +412,19 @@ html.dark .st-dropdown {
       el.style.display='block';openId=id;
       if(ch)ch.style.transform='rotate(180deg)';
     };
+    window.stUserToggle=function(){
+      var ud=document.getElementById('st-dd-user');if(!ud)return;
+      var uc=document.getElementById('st-user-chev');
+      if(userOpen){closeAll();return;}
+      closeAll();
+      ud.style.display='block';userOpen=true;
+      if(uc)uc.style.transform='rotate(180deg)';
+    };
     document.addEventListener('click',function(e){
-      if(openId&&!e.target.closest('[onclick^="stDropToggle"]'))closeAll();
+      var inDD=e.target.closest('[onclick^="stDropToggle"],[onclick^="stUserToggle"],#st-user-toggle');
+      if(!inDD){
+        if(openId||userOpen)closeAll();
+      }
     });
   })();
   </script>
