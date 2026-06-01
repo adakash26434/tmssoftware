@@ -199,28 +199,6 @@ require __DIR__ . '/head.php';
         </a>
       </div>
     </header>
-  <div style="flex:1;display:flex;flex-direction:column;overflow:hidden;">
-    <!-- Top bar -->
-    <header style="background:var(--card);border-bottom:1px solid var(--border);padding:0 1.25rem;height:3.75rem;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;">
-      <div style="display:flex;align-items:center;gap:0.75rem;">
-        <!-- Mobile hamburger -->
-        <button id="sidebar-open-btn" onclick="openSidebar()" style="display:none;align-items:center;justify-content:center;width:2.25rem;height:2.25rem;border-radius:0.5rem;border:1px solid var(--border);background:var(--card);cursor:pointer;" title="Menu">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
-        </button>
-        <h1 style="font-family:var(--font-display);font-weight:700;font-size:1rem;color:var(--foreground);"><?= e($pageTitle ?? 'Portal') ?></h1>
-      </div>
-      <div style="display:flex;align-items:center;gap:0.625rem;">
-        <?php if($__unread > 0):?>
-        <a href="<?= url('portal/tickets.php?status=replied') ?>" style="display:flex;align-items:center;gap:0.375rem;padding:0.375rem 0.625rem;border-radius:0.625rem;background:#f3e8ff;color:#7e22ce;font-size:0.75rem;font-weight:600;text-decoration:none;">
-          <?= icon('message-circle',13,'color:#7e22ce;') ?> <?=$__unread?>
-        </a>
-        <?php endif;?>
-        <a href="<?= url('portal/tickets-new.php') ?>" class="btn btn-primary btn-sm"><?= isNepali() ? '+ नयाँ टिकट' : '+ New Ticket' ?></a>
-        <a href="<?= url('portal/profile.php') ?>" style="width:2rem;height:2rem;border-radius:9999px;background:var(--gradient-primary);display:grid;place-items:center;font-size:0.75rem;font-weight:700;color:#fff;text-decoration:none;" title="My Profile">
-          <?= strtoupper(substr($__user['display_name']??$__user['email'],0,1)) ?>
-        </a>
-      </div>
-    </header>
     <!-- Announcement banners -->
     <?php
     $__announcements = [];
