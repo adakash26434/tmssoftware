@@ -60,25 +60,7 @@ body { font-family: var(--font-body); }
 .admin-login-bg { position:fixed;inset:0;z-index:-1;background:var(--background); }
 .admin-login-bg::before { content:"";position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 80% -10%, rgba(220,38,38,0.08), transparent 60%), radial-gradient(ellipse 60% 50% at 20% 110%, rgba(15,23,42,0.06), transparent 60%); }
 .admin-login-bg .dots { position:absolute;inset:0;background-image:radial-gradient(var(--border) 1px,transparent 1px);background-size:24px 24px;opacity:0.5; }
-.input {
-  display:block;
-  width:100%;
-  padding:0.5rem 0.75rem;
-  font-size:var(--text-sm);
-  font-family:var(--font-body);
-  color:var(--card-foreground, var(--foreground));
-  background:var(--card);
-  border:1.5px solid var(--border);
-  border-radius:var(--radius-md, 0.5rem);
-  outline:none;
-  transition:border-color 0.15s, box-shadow 0.15s;
-  box-sizing:border-box;
-}
-.input:focus {
-  border-color:var(--primary);
-  box-shadow:0 0 0 3px rgba(37,99,235,0.12);
-}
-.input::placeholder { color:var(--muted-foreground); }
+/* Uses global .form-input from theme.css */
 .password-eye { position:absolute;right:0.75rem;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--muted-foreground);padding:0.25rem;display:flex;align-items:center;line-height:1; }
 </style>
 </head>
@@ -115,7 +97,7 @@ body { font-family: var(--font-body); }
         <label for="email" style="display:block;font-size:0.8125rem;font-weight:600;color:var(--foreground);margin-bottom:0.375rem;">Work email</label>
         <input id="email" type="email" name="email" required autofocus autocomplete="username"
           value="<?= e($_POST['email'] ?? '') ?>"
-          class="input" placeholder="ankurinfotech8@gmail.com">
+          class="form-input" placeholder="ankurinfotech8@gmail.com">
       </div>
 
       <div style="margin-bottom:1.25rem;position:relative;">
@@ -124,7 +106,7 @@ body { font-family: var(--font-body); }
         </div>
         <div style="position:relative;">
           <input id="password" type="password" name="password" required autocomplete="current-password"
-            class="input" placeholder="••••••••" style="padding-right:2.5rem;">
+            class="form-input" placeholder="••••••••" style="padding-right:2.5rem;">
           <button type="button" class="password-eye" onclick="(function(b){var i=document.getElementById('password');i.type=i.type==='password'?'text':'password';})(this)" aria-label="Show password">
             <i data-lucide="eye" style="width:16px;height:16px;"></i>
           </button>

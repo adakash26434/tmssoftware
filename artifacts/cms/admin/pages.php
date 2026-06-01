@@ -82,7 +82,8 @@ foreach ($settings as $k => $v) {
     <div style="margin-bottom:1.75rem;">
       <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted-foreground);margin-bottom:0.625rem;padding-left:0.25rem;"><?= e($group) ?></div>
       <div class="st-card" style="padding:0;overflow:hidden;">
-        <table class="st-table" style="margin:0;border-radius:0;">
+        <div style="overflow-x:auto;">
+        <table class="st-table" style="margin:0;border-radius:0;min-width:600px;">
           <tbody>
           <?php foreach ($rows as $key => $row): ?>
           <tr>
@@ -109,6 +110,7 @@ foreach ($settings as $k => $v) {
           <?php endforeach; ?>
           </tbody>
         </table>
+        </div>
       </div>
     </div>
     <?php endforeach; ?>

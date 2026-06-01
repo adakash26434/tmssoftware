@@ -54,7 +54,6 @@ $pageTitle = 'Sign In — ' . SITE_NAME;
 if (!defined('SITE_URL') && isset($_siteUrl)) define('SITE_URL', $_siteUrl);
 require __DIR__ . '/includes/head.php';
 ?>
-</head>
 <style>
 body { font-family: var(--font-body); }
 .login-page-bg { position:fixed;inset:0;z-index:-1;background:var(--background); }
@@ -63,8 +62,9 @@ body { font-family: var(--font-body); }
 .password-eye { position:absolute;right:0.75rem;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--muted-foreground);padding:0.25rem;display:flex;align-items:center;transition:color 0.15s; }
 .password-eye:hover { color:var(--foreground); }
 </style>
-<div class="login-page-bg"><div class="dots"></div></div>
+</head>
 <body style="min-height:100vh;background:transparent;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1.5rem;">
+<div class="login-page-bg"><div class="dots"></div></div>
 
 <div style="width:100%;max-width:26rem;">
   <!-- Logo -->
