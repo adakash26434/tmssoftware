@@ -255,8 +255,7 @@ html.dark .st-dropdown {
       <!-- Company dropdown -->
       <?php $companyActive = in_array($__currentPath, ['about.php','careers.php']); ?>
       <li class="pos-rel" style="position:relative;" x-data="{companyOpen:false}" @click.outside="companyOpen=false">
-        <button onclick="stDropToggle('st-dd-company',this)"
-          @click="companyOpen=!companyOpen"
+        <button @click="companyOpen=!companyOpen"
           :aria-expanded="companyOpen.toString()"
           aria-label="Company"
           class="nav-pill <?= $companyActive ? 'active' : '' ?>">
@@ -283,8 +282,7 @@ html.dark .st-dropdown {
       <!-- More dropdown -->
       <?php $moreActive = in_array($__currentPath, array_column($moreLinks, 'href')); ?>
       <li class="pos-rel" style="position:relative;" x-data="{moreOpen:false}" @click.outside="moreOpen=false">
-        <button onclick="stDropToggle('st-dd-more',this)"
-          @click="moreOpen=!moreOpen"
+        <button @click="moreOpen=!moreOpen"
           :aria-expanded="moreOpen.toString()"
           aria-label="More pages"
           class="nav-pill <?= $moreActive ? 'active' : '' ?>">
@@ -337,7 +335,7 @@ html.dark .st-dropdown {
       <?php if ($__user): ?>
       <!-- Logged-in user menu -->
       <div class="pos-rel" x-data="{ userOpen: false }" style="position:relative;">
-        <button onclick="stUserToggle()" @click="userOpen = !userOpen" id="st-user-toggle" class="st-user-btn">
+        <button @click="userOpen = !userOpen" id="st-user-toggle" class="st-user-btn">
           <span class="avatar avatar-sm"><?= strtoupper(substr($__user['display_name'] ?? $__user['email'], 0, 1)) ?></span>
           <span><?= e(mb_strimwidth($__user['display_name'] ?? $__user['email'], 0, 16, '…')) ?></span>
           <i data-lucide="chevron-down" id="st-user-chev" style="width:11px;height:11px;opacity:0.5;transition:transform .2s;" aria-hidden="true"></i>
@@ -387,49 +385,6 @@ html.dark .st-dropdown {
     </div>
   </nav>
 
-  <!-- Vanilla JS dropdown fallback -->
-  <script>
-  (function(){
-    var openId=null;
-    var userOpen=false;
-    function closeAll(){
-      ['st-dd-company','st-dd-more'].forEach(function(id){
-        var el=document.getElementById(id);if(el)el.style.display='none';
-        var key=id==='st-dd-company'?'st-chevron-company':'st-chevron-more';
-        var ch=document.getElementById(key);if(ch)ch.style.transform='';
-      });
-      openId=null;
-      var ud=document.getElementById('st-dd-user');
-      var uc=document.getElementById('st-user-chev');
-      if(ud)ud.style.display='none';
-      if(uc)uc.style.transform='';
-      userOpen=false;
-    }
-    window.stDropToggle=function(id,btn){
-      var el=document.getElementById(id);if(!el)return;
-      var chId=id==='st-dd-company'?'st-chevron-company':'st-chevron-more';
-      var ch=document.getElementById(chId);
-      if(openId===id){closeAll();return;}
-      closeAll();
-      el.style.display='block';openId=id;
-      if(ch)ch.style.transform='rotate(180deg)';
-    };
-    window.stUserToggle=function(){
-      var ud=document.getElementById('st-dd-user');if(!ud)return;
-      var uc=document.getElementById('st-user-chev');
-      if(userOpen){closeAll();return;}
-      closeAll();
-      ud.style.display='block';userOpen=true;
-      if(uc)uc.style.transform='rotate(180deg)';
-    };
-    document.addEventListener('click',function(e){
-      var inDD=e.target.closest('[onclick^="stDropToggle"],[onclick^="stUserToggle"],#st-user-toggle');
-      if(!inDD){
-        if(openId||userOpen)closeAll();
-      }
-    });
-  })();
-  </script>
 
   <!-- Navbar scroll shadow -->
   <script>

@@ -88,6 +88,8 @@ $__themePref = (function_exists('currentUser') ? (currentUser()['theme_pref'] ??
   </style>
 <?php endif; ?>
 
+<!-- Hide Alpine-controlled elements until Alpine initialises -->
+<style>[x-cloak]{display:none!important;}</style>
 <!-- Self-hosted Alpine + Lucide (replaces unpkg/jsdelivr CDN) -->
 <script src="<?= $__siteUrl ?>/assets/vendor/alpine.min.js" defer></script>
 <script src="<?= $__siteUrl ?>/assets/vendor/lucide.min.js" defer></script>
