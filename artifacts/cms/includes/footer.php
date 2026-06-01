@@ -144,8 +144,9 @@
     class="st-float-btn st-chat-trigger"
     aria-label="Open chat"
     aria-expanded="false">
-    <i data-lucide="message-circle" id="st-chat-icon-open" style="width:22px;height:22px;"></i>
-    <i data-lucide="x" id="st-chat-icon-close" style="width:20px;height:20px;display:none;"></i>
+    <i data-lucide="message-circle" id="st-chat-icon-open" style="width:20px;height:20px;flex-shrink:0;"></i>
+    <i data-lucide="x" id="st-chat-icon-close" style="width:18px;height:18px;display:none;flex-shrink:0;"></i>
+    <span class="st-float-label">Live Chat</span>
   </button>
 
   <div id="st-chat-panel" style="display:none;width:22rem;border-radius:1.25rem;overflow:hidden;box-shadow:0 20px 60px rgba(15,23,42,0.18),0 4px 16px rgba(15,23,42,0.10);border:1px solid var(--border);background:var(--card);flex-direction:column;max-height:80vh;">

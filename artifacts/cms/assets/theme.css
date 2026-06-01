@@ -1037,27 +1037,11 @@ body { animation: st-fade-in 0.22s ease-out; }
   display: block;
 }
 
-/* WhatsApp btn — z-index kept below modal (1000) so it hides behind open dialogs */
+/* WhatsApp btn — color only; positioning handled by .st-float-actions container */
 .whatsapp-btn {
-  position: fixed;
-  bottom: 1.5rem;
-  right: 1.5rem;
-  z-index: 980;
-  display: grid;
-  place-items: center;
-  width: 3.25rem;
-  height: 3.25rem;
-  border-radius: 9999px;
   background: #25D366;
   color: #fff;
-  box-shadow: 0 4px 20px rgba(37,211,102,0.4);
   text-decoration: none;
-  transition: var(--transition);
-}
-.whatsapp-btn:hover {
-  background: #20BD5C;
-  transform: scale(1.08);
-  box-shadow: 0 6px 28px rgba(37,211,102,0.5);
 }
 
 /* ── 23. Navbar ───────────────────────────────────────────── */
