@@ -18,7 +18,7 @@ if (!$post) {
     require_once 'includes/header.php';
     ?>
     <div style="min-height:60vh;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1rem;text-align:center;padding:4rem 1rem;">
-      <div style="font-size:var(--text-5xl);"></div>
+      <div style="display:flex;align-items:center;justify-content:center;width:5rem;height:5rem;border-radius:1.25rem;background:var(--muted);margin:0 auto;"><?= icon('file-search', 40, 'color:var(--muted-foreground);') ?></div>
       <h1 style="font-family:var(--font-display);font-size:1.75rem;font-weight:700;">Post Not Found</h1>
       <p class="text-muted">This article may have been moved or deleted.</p>
       <a href="<?= url('news.php') ?>" class="btn btn-primary">← Back to Blog</a>

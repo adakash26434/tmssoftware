@@ -16,7 +16,7 @@ if (!isset($pricingTeaserFeatureLimit)) {
 $pricingTeaserWide         = (bool)($pricingTeaserWide ?? false);
 
 $__planIcons = [
-    'starter'    => 'seedling',
+    'starter'    => 'sprout',
     'growth'     => 'trending-up',
     'enterprise' => 'building-2',
 ];
@@ -48,7 +48,7 @@ try {
 
 if (empty($plans)) {
     $plans = [
-        ['name'=>'Starter','tag'=>'Small Businesses','price'=>'NPR 4,999','period'=>'/ month','cta'=>'Get started','cta_url'=>url('contact.php'),'highlight'=>false,'icon'=>'seedling','features'=>['Up to 500 users','Core Software Module','Web portal + notices','Email & ticket support']],
+        ['name'=>'Starter','tag'=>'Small Businesses','price'=>'NPR 4,999','period'=>'/ month','cta'=>'Get started','cta_url'=>url('contact.php'),'highlight'=>false,'icon'=>'sprout','features'=>['Up to 500 users','Core Software Module','Web portal + notices','Email & ticket support']],
         ['name'=>'Growth','tag'=>'Growing Businesses — most popular','price'=>'NPR 12,999','period'=>'/ month','cta'=>'Book a demo','cta_url'=>url('contact.php'),'highlight'=>true,'icon'=>'trending-up','features'=>['Up to 5,000 users','Software + Mobile App','DMS + role-based access','Priority < 2 hr support']],
         ['name'=>'Enterprise','tag'=>'For large organisations','price'=>'Custom','period'=>'','cta'=>'Talk to us','cta_url'=>url('contact.php'),'highlight'=>false,'icon'=>'building-2','features'=>['Unlimited users & branches','All modules included','Dedicated success manager','24×7 critical SLA']],
     ];

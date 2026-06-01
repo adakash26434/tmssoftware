@@ -126,7 +126,7 @@ ob_start(); ?>
           <?php if (!empty($svc['chips'])): ?>
           <div style="display:flex;flex-wrap:wrap;gap:0.3rem;margin-bottom:0.75rem;">
             <?php foreach ($svc['chips'] as $chip): ?>
-            <span style="display:inline-flex;align-items:center;gap:0.25rem;padding:0.2rem 0.6rem;border-radius:9999px;background:var(--primary-light);color:var(--primary);font-size:0.7rem;font-weight:600;border:1px solid color-mix(in srgb,var(--primary) 20%,transparent);">
+            <span style="display:inline-flex;align-items:center;gap:0.25rem;padding:0.2rem 0.6rem;border-radius:9999px;background:var(--primary-light);color:var(--primary);font-size:0.7rem;font-weight:600;border:1px solid var(--primary-light);border-color:color-mix(in srgb,var(--primary) 20%,transparent)">
               <i data-lucide="check" style="width:10px;height:10px;flex-shrink:0;"></i>
               <?= e($chip) ?>
             </span>

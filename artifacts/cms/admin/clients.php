@@ -83,7 +83,8 @@ require_once '../includes/admin-layout.php';
 
 <style>
 .cl-actions { display:flex;align-items:center;gap:.375rem;opacity:0;transition:opacity .15s; }
-tr:hover .cl-actions { opacity:1; }
+.cl-tr:hover { background: var(--muted); }
+.cl-tr:hover .cl-actions { opacity:1; }
 @media(max-width:640px){ .cl-actions{opacity:1;} }
 .stat-pill { padding:.35rem 1rem;border-radius:9999px;font-size:.8125rem;font-weight:600;text-decoration:none;border:1.5px solid;transition:all .15s;white-space:nowrap; }
 </style>
@@ -178,7 +179,7 @@ tr:hover .cl-actions { opacity:1; }
         <?php foreach($clients as $c):
           $claimed = !empty($c['user_id']);
         ?>
-        <tr style="border-top:1px solid var(--border);" onmouseover="this.style.background='var(--muted)'" onmouseout="this.style.background=''">
+        <tr class="cl-tr" style="border-top:1px solid var(--border);">
 
           <!-- Client ID -->
           <td style="padding:.8125rem 1rem;">

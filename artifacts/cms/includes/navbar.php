@@ -263,7 +263,7 @@ html.dark .st-dropdown {
           <?= __('nav_company') ?>
           <svg id="st-chevron-company" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="chev"><polyline points="6 9 12 15 18 9"></polyline></svg>
         </button>
-        <div id="st-dd-company" class="st-dropdown" x-show="companyOpen" x-transition style="left:0;">
+        <div id="st-dd-company" class="st-dropdown" x-cloak x-show="companyOpen" x-transition style="left:0;">
           <div class="st-dd-caret" style="left:1.125rem;"></div>
           <?php foreach ($companyLinks as $ci => $cl):
             $cActive = $__currentPath === $cl['href'];
@@ -291,7 +291,7 @@ html.dark .st-dropdown {
           <?= __('nav_more') ?>
           <svg id="st-chevron-more" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="chev"><polyline points="6 9 12 15 18 9"></polyline></svg>
         </button>
-        <div id="st-dd-more" class="st-dropdown" x-show="moreOpen" x-transition style="right:0;">
+        <div id="st-dd-more" class="st-dropdown" x-cloak x-show="moreOpen" x-transition style="right:0;">
           <div class="st-dd-caret" style="right:1.125rem;"></div>
           <?php foreach ($moreLinks as $ml):
             $mActive = $__currentPath === $ml['href'];
@@ -342,8 +342,8 @@ html.dark .st-dropdown {
           <span><?= e(mb_strimwidth($__user['display_name'] ?? $__user['email'], 0, 16, '…')) ?></span>
           <i data-lucide="chevron-down" id="st-user-chev" style="width:11px;height:11px;opacity:0.5;transition:transform .2s;" aria-hidden="true"></i>
         </button>
-        <div x-show="userOpen" @click.outside="userOpen=false" x-transition
-          id="st-dd-user" class="st-dropdown" style="right:0;min-width:11rem;display:none;">
+        <div x-cloak x-show="userOpen" @click.outside="userOpen=false" x-transition
+          id="st-dd-user" class="st-dropdown" style="right:0;min-width:11rem;">
           <div class="st-dd-caret" style="right:1.25rem;"></div>
           <a href="<?= url('portal/index.php') ?>" class="st-dd-item">
             <i data-lucide="layout-dashboard" class="st-dd-icon" aria-hidden="true"></i>

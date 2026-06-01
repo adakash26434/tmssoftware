@@ -220,7 +220,7 @@ require __DIR__ . '/head.php';
     foreach($__announcements as $__ann):
         $__type = $__ann['type'] ?? 'info';
     ?>
-    <div style="background:<?=$__annBg[$__type]??$__annBg['info']?>;border-bottom:1.5px solid <?=$__annBord[$__type]??$__annBord['info']?>;padding:0.625rem 1.25rem;display:flex;align-items:center;gap:0.75rem;" x-data="{show:true}" x-show="show">
+    <div style="background:<?=$__annBg[$__type]??$__annBg['info']?>;border-bottom:1.5px solid <?=$__annBord[$__type]??$__annBord['info']?>;padding:0.625rem 1.25rem;display:flex;align-items:center;gap:0.75rem;" x-data="{show:true}" x-cloak x-show="show">
       <span style="display:flex;align-items:center;color:<?=$__annTxt[$__type]??$__annTxt['info']?>"><?=$__annIcon[$__type]??icon('info',16)?></span>
       <div style="flex:1;font-size:0.875rem;font-weight:500;color:<?=$__annTxt[$__type]??$__annTxt['info']?>;">
         <?php if(!empty($__ann['title'])):?><strong><?=e($__ann['title'])?> — </strong><?php endif;?>

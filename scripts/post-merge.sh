@@ -6,7 +6,8 @@ pnpm --filter db push
 # Auto-sync to GitHub after every merge
 if [ -n "$GITHUB_PAT" ]; then
   echo "Syncing to GitHub..."
-  git remote set-url origin "https://adakash26434:${GITHUB_PAT}@github.com/adakash26434/tmssoftware.git"
+  git remote add origin "https://adakash26434:${GITHUB_PAT}@github.com/adakash26434/tmssoftware.git" 2>/dev/null \
+    || git remote set-url origin "https://adakash26434:${GITHUB_PAT}@github.com/adakash26434/tmssoftware.git"
   git push origin main --force
   git remote set-url origin "https://github.com/adakash26434/tmssoftware.git"
   echo "GitHub sync complete."

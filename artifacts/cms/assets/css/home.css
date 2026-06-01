@@ -10,19 +10,21 @@
 /* Centred subtitles */
 .section-lede, p.sub-in { text-align: center; }
 
-/* Process & testimonial paragraphs */
-#proc-grid p,
-.testi-track-l p,
-.testi-track-r p { text-align: justify; hyphens: auto; }
+/* Process & testimonial paragraphs — justify only on wider screens */
+@media (min-width: 480px) {
+  #proc-grid p { text-align: justify; hyphens: auto; }
+}
 
 /* Bento & pricing gaps */
 #bento, .price-grid { gap: 1.125rem; }
 
 /* Stats bar compact padding — handled by theme.css .st-stat */
 
-/* Homepage-scoped paragraph justification */
-.bc p, .p-tile p, .tab-pane p, .pi p {
-  text-align: justify; hyphens: auto;
+/* Homepage-scoped paragraph justification — wider screens only */
+@media (min-width: 480px) {
+  .bc p, .p-tile p, .tab-pane p, .pi p {
+    text-align: justify; hyphens: auto;
+  }
 }
 .testi-track-l p, .testi-track-r p { text-align: left; }
 
@@ -73,6 +75,10 @@
   .price-grid > .price-card { display: flex; flex-direction: column; }
   #news-grid  { grid-template-columns: repeat(3, 1fr) !important; }
   #mob-inner  { grid-template-columns: 1fr auto !important; }
+}
+@media (min-width: 640px) {
+  #bento      { grid-template-columns: repeat(2, 1fr) !important; }
+  #news-grid  { grid-template-columns: repeat(2, 1fr) !important; }
 }
 @media (min-width: 768px) {
   #stats-bar  { grid-template-columns: repeat(4, 1fr) !important; }
