@@ -999,5 +999,5 @@
 
 /* ── includes/footer.php ── */
 @media (min-width: 768px) {
-  #footer-cols { grid-template-columns: 1.8fr 1fr 1fr 1fr !important; }
+  #footer-cols { grid-template-columns: 1.5fr 1fr 1.6fr 1fr !important; }
 }
