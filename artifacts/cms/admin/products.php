@@ -12,6 +12,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $id = (int)$_POST['id'];
         try { execute("DELETE FROM products WHERE id=?", [$id]); $success = 'Product deleted.'; }
         catch(\Throwable $e) { $error = 'Cannot delete — may be referenced elsewhere.'; }
+    } elseif ($action === 'toggle_active') {
+        $id     = (int)$_POST['id'];
+        $newVal = (int)$_POST['active'];
+        try { execute("UPDATE products SET active=?,updated_at=NOW() WHERE id=?", [$newVal,$id]); $success = 'Visibility updated.'; }
+        catch(\Throwable $e) { $error = 'Update failed.'; }
     } elseif (in_array($action, ['create','update'])) {
         $id        = (int)($_POST['id'] ?? 0);
         $name      = trim($_POST['name'] ?? '');
@@ -107,19 +112,24 @@ if (!empty($_GET['edit'])) {
           <td style="padding:0.75rem 1rem;font-weight:600;color:var(--foreground);"><?=e($p['price_from']??'Custom')?></td>
           <td style="padding:0.75rem 1rem;text-align:center;">
             <form method="POST" class="inline">
-              <?=csrfField()?><input type="hidden" name="action" value="update">
+              <?=csrfField()?>
+              <input type="hidden" name="action" value="toggle_active">
               <input type="hidden" name="id" value="<?=$p['id']?>">
-              <input type="hidden" name="name" value="<?=e($p['name'])?>">
               <input type="hidden" name="active" value="<?=$active?0:1?>">
-              <button type="submit" style="background:none;border:none;cursor:pointer;font-size:1rem;" title="Toggle active"><?=$active?'':'⬜'?></button>
+              <button type="submit" title="<?=$active?'Click to hide':'Click to show'?>"
+                style="background:none;border:none;cursor:pointer;font-size:0.75rem;padding:0.2rem 0.5rem;border-radius:9999px;font-weight:600;
+                       color:<?=$active?'var(--secondary)':'var(--muted-foreground)'?>;
+                       background:<?=$active?'rgba(34,197,94,0.1)':'var(--muted)'?>">
+                <?=$active?'● Live':'○ Hidden'?>
+              </button>
             </form>
           </td>
           <td class="p-row">
             <div style="display:flex;gap:0.375rem;">
               <a href="?edit=<?=$p['id']?>" class="btn btn-ghost btn-sm">Edit</a>
-              <form method="POST" class="inline" onsubmit="return confirm('Delete this product?')">
+              <form method="POST" class="inline" onsubmit="return confirm('Delete product \'<?=addslashes(e($p['name']))?>\'? This cannot be undone.')">
                 <?=csrfField()?><input type="hidden" name="action" value="delete"><input type="hidden" name="id" value="<?=$p['id']?>">
-                <button type="submit" class="btn btn-sm" style="background:var(--danger-soft);color:var(--danger-fg);border:none;"></button>
+                <button type="submit" class="btn btn-sm" style="background:var(--danger-soft);color:var(--danger-fg);border:none;">Del</button>
               </form>
             </div>
           </td>
@@ -180,7 +190,13 @@ if (!empty($_GET['edit'])) {
           </div>
           <div>
             <label class="form-label fs-2xs2">Badge</label>
-            <input type="text" name="badge" class="form-input fs-sm2" value="<?=e($editing['badge']??'')?>" placeholder="e.g. Popular">
+            <div style="display:flex;gap:0.375rem;flex-wrap:wrap;margin-bottom:0.375rem;">
+              <?php foreach(['Flagship','Popular','Essential','New','Add-on','Included',''] as $b):?>
+              <button type="button" onclick="document.querySelector('[name=badge]').value='<?=e($b)?>';updatePreview()"
+                style="font-size:0.65rem;padding:0.15rem 0.5rem;border-radius:9999px;cursor:pointer;border:1px solid var(--border);background:<?=($editing['badge']??'')===$b?'var(--primary)':'var(--muted)'?>;color:<?=($editing['badge']??'')===$b?'#fff':'var(--muted-foreground)'?>;font-weight:600;"><?=$b===''?'None':e($b)?></button>
+              <?php endforeach;?>
+            </div>
+            <input type="text" name="badge" id="badge-input" class="form-input fs-sm2" value="<?=e($editing['badge']??'')?>" placeholder="or type custom…" oninput="updatePreview()">
           </div>
         </div>
         <div>
@@ -284,6 +300,37 @@ if (!empty($_GET['edit'])) {
         </div>
       </div>
 
+      <!-- Live preview card -->
+      <div style="margin-top:1rem;padding:0.875rem;border-radius:0.75rem;background:var(--muted);border:1px solid var(--border);">
+        <div style="font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--muted-foreground);margin-bottom:0.625rem;">Live Card Preview</div>
+        <div id="st-admin-preview" style="background:var(--card);border:1px solid var(--border);border-radius:0.875rem;padding:1rem;font-size:0.8125rem;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.375rem;">
+            <div id="prv-icon-box" style="width:2.25rem;height:2.25rem;border-radius:0.625rem;display:grid;place-items:center;flex-shrink:0;background:var(--primary);transition:background 0.2s;">
+              <i id="prv-icon" data-lucide="<?=e($editing['lucide_icon']??'layers')?>" style="width:16px;height:16px;color:#fff;"></i>
+            </div>
+            <span id="prv-badge" style="font-size:0.6rem;padding:0.15rem 0.45rem;border-radius:9999px;background:#dbeafe;color:#1d4ed8;font-weight:700;"><?=e($editing['badge']??'')?></span>
+          </div>
+          <div id="prv-name" style="font-weight:700;color:var(--foreground);margin-bottom:0.25rem;"><?=e($editing['name']??'Product Name')?></div>
+          <div id="prv-tagline" style="color:var(--primary);font-size:0.75rem;font-weight:600;margin-bottom:0.5rem;"><?=e($editing['tagline']??'Tagline goes here')?></div>
+          <div id="prv-price" style="font-size:1.125rem;font-weight:700;color:var(--foreground);margin-bottom:0.5rem;">
+            <?php if(strtolower($editing['badge']??'')==='included'): ?>Included<span id="prv-pricelabel" style="font-size:0.7rem;font-weight:400;color:var(--muted-foreground);margin-left:0.25rem;"> with any plan</span>
+            <?php elseif(!empty($editing['price_from'])): ?>NPR <?=number_format((float)($editing['price_from']??0),0)?><span id="prv-pricelabel" style="font-size:0.7rem;font-weight:400;color:var(--muted-foreground);margin-left:0.25rem;"> / month</span>
+            <?php else: ?>Contact us<span id="prv-pricelabel" style="display:none;"></span>
+            <?php endif;?>
+          </div>
+          <div id="prv-summary" style="font-size:0.75rem;color:var(--muted-foreground);margin-bottom:0.5rem;"><?=e(truncate($editing['summary']??'',80))?></div>
+          <div id="prv-feats" style="font-size:0.72rem;">
+            <?php $__pf = json_decode($editing['highlights']??'[]',true)??[]; foreach(array_slice($__pf,0,4) as $__hi):?>
+            <div style="display:flex;align-items:center;gap:0.3rem;margin-bottom:0.2rem;color:var(--foreground);">
+              <i data-lucide="check" style="width:11px;height:11px;color:var(--secondary);flex-shrink:0;"></i>
+              <?=e($__hi)?>
+            </div>
+            <?php endforeach;?>
+          </div>
+        </div>
+        <p style="font-size:0.65rem;color:var(--muted-foreground);margin-top:0.5rem;margin-bottom:0;text-align:center;">Updates live as you type</p>
+      </div>
+
       <!-- Footer: always visible -->
       <div class="af-form-footer">
         <button type="submit" class="btn btn-primary w-100"><?=$editing?'Update Product':'Create Product'?></button>
@@ -295,6 +342,63 @@ if (!empty($_GET['edit'])) {
 </div>
 
 <script>
+/* ── Live card preview ── */
+var __iconColors = {
+  blue:'#2563eb',teal:'#0d9488',purple:'#7c3aed',green:'#16a34a',
+  amber:'#d97706',rose:'#e11d48',indigo:'#4338ca',cyan:'#0891b2',gray:'#64748b'
+};
+function updatePreview() {
+  var f = document.querySelector('form');
+  var name    = (f.querySelector('[name=name]')?.value||'Product Name').trim();
+  var tagline = (f.querySelector('[name=tagline]')?.value||'').trim();
+  var badge   = (f.querySelector('[name=badge]')?.value||'').trim();
+  var price   = (f.querySelector('[name=price_from]')?.value||'').trim();
+  var summary = (f.querySelector('[name=summary]')?.value||'').trim();
+  var icon    = (f.querySelector('[name=lucide_icon]')?.value||'layers').trim();
+  var color   = f.querySelector('[name=icon_color]')?.value||'blue';
+
+  document.getElementById('prv-name').textContent    = name || 'Product Name';
+  document.getElementById('prv-tagline').textContent = tagline;
+  document.getElementById('prv-badge').textContent   = badge;
+  document.getElementById('prv-badge').style.display = badge ? '' : 'none';
+  document.getElementById('prv-summary').textContent = summary.substring(0,100) + (summary.length>100?'…':'');
+
+  // Price logic
+  var priceDiv = document.getElementById('prv-price');
+  var pLabel   = document.getElementById('prv-pricelabel');
+  if (badge.toLowerCase() === 'included') {
+    priceDiv.childNodes[0].textContent = 'Included';
+    pLabel.textContent = ' with any plan'; pLabel.style.display = '';
+  } else if (price && parseFloat(price) > 0) {
+    priceDiv.childNodes[0].textContent = 'NPR ' + parseInt(price).toLocaleString();
+    pLabel.textContent = ' / month'; pLabel.style.display = '';
+  } else {
+    priceDiv.childNodes[0].textContent = 'Contact us';
+    pLabel.textContent = ''; pLabel.style.display = 'none';
+  }
+
+  // Icon color
+  var bg = __iconColors[color] || '#2563eb';
+  document.getElementById('prv-icon-box').style.background = bg;
+
+  // Lucide icon — re-render
+  var ic = document.getElementById('prv-icon');
+  ic.setAttribute('data-lucide', icon || 'layers');
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+}
+
+// Wire up all relevant inputs
+document.addEventListener('DOMContentLoaded', function() {
+  var triggers = ['name','tagline','badge','price_from','summary','lucide_icon'];
+  triggers.forEach(function(n) {
+    var el = document.querySelector('[name='+n+']');
+    if (el) el.addEventListener('input', updatePreview);
+  });
+  var sel = document.querySelector('[name=icon_color]');
+  if (sel) sel.addEventListener('change', updatePreview);
+  updatePreview();
+});
+
 function stAdminUpload(input, urlFieldId, prevId) {
   var file = input.files[0];
   if (!file) return;

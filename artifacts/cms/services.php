@@ -25,8 +25,8 @@ $__svcDefaults = [
 $services = [];
 try {
     $rows = query(
-        "SELECT id,title,slug,tagline,summary,badge,lucide_icon,icon_color,highlights,features,price_from,active,screenshot_url
-         FROM services WHERE active=1 ORDER BY position,id LIMIT 20"
+        "SELECT id,name,slug,tagline,summary,badge,lucide_icon,icon_color,highlights,features,price_from,active,demo_screenshot_url
+         FROM products WHERE active=1 ORDER BY position,id LIMIT 20"
     );
     foreach ($rows as $r) {
         $highs = json_decode($r['highlights'] ?? '[]', true) ?: [];
@@ -57,7 +57,7 @@ try {
             'slug'           => $r['slug'],
             'box'            => $__colorMap[$color] ?? 'icon-box-blue',
             'badge'          => $r['badge'] ?? '',
-            'name'           => $r['title'],
+            'name'           => $r['name'],
             'tagline'        => $r['tagline'] ?? '',
             'summary'        => $r['summary'] ?? '',
             'price'          => $price,
@@ -65,7 +65,7 @@ try {
             'icon'           => $r['lucide_icon'] ?: 'layers',
             'highlights'     => $highs,
             'chips'          => $chips,
-            'screenshot_url' => $r['screenshot_url'] ?? '',
+            'screenshot_url' => $r['demo_screenshot_url'] ?? '',
         ];
     }
 } catch (\Throwable $e) {}
