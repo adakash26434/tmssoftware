@@ -183,7 +183,7 @@ require __DIR__ . '/head.php';
           onmouseover="if(!this.classList.contains('grp-active'))this.style.background='rgba(241,245,249,0.06)'"
           onmouseout="if(!this.classList.contains('grp-active'))this.style.background='<?= $isActive ? 'rgba(59,130,246,0.12)' : 'transparent' ?>'">
           <span class="fs-md"><?= $grpIcon ?></span>
-          <span class="fs-sm2 fw-strong flex-1"><?= $grpLabel ?></span>
+          <span style="font-size:0.8125rem;font-weight:600;flex:1;min-width:0;"><?= $grpLabel ?></span>
           <span id="<?= $grpId ?>-chevron" style="display:flex;transition:transform 0.2s;<?= $isActive ? 'transform:rotate(180deg)' : '' ?>"><?= icon('chevron-down',13) ?></span>
         </button>
         <div id="<?= $grpId ?>" style="overflow:hidden;padding-left:0.5rem;<?= $isActive ? '' : 'display:none;' ?>">

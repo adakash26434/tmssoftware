@@ -142,26 +142,44 @@ function sqliteCompat(string $sql): string {
     if ($isSQLite === null) $isSQLite = defined('DB_DRIVER') && DB_DRIVER === 'sqlite';
     if (!$isSQLite) return $sql;
 
-    // 1. IF(cond,a,b) → CASE WHEN cond THEN a ELSE b END  (before NOW() so nested NOW() is preserved)
+    // 1. ON DUPLICATE KEY UPDATE → ON CONFLICT(first_col) DO UPDATE SET
+    //    Must run FIRST — before NOW()/CURDATE() so VALUES() clause has no nested parens yet.
+    //    Handles: col=?, col=VALUES(col), col=literal, multi-line, multi-col updates.
+    $sql = preg_replace_callback(
+        '/INSERT\s+INTO\s+(\w+)\s*\(([^)]+)\)\s*(?:VALUES|VALUE)\s*\(([^)]*(?:\([^)]*\)[^)]*)*)\)\s*ON\s+DUPLICATE\s+KEY\s+UPDATE\s+([\s\S]+)/i',
+        function ($m) {
+            $cols         = array_map('trim', explode(',', $m[2]));
+            $conflictCol  = $cols[0];
+            $updateClause = trim($m[4]);
+            $updateClause = preg_replace('/VALUES\s*\((\w+)\)/i', 'excluded.$1', $updateClause);
+            return "INSERT INTO {$m[1]} ({$m[2]}) VALUES ({$m[3]}) ON CONFLICT({$conflictCol}) DO UPDATE SET {$updateClause}";
+        },
+        $sql
+    );
+
+    // 2. IF(cond,a,b) → CASE WHEN cond THEN a ELSE b END
     $sql = _sqliteConvertIf($sql);
 
-    // 2. FIELD(col,v1,v2,...) → CASE col WHEN v1 THEN 1 ... END
+    // 3. FIELD(col,v1,v2,...) → CASE col WHEN v1 THEN 1 ... END
     $sql = _sqliteConvertField($sql);
 
-    // 3. NOW() → datetime('now')
+    // 4. CURDATE() → date('now')  (must be before DATE_ADD/DATE_SUB)
+    $sql = str_ireplace('CURDATE()', "date('now')", $sql);
+
+    // 5. NOW() → datetime('now')
     $sql = str_ireplace('NOW()', "datetime('now')", $sql);
 
-    // 4. =!column → =(1-column)  (active=!active toggle pattern)
+    // 6. =!column → =(1-column)  (active=!active toggle pattern)
     $sql = preg_replace('/=!(\w+)/i', '=(1-$1)', $sql);
 
-    // 5. DATE_SUB(expr, INTERVAL n UNIT)
+    // 7. DATE_SUB(expr, INTERVAL n UNIT)
     $sql = preg_replace_callback(
         "/DATE_SUB\s*\(([^,]+),\s*INTERVAL\s+([\d?]+)\s+(\w+)\)/i",
         fn($m) => "datetime(" . trim($m[1]) . ", '-{$m[2]} {$m[3]}s')",
         $sql
     );
 
-    // 6. DATE_ADD(expr, INTERVAL n UNIT)
+    // 8. DATE_ADD(expr, INTERVAL n UNIT)
     $sql = preg_replace_callback(
         "/DATE_ADD\s*\(([^,]+),\s*INTERVAL\s+([^)]+)\s+(\w+)\)/i",
         fn($m) => "datetime(" . trim($m[1]) . ", '+{$m[2]} {$m[3]}s')",
