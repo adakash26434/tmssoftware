@@ -41,8 +41,7 @@ $__lang = currentLang();
   background: rgba(var(--card-rgb, 255,255,255), 0.85);
   backdrop-filter: blur(16px) saturate(180%);
   -webkit-backdrop-filter: blur(16px) saturate(180%);
-  border-bottom: 1px solid var(--border);
-  box-shadow: 0 1px 3px rgba(15,23,42,0.06), 0 1px 0 rgba(15,23,42,0.04);
+  box-shadow: 0 1px 3px rgba(15,23,42,0.06);
 }
 html.dark #st-navbar {
   background: rgba(15,23,42,0.88);
