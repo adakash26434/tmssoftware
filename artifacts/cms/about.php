@@ -51,7 +51,7 @@ include 'includes/page-hero.php';
   <div class="container">
     <div class="about-mission animate-fade-up" style="display:grid;grid-template-columns:1fr;gap:2.5rem;align-items:start;">
       <div>
-        <div class="section-eyebrow mb-3q"><?= e(__('about_mission_eyebrow')) ?></div>
+        <div class="section-eyebrow section-eyebrow-primary mb-3q"><?= e(__('about_mission_eyebrow')) ?></div>
         <h2 class="h-display" style="margin-bottom:1rem;"><?= e(cms($__s,'about_mission_h2','Simplified & secure digitalization for every business')) ?></h2>
         <p class="text-muted" style="line-height:1.75;margin-bottom:0.875rem;font-size:var(--text-md);">
           <?= nl2br(e(cms($__s,'about_mission_p1','We aim to simplify complex business processes through user-friendly, cloud-based and highly secure software. Our solutions are built to operate smoothly, ensuring accessibility and operational ease for your team.'))) ?>
@@ -86,7 +86,7 @@ include 'includes/page-hero.php';
 <section id="vision" class="st-section st-section--tinted scroll-mt-nav">
   <div class="container">
     <div style="max-width:720px;margin:0 auto;text-align:center;" class="animate-fade-up">
-      <div class="section-eyebrow mb-3q"><?= e(__('about_vision_eyebrow')) ?></div>
+      <div class="section-eyebrow section-eyebrow-primary mb-3q"><?= e(__('about_vision_eyebrow')) ?></div>
       <h2 class="h-display" style="margin-bottom:1.25rem;">Digital self-reliance for Nepal</h2>
       <blockquote style="color:var(--muted-foreground);line-height:1.75;font-size:var(--text-md);font-style:italic;border-left:3px solid var(--primary);padding:0.5rem 0 0.5rem 1.25rem;text-align:left;margin:0;">
         <?= e(cms($__s,'about_vision_quote',"As the world enters the digital era, we are committed to modernising Nepal's financial institutions — transitioning them from paper-based records to a completely digital, modern system. Our vision is to champion Nepali production: ensuring the technology and software used in Nepal are locally produced, creating an environment for technological self-reliance and promoting quality IT production in accordance with international standards.")) ?>
@@ -100,7 +100,7 @@ include 'includes/page-hero.php';
 <section class="st-section st-section--divider">
   <div class="container">
     <div class="animate-fade-up section-head">
-      <div class="section-eyebrow mb-3q"><?= e(__('about_values_eyebrow')) ?></div>
+      <div class="section-eyebrow section-eyebrow-primary mb-3q"><?= e(__('about_values_eyebrow')) ?></div>
       <h2 class="h-display section-title" style="margin-bottom:0;"><?= e(__('about_values_title')) ?></h2>
     </div>
     <div class="values-grid stagger-children grid-1">
@@ -143,7 +143,7 @@ $__ls['ceo_title']      = $__ls['ceo_title']      ?? 'CEO & Co-founder';
 <section id="leadership" class="st-section st-section--divider scroll-mt-nav">
   <div class="container">
     <div class="animate-fade-up section-head">
-      <div class="section-eyebrow mb-3q"><?= e(__('about_leadership_eyebrow')) ?></div>
+      <div class="section-eyebrow section-eyebrow-primary mb-3q"><?= e(__('about_leadership_eyebrow')) ?></div>
       <h2 class="h-display section-title" style="margin-bottom:0;"><?= e(__('about_leadership_title')) ?></h2>
     </div>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;max-width:920px;margin:0 auto;" class="stagger-children">
@@ -194,7 +194,7 @@ $__ls['ceo_title']      = $__ls['ceo_title']      ?? 'CEO & Co-founder';
 <section id="team" class="st-section scroll-mt-nav">
   <div class="container">
     <div class="animate-fade-up section-head">
-      <div class="section-eyebrow mb-3q"><?= e(__('about_team_eyebrow')) ?></div>
+      <div class="section-eyebrow section-eyebrow-primary mb-3q"><?= e(__('about_team_eyebrow')) ?></div>
       <h2 class="h-display section-title" style="margin-bottom:0;"><?= e(__('about_team_title')) ?></h2>
       <p class="section-lede"><?= e(__('about_team_sub')) ?></p>
     </div>
