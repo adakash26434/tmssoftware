@@ -52,7 +52,7 @@ cleanup() {
 }
 trap cleanup EXIT
 
-git push github HEAD:main --force-with-lease
+git push github HEAD:main --force
 
 echo ""
 echo "Done. GitHub is now up to date."
