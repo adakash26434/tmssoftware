@@ -1,0 +1,143 @@
+/* ======================================================
+   admin-forms.css — Uniform Admin Form Layout System
+   Loaded only in admin/portal context (see head.php)
+   ====================================================== */
+
+/* ── Split-panel layout ────────────────────────────────
+   Left: list/table  |  Right: 380px edit form panel
+   ─────────────────────────────────────────────────────*/
+.af-split {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 1.25rem;
+  align-items: start;
+}
+
+/* ── Sticky form panel wrapper ─────────────────────── */
+.af-panel {
+  position: sticky;
+  top: 1rem;
+}
+
+/* ── Settings: remove legacy max-width restriction ─── */
+.st-card.p-card-lg {
+  max-width: none;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* ── Uniform form-label size across all admin forms ── */
+.af-split .form-label,
+.af-panel .form-label,
+.p-tile .form-label {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  margin-bottom: 0.3rem;
+  display: block;
+  color: var(--muted-foreground);
+}
+
+/* ── Uniform inner form field gap ─────────────────── */
+.col-1 {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
+/* ── Form footer: buttons at bottom of form card ──── */
+.af-form-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border);
+}
+
+/* ── Empty state (dashed placeholder) ─────────────── */
+.af-empty {
+  border: 2px dashed var(--border);
+  border-radius: 1rem;
+  padding: 3rem;
+  text-align: center;
+  color: var(--muted-foreground);
+}
+
+/* ── Page-level navigation tabs (e.g. Jobs / Apps) ── */
+.af-page-tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 2px solid var(--border);
+  margin-bottom: 1.25rem;
+}
+.af-page-tab {
+  padding: 0.625rem 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  color: var(--muted-foreground);
+  transition: color 0.12s, border-color 0.12s;
+  white-space: nowrap;
+}
+.af-page-tab.active {
+  color: var(--primary);
+  border-bottom-color: var(--primary);
+}
+.af-page-tab .af-badge {
+  margin-left: 0.25rem;
+  padding: 0.1rem 0.4rem;
+  border-radius: 9999px;
+  background: var(--danger-soft);
+  color: var(--danger-fg);
+  font-size: 0.625rem;
+  font-weight: 700;
+}
+
+/* ── In-panel form tabs ────────────────────────────── */
+.af-tab-nav {
+  display: flex;
+  gap: 0;
+  border-bottom: 2px solid var(--border);
+  margin-bottom: 1rem;
+}
+.af-tab-btn {
+  flex: 1;
+  padding: 0.45rem 0.25rem;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  cursor: pointer;
+  color: var(--muted-foreground);
+  transition: color 0.12s, border-color 0.12s;
+  white-space: nowrap;
+}
+.af-tab-btn.active {
+  color: var(--primary);
+  border-bottom-color: var(--primary);
+}
+.af-tab-pane {
+  display: none;
+}
+.af-tab-pane.active {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
+/* ── Responsive: stack on mobile ──────────────────── */
+@media (max-width: 768px) {
+  .af-split {
+    grid-template-columns: 1fr !important;
+  }
+  .af-panel {
+    position: static;
+  }
+}

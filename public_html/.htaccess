@@ -1,0 +1,54 @@
+# ─────────────────────────────────────────────────────────────────────
+# Ankur Infotech CMS — security & routing rules
+# ─────────────────────────────────────────────────────────────────────
+
+# Disable directory listing
+Options -Indexes
+
+# ── Block direct HTTP access to server-side directories ──────────────
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Block direct web access to PHP includes, cache, and config dirs
+  RewriteRule ^(includes|\.cache|\.agents|\.local)/  - [F,L]
+</IfModule>
+
+# ── Protect individual sensitive files ───────────────────────────────
+<FilesMatch "^(dev-config\.php|\.env|composer\.(json|lock))$">
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
+  <IfModule !mod_authz_core.c>
+    Order deny,allow
+    Deny from all
+  </IfModule>
+</FilesMatch>
+
+# ── PHP settings for production ───────────────────────────────────────
+<IfModule mod_php8.c>
+  php_flag  display_errors  Off
+  php_flag  log_errors      On
+  php_value error_log       /dev/null
+</IfModule>
+<IfModule mod_php.c>
+  php_flag  display_errors  Off
+  php_flag  log_errors      On
+</IfModule>
+
+# ── Security headers ─────────────────────────────────────────────────
+<IfModule mod_headers.c>
+  Header set X-Content-Type-Options "nosniff"
+  Header set X-Frame-Options "SAMEORIGIN"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# ── Static asset caching ─────────────────────────────────────────────
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/css             "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType image/svg+xml        "access plus 1 year"
+  ExpiresByType image/webp           "access plus 1 year"
+  ExpiresByType font/woff2           "access plus 1 year"
+</IfModule>

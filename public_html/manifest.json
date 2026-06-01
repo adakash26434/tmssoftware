@@ -1,0 +1,21 @@
+{
+  "name": "Ankur Infotech Pvt. Ltd.",
+  "short_name": "Ankur Infotech",
+  "description": "IT Solutions & Software Services | Butwal, Rupandehi, Nepal",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#fafbfc",
+  "theme_color": "#2563eb",
+  "lang": "en",
+  "categories": ["business", "productivity"],
+  "icons": [
+    { "src": "/public/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Client Portal", "url": "/portal/", "description": "Login to your portal" },
+    { "name": "Support Ticket", "url": "/portal/tickets-new.php", "description": "Open a new ticket" },
+    { "name": "Contact", "url": "/contact.php" }
+  ]
+}
