@@ -280,16 +280,31 @@ $tabs = [
 .bi-np{font-size:.625rem;font-weight:700;color:#1e40af;text-transform:uppercase;letter-spacing:.05em;}
 .bi-lbl{margin-bottom:.3rem !important;}
 @media(max-width:600px){.bi-pair{grid-template-columns:1fr;}}
+/* ── Accordion sections inside Homepage tab ── */
+.st-accordion{border:1px solid var(--border);border-radius:0.75rem;overflow:hidden;margin-bottom:0.625rem;}
+.st-accordion summary{
+  display:flex;align-items:center;gap:0.625rem;
+  padding:0.875rem 1rem;background:var(--muted);
+  font-size:0.8125rem;font-weight:700;color:var(--foreground);
+  cursor:pointer;list-style:none;user-select:none;
+  border-bottom:1px solid transparent;transition:background 0.15s;
+}
+.st-accordion[open] summary{border-bottom-color:var(--border);background:var(--background);}
+.st-accordion summary::-webkit-details-marker{display:none;}
+.st-accordion summary::after{content:'›';margin-left:auto;font-size:1rem;font-weight:400;color:var(--muted-foreground);transition:transform 0.2s;}
+.st-accordion[open] summary::after{transform:rotate(90deg);}
+.st-accordion summary:hover{background:var(--primary-light);}
+.st-accordion__body{padding:1rem;background:var(--background);display:flex;flex-direction:column;gap:0.75rem;}
 </style>
 <?php if ($success): ?><div class="alert alert-success mb-1-25"><?= e($success) ?></div><?php endif; ?>
 <?php if ($error):   ?><div class="alert alert-error mb-1-25"  ><?= e($error) ?></div><?php endif; ?>
 
-<div x-data="{tab:'general'}">
+<div x-data="{tab:'general'}" x-effect="$nextTick(()=>{ if(typeof lucide!=='undefined') lucide.createIcons(); })">
 
   <!-- Tab nav -->
   <div style="display:flex;flex-wrap:wrap;gap:0.375rem;margin-bottom:2rem;border-bottom:1px solid var(--border);padding-bottom:1rem;">
     <?php foreach ($tabs as [$id,$icon,$label]): ?>
-    <button @click="tab='<?=$id?>'" :class="tab==='<?=$id?>' ? 'btn btn-primary btn-sm' : 'btn btn-outline btn-sm'" style="gap:0.375rem;">
+    <button @click="tab='<?=$id?>'" :class="tab==='<?=$id?>' ? 'btn btn-primary btn-sm' : 'btn btn-outline btn-sm'" style="display:inline-flex;align-items:center;gap:0.375rem;">
       <?=$icon?> <?=$label?>
     </button>
     <?php endforeach; ?>
@@ -418,20 +433,31 @@ $tabs = [
     <form method="POST">
       <?= csrfField() ?><input type="hidden" name="section" value="homepage">
       <div class="st-card p-card-lg">
-        <h3 style="font-family:var(--font-display);font-size:1rem;font-weight:700;margin-bottom:0.25rem;"> Homepage Content</h3>
-        <p style="font-size:0.8125rem;color:var(--muted-foreground);margin-bottom:1.5rem;">Override homepage hero text. Leave blank to use the code defaults.</p>
-        <div class="col-stack">
-          <?php biI($s,'homepage_hero_title','Hero Title','IT Solutions & Software Services','IT समाधान र सफ्टवेयर सेवाहरू') ?>
-          <?php biTA($s,'homepage_hero_subtitle','Hero Subtitle','End-to-end software solutions...','IT समाधान, सफ्टवेयर सेवाहरू...',3) ?>
-          <?php biI($s,'homepage_cta_text','CTA Button Text','Request a Demo','डेमो अनुरोध गर्नुस') ?>
-          <div>
-            <label class="form-label">CTA Button URL</label>
-            <input type="url" name="homepage_cta_url" class="form-input" value="<?= e(sv($s,'homepage_cta_url')) ?>" placeholder="/contact.php">
-          </div>
-          <!-- Hero Stats -->
-          <div>
-            <label class="form-label">Hero Stats (4 stat boxes below the headline)</label>
-            <p style="font-size:0.8125rem;color:var(--muted-foreground);margin-bottom:0.75rem;">Leave blank to use defaults (120+ Cooperatives, 8 yrs, &lt;2 hr, 99.9%)</p>
+        <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.25rem;">
+          <?= icon('layout',16,'color:var(--primary);flex-shrink:0;') ?>
+          <h3 style="font-family:var(--font-display);font-size:1rem;font-weight:700;margin:0;">Homepage Content</h3>
+        </div>
+        <p style="font-size:0.8125rem;color:var(--muted-foreground);margin-bottom:1.25rem;">Each section is collapsible. Leave any field blank to use the built-in default.</p>
+
+        <!-- ① Hero -->
+        <details class="st-accordion" open>
+          <summary><?= icon('star',14,'color:var(--primary);flex-shrink:0;') ?> Hero Section</summary>
+          <div class="st-accordion__body">
+            <?php biI($s,'homepage_hero_title','Hero Title','IT Solutions & Software Services','IT समाधान र सफ्टवेयर सेवाहरू') ?>
+            <?php biTA($s,'homepage_hero_subtitle','Hero Subtitle','End-to-end software solutions...','IT समाधान, सफ्टवेयर सेवाहरू...',3) ?>
+            <?php biI($s,'homepage_cta_text','Primary CTA Button Text','Request a Demo','डेमो अनुरोध गर्नुस') ?>
+            <?php biI($s,'hero_cta_secondary','Secondary CTA Button Text','Explore services','सेवाहरू हेर्नुस') ?>
+            <div>
+              <label class="form-label">Primary CTA Button URL</label>
+              <input type="url" name="homepage_cta_url" class="form-input" value="<?= e(sv($s,'homepage_cta_url')) ?>" placeholder="/contact.php">
+            </div>
+            <hr style="border:none;border-top:1px solid var(--border);">
+            <div style="font-size:0.75rem;font-weight:700;color:var(--muted-foreground);text-transform:uppercase;letter-spacing:0.05em;">Hero Trust Badges</div>
+            <?php biI($s,'hero_badge1_text','Badge 1 (green dot)','650+ happy clients on our platform','650+ खुशी ग्राहकहरू हाम्रो प्लेटफर्ममा') ?>
+            <?php biI($s,'hero_badge2_text','Badge 2 (eyebrow pill)','NEPAL\'S #1 सहकारी SOFTWARE','नेपालको #1 सहकारी सफ्टवेयर') ?>
+            <hr style="border:none;border-top:1px solid var(--border);">
+            <div style="font-size:0.75rem;font-weight:700;color:var(--muted-foreground);text-transform:uppercase;letter-spacing:0.05em;">Hero Stats (4 boxes below headline)</div>
+            <p class="caption-meta" style="margin-top:0;">Leave blank to use defaults (120+ Clients, 8 yrs, &lt;2 hr, 99.9%)</p>
             <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:0.75rem;">
               <?php
               $defaultStats = [
@@ -447,62 +473,13 @@ $tabs = [
               <?php endfor; ?>
             </div>
           </div>
-          <!-- Hero badges -->
-          <div style="background:var(--muted);border-radius:0.5rem;padding:1rem;">
-            <div style="font-size:0.75rem;font-weight:700;color:var(--muted-foreground);margin-bottom:0.75rem;text-transform:uppercase;letter-spacing:0.05em;">Hero Trust Badges</div>
-            <div style="display:flex;flex-direction:column;gap:0.625rem;">
-              <?php biI($s,'hero_badge1_text','Badge 1 (green dot)','650+ happy clients on our platform','650+ खुशी ग्राहकहरू हाम्रो प्लेटफर्ममा') ?>
-              <?php biI($s,'hero_badge2_text','Badge 2 (eyebrow pill)','NEPAL\'S #1 सहकारी SOFTWARE','नेपालको #1 सहकारी सफ्टवेयर') ?>
-              <?php biI($s,'hero_cta_secondary','Secondary CTA button text','Explore services','सेवाहरू हेर्नुस') ?>
-            </div>
-          </div>
+        </details>
 
-          <!-- Bento grid section -->
-          <div style="background:var(--muted);border-radius:0.5rem;padding:1rem;">
-            <div style="font-size:0.75rem;font-weight:700;color:var(--muted-foreground);margin-bottom:0.75rem;text-transform:uppercase;letter-spacing:0.05em;">Products / Bento Grid Section</div>
-            <p style="font-size:0.75rem;color:var(--muted-foreground);margin-bottom:0.75rem;">Section heading and description. Product cards are managed from <a href="products.php" class="text-primary">Admin → Products</a>.</p>
-            <div style="display:flex;flex-direction:column;gap:0.625rem;">
-              <?php biI($s,'home_bento_eyebrow','Eyebrow label','What we build','हामी के बनाउँछौं') ?>
-              <?php biI($s,'home_bento_title','Section title (HTML: &lt;span class="tg"&gt; for gradient)','Everything your business needs.','तपाईंको व्यवसायलाई चाहिने सबै कुरा।') ?>
-              <?php biTA($s,'home_bento_subtitle','Section subtitle','','',2) ?>
-            </div>
-          </div>
-
-          <!-- "See it in action" section -->
-          <div style="background:var(--muted);border-radius:0.5rem;padding:1rem;">
-            <div style="font-size:0.75rem;font-weight:700;color:var(--muted-foreground);margin-bottom:0.75rem;text-transform:uppercase;letter-spacing:0.05em;">"See it in action" Section</div>
-            <p style="font-size:0.75rem;color:var(--muted-foreground);margin-bottom:0.75rem;">Demo screenshots for each product tab are set in <a href="products.php" class="text-primary">Admin → Products → Demo screenshot URL</a>.</p>
-            <div style="display:flex;flex-direction:column;gap:0.625rem;">
-              <?php biI($s,'home_products_eyebrow','Section eyebrow','Product deep-dive','उत्पादन विस्तार') ?>
-              <?php biI($s,'home_in_action_title','Section title','See it in action','व्यवहारमा हेर्नुस') ?>
-              <?php biI($s,'home_in_action_subtitle','Section subtitle','Explore the actual screens…','वास्तविक स्क्रिनहरू हेर्नुस…') ?>
-              <?php biI($s,'home_tab_demo_cta','Product tab CTA text (product name auto-appended)','Book a free demo','निःशुल्क डेमो बुक गर्नुस') ?>
-            </div>
-          </div>
-
-          <!-- Trust marquee section -->
-          <div style="background:var(--muted);border-radius:0.5rem;padding:1rem;">
-            <div style="font-size:0.75rem;font-weight:700;color:var(--muted-foreground);margin-bottom:0.375rem;text-transform:uppercase;letter-spacing:0.05em;">Trust Marquee (Client Logos Strip)</div>
-            <p style="font-size:0.75rem;color:var(--muted-foreground);margin-bottom:0.625rem;">The count shown comes from Stat 1 value above. Customise the labels below.</p>
-            <div style="display:flex;flex-direction:column;gap:0.625rem;">
-              <?php biI($s,'home_trust_unit','Unit word after count','clients','ग्राहकहरू') ?>
-              <?php biI($s,'home_trusted_label','Trust strip heading','Trusted by Leading Institutions Across Nepal','नेपालभरका अग्रणी संस्थाहरूले विश्वास गर्छन्') ?>
-            </div>
-          </div>
-
-          <!-- Page meta title (SEO) -->
-          <div style="background:var(--muted);border-radius:0.5rem;padding:1rem;">
-            <div style="font-size:0.75rem;font-weight:700;color:var(--muted-foreground);margin-bottom:0.625rem;text-transform:uppercase;letter-spacing:0.05em;">Homepage Meta Title</div>
-            <?php biI($s,'home_meta_title','Page &lt;title&gt; tag',
-              "Ankur Infotech Pvt. Ltd. — IT Solutions & Software Services | Butwal, Nepal",
-              'अंकुर इन्फोटेक — IT समाधान र सफ्टवेयर सेवाहरू | बुटवल, नेपाल',
-              '','Leave blank to use the default.') ?>
-          </div>
-
-          <!-- Hero dashboard mockup demo numbers -->
-          <div style="background:var(--muted);border-radius:0.5rem;padding:1rem;">
-            <div style="font-size:0.75rem;font-weight:700;color:var(--muted-foreground);margin-bottom:0.375rem;text-transform:uppercase;letter-spacing:0.05em;">Hero Demo Dashboard Numbers</div>
-            <p style="font-size:0.75rem;color:var(--muted-foreground);margin-bottom:0.75rem;">Figures shown in the dashboard visual on the homepage hero. Leave blank to use defaults.</p>
+        <!-- ② Dashboard Demo Numbers -->
+        <details class="st-accordion">
+          <summary><?= icon('bar-chart-2',14,'color:var(--primary);flex-shrink:0;') ?> Hero Dashboard Demo Numbers</summary>
+          <div class="st-accordion__body">
+            <p class="caption-meta" style="margin-top:0;">Figures shown in the dashboard visual on the homepage hero. Leave blank to use defaults.</p>
             <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:0.625rem;">
               <div>
                 <label class="form-label fs-xs">Members count</label>
@@ -522,16 +499,50 @@ $tabs = [
               </div>
             </div>
           </div>
+        </details>
 
-          <!-- Process / How it works section -->
-          <div style="background:var(--muted);border-radius:0.5rem;padding:1rem;">
-            <div style="font-size:0.75rem;font-weight:700;color:var(--muted-foreground);margin-bottom:0.375rem;text-transform:uppercase;letter-spacing:0.05em;">"How it works" Section (4 Steps)</div>
-            <div style="display:flex;flex-direction:column;gap:0.625rem;margin-bottom:0.75rem;">
-              <?php biI($s,'home_process_eyebrow','Eyebrow label','Getting started','सुरुवात गर्दै') ?>
-              <?php biI($s,'home_process_title','Section title','From first call to go-live — 4 steps','पहिलो कलदेखि go-live सम्म — ४ चरण') ?>
-              <?php biI($s,'home_process_sub','Section subtitle','We handle the full implementation…','हामी पूर्ण कार्यान्वयन सम्हाल्छौं…') ?>
-              <?php biI($s,'home_process_cta','CTA button text','Start your discovery call','Discovery Call सुरु गर्नुस') ?>
-            </div>
+        <!-- ③ Products / Bento -->
+        <details class="st-accordion">
+          <summary><?= icon('grid',14,'color:var(--primary);flex-shrink:0;') ?> Products / Bento Grid Section</summary>
+          <div class="st-accordion__body">
+            <p class="caption-meta" style="margin-top:0;">Section heading only. Product cards → <a href="products.php" class="text-primary">Admin → Products</a>.</p>
+            <?php biI($s,'home_bento_eyebrow','Eyebrow label','What we build','हामी के बनाउँछौं') ?>
+            <?php biI($s,'home_bento_title','Section title (use &lt;span class="tg"&gt; for gradient)','Everything your business needs.','तपाईंको व्यवसायलाई चाहिने सबै कुरा।') ?>
+            <?php biTA($s,'home_bento_subtitle','Section subtitle','','',2) ?>
+          </div>
+        </details>
+
+        <!-- ④ "See it in action" -->
+        <details class="st-accordion">
+          <summary><?= icon('play-circle',14,'color:var(--primary);flex-shrink:0;') ?> "See It in Action" Section</summary>
+          <div class="st-accordion__body">
+            <p class="caption-meta" style="margin-top:0;">Demo screenshots per product tab → <a href="products.php" class="text-primary">Admin → Products → Demo screenshot URL</a>.</p>
+            <?php biI($s,'home_products_eyebrow','Section eyebrow','Product deep-dive','उत्पादन विस्तार') ?>
+            <?php biI($s,'home_in_action_title','Section title','See it in action','व्यवहारमा हेर्नुस') ?>
+            <?php biI($s,'home_in_action_subtitle','Section subtitle','Explore the actual screens…','वास्तविक स्क्रिनहरू हेर्नुस…') ?>
+            <?php biI($s,'home_tab_demo_cta','Product tab CTA (product name auto-appended)','Book a free demo','निःशुल्क डेमो बुक गर्नुस') ?>
+          </div>
+        </details>
+
+        <!-- ⑤ Trust Marquee -->
+        <details class="st-accordion">
+          <summary><?= icon('award',14,'color:var(--primary);flex-shrink:0;') ?> Trust Marquee (Client Logos Strip)</summary>
+          <div class="st-accordion__body">
+            <p class="caption-meta" style="margin-top:0;">Count comes from Stat 1 value (Hero section above).</p>
+            <?php biI($s,'home_trust_unit','Unit word after count','clients','ग्राहकहरू') ?>
+            <?php biI($s,'home_trusted_label','Trust strip heading','Trusted by Leading Institutions Across Nepal','नेपालभरका अग्रणी संस्थाहरूले विश्वास गर्छन्') ?>
+          </div>
+        </details>
+
+        <!-- ⑥ How It Works -->
+        <details class="st-accordion">
+          <summary><?= icon('list-ordered',14,'color:var(--primary);flex-shrink:0;') ?> "How It Works" — 4 Steps</summary>
+          <div class="st-accordion__body">
+            <?php biI($s,'home_process_eyebrow','Eyebrow label','Getting started','सुरुवात गर्दै') ?>
+            <?php biI($s,'home_process_title','Section title','From first call to go-live — 4 steps','पहिलो कलदेखि go-live सम्म — ४ चरण') ?>
+            <?php biI($s,'home_process_sub','Section subtitle','We handle the full implementation…','हामी पूर्ण कार्यान्वयन सम्हाल्छौं…') ?>
+            <?php biI($s,'home_process_cta','CTA button text','Start your discovery call','Discovery Call सुरु गर्नुस') ?>
+            <hr style="border:none;border-top:1px solid var(--border);">
             <?php
             $stepDefaults = [
               ['Discovery Call',   'We meet to understand your business needs — free, no commitment.'],
@@ -540,7 +551,7 @@ $tabs = [
               ['Go Live',          'You go live in as little as 2 weeks. We stay on-call for 30 days post-launch.'],
             ];
             for ($__si = 1; $__si <= 4; $__si++): [$__dt,$__dd] = $stepDefaults[$__si-1]; ?>
-            <div style="background:var(--card);border-radius:0.5rem;padding:0.75rem;margin-bottom:0.5rem;">
+            <div style="background:var(--muted);border-radius:0.5rem;padding:0.75rem;">
               <div style="font-size:0.6875rem;font-weight:700;color:var(--muted-foreground);margin-bottom:0.5rem;text-transform:uppercase;">Step <?= $__si ?></div>
               <div style="display:flex;flex-direction:column;gap:0.5rem;">
                 <?php biI($s,"home_step{$__si}_title",'Title',$__dt,'') ?>
@@ -549,34 +560,40 @@ $tabs = [
             </div>
             <?php endfor; ?>
           </div>
+        </details>
 
-          <!-- Pricing teaser section -->
-          <div style="background:var(--muted);border-radius:0.5rem;padding:1rem;">
-            <div style="font-size:0.75rem;font-weight:700;color:var(--muted-foreground);margin-bottom:0.375rem;text-transform:uppercase;letter-spacing:0.05em;">Pricing Teaser Section</div>
-            <p style="font-size:0.75rem;color:var(--muted-foreground);margin-bottom:0.625rem;">Individual plans are managed from <a href="pricing.php" class="text-primary">Admin → Pricing</a>.</p>
-            <div style="display:flex;flex-direction:column;gap:0.625rem;">
-              <?php biI($s,'home_pricing_eyebrow','Eyebrow label','Simple pricing','सरल मूल्य निर्धारण') ?>
-              <?php biI($s,'home_pricing_title','Section title','Plans for every business','हरेक व्यवसायका लागि योजनाहरू') ?>
-              <?php biI($s,'home_pricing_sub','Section subtitle','No hidden fees. Upgrade any time.','कुनै लुकेको शुल्क छैन।') ?>
-            </div>
-          </div>
-
-          <!-- News teaser section -->
-          <div style="background:var(--muted);border-radius:0.5rem;padding:1rem;">
-            <div style="font-size:0.75rem;font-weight:700;color:var(--muted-foreground);margin-bottom:0.375rem;text-transform:uppercase;letter-spacing:0.05em;">News / Blog Teaser Section</div>
-            <div style="display:flex;flex-direction:column;gap:0.625rem;">
-              <?php biI($s,'home_news_eyebrow','Eyebrow label','Latest from us','हाम्रो ताजा खबर') ?>
-              <?php biI($s,'home_news_title','Section title','News &amp; updates','समाचार र अपडेटहरू') ?>
-            </div>
-          </div>
-
-          <!-- Final CTA banner -->
-          <div style="background:var(--muted);border-radius:0.5rem;padding:1rem;">
-            <div style="font-size:0.75rem;font-weight:700;color:var(--muted-foreground);margin-bottom:0.625rem;text-transform:uppercase;letter-spacing:0.05em;">Final CTA Banner</div>
+        <!-- ⑦ Pricing & News & Final CTA -->
+        <details class="st-accordion">
+          <summary><?= icon('tag',14,'color:var(--primary);flex-shrink:0;') ?> Pricing Teaser, News &amp; Final CTA</summary>
+          <div class="st-accordion__body">
+            <div style="font-size:0.75rem;font-weight:700;color:var(--muted-foreground);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.375rem;">Pricing Teaser</div>
+            <p class="caption-meta" style="margin-top:0;">Individual plans → <a href="pricing.php" class="text-primary">Admin → Pricing</a>.</p>
+            <?php biI($s,'home_pricing_eyebrow','Eyebrow label','Simple pricing','सरल मूल्य निर्धारण') ?>
+            <?php biI($s,'home_pricing_title','Section title','Plans for every business','हरेक व्यवसायका लागि योजनाहरू') ?>
+            <?php biI($s,'home_pricing_sub','Section subtitle','No hidden fees. Upgrade any time.','कुनै लुकेको शुल्क छैन।') ?>
+            <hr style="border:none;border-top:1px solid var(--border);">
+            <div style="font-size:0.75rem;font-weight:700;color:var(--muted-foreground);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.375rem;">News / Blog Teaser</div>
+            <?php biI($s,'home_news_eyebrow','Eyebrow label','Latest from us','हाम्रो ताजा खबर') ?>
+            <?php biI($s,'home_news_title','Section title','News &amp; updates','समाचार र अपडेटहरू') ?>
+            <hr style="border:none;border-top:1px solid var(--border);">
+            <div style="font-size:0.75rem;font-weight:700;color:var(--muted-foreground);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.375rem;">Final CTA Banner</div>
             <?php biI($s,'home_cta_eyebrow','Eyebrow label','Ready when you are','तपाईं तयार हुँदा हामी छौं') ?>
           </div>
+        </details>
 
-          <button type="submit" class="btn btn-primary w-fit">Save Homepage Settings</button>
+        <!-- ⑧ Meta / SEO -->
+        <details class="st-accordion">
+          <summary><?= icon('search',14,'color:var(--primary);flex-shrink:0;') ?> Meta / SEO</summary>
+          <div class="st-accordion__body">
+            <?php biI($s,'home_meta_title','Page &lt;title&gt; tag',
+              "Ankur Infotech Pvt. Ltd. — IT Solutions & Software Services | Butwal, Nepal",
+              'अंकुर इन्फोटेक — IT समाधान र सफ्टवेयर सेवाहरू | बुटवल, नेपाल',
+              '','Leave blank to use the default.') ?>
+          </div>
+        </details>
+
+        <div style="margin-top:1.25rem;">
+          <button type="submit" class="btn btn-primary"><?= icon('save',15) ?> Save Homepage Settings</button>
         </div>
       </div>
     </form>
