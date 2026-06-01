@@ -41,20 +41,59 @@ include 'includes/page-hero.php';
 
 <section class="st-section">
   <div class="container-sm">
+
+    <?php $cats = array_keys($byCategory); ?>
+    <?php if (count($cats) > 1): ?>
+    <div x-data="{activecat:'all'}" style="margin-bottom:2rem;">
+
+      <!-- Category filter pills -->
+      <div style="display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:2rem;">
+        <button @click="activecat='all'"
+                :class="activecat==='all' ? 'btn btn-primary btn-sm' : 'btn btn-outline btn-sm'">All Topics</button>
+        <?php foreach ($cats as $c): ?>
+        <button @click="activecat=<?= json_encode($c) ?>"
+                :class="activecat===<?= json_encode($c) ?> ? 'btn btn-primary btn-sm' : 'btn btn-outline btn-sm'"><?= e($c) ?></button>
+        <?php endforeach; ?>
+      </div>
+
+      <?php foreach ($byCategory as $cat => $items): ?>
+      <div class="faq-group" x-show="activecat==='all' || activecat===<?= json_encode($cat) ?>" x-transition>
+        <h2 class="faq-category"><?= e($cat) ?></h2>
+        <div style="border:1px solid var(--border);border-radius:0.875rem;overflow:hidden;">
+          <?php foreach ($items as $idx => $faq): ?>
+          <div class="accordion-item" x-data="{open:false}" style="border-bottom:<?= $idx < count($items)-1 ? '1px solid var(--border)' : 'none' ?>;">
+            <button type="button" class="accordion-trigger" style="padding:1rem 1.25rem;" @click="open=!open" :aria-expanded="open.toString()">
+              <span><?= e($faq['question']) ?></span>
+              <i data-lucide="chevron-down" class="ic-16" style="flex-shrink:0;transition:transform 0.2s;" :style="open ? 'transform:rotate(180deg);color:var(--primary)' : ''"></i>
+            </button>
+            <div class="accordion-content" x-show="open" x-transition style="padding:0 1.25rem 1.25rem;"><?= nl2br(e($faq['answer'])) ?></div>
+          </div>
+          <?php endforeach; ?>
+        </div>
+      </div>
+      <?php endforeach; ?>
+
+    </div>
+    <?php else: ?>
+
     <?php foreach ($byCategory as $cat => $items): ?>
     <div class="faq-group">
       <h2 class="faq-category"><?= e($cat) ?></h2>
-      <?php foreach ($items as $faq): ?>
-      <div class="accordion-item" x-data="{open:false}">
-        <button type="button" class="accordion-trigger" @click="open=!open" :aria-expanded="open.toString()">
-          <span><?= e($faq['question']) ?></span>
-          <i data-lucide="chevron-down" class="ic-16" style="flex-shrink:0;transition:transform 0.2s;" :style="open ? 'transform:rotate(180deg);color:var(--primary)' : ''"></i>
-        </button>
-        <div class="accordion-content" x-show="open" x-transition><?= nl2br(e($faq['answer'])) ?></div>
+      <div style="border:1px solid var(--border);border-radius:0.875rem;overflow:hidden;">
+        <?php foreach ($items as $idx => $faq): ?>
+        <div class="accordion-item" x-data="{open:false}" style="border-bottom:<?= $idx < count($items)-1 ? '1px solid var(--border)' : 'none' ?>;">
+          <button type="button" class="accordion-trigger" style="padding:1rem 1.25rem;" @click="open=!open" :aria-expanded="open.toString()">
+            <span><?= e($faq['question']) ?></span>
+            <i data-lucide="chevron-down" class="ic-16" style="flex-shrink:0;transition:transform 0.2s;" :style="open ? 'transform:rotate(180deg);color:var(--primary)' : ''"></i>
+          </button>
+          <div class="accordion-content" x-show="open" x-transition style="padding:0 1.25rem 1.25rem;"><?= nl2br(e($faq['answer'])) ?></div>
+        </div>
+        <?php endforeach; ?>
       </div>
-      <?php endforeach; ?>
     </div>
     <?php endforeach; ?>
+
+    <?php endif; ?>
 
     <div class="st-card text-center" style="padding:1.5rem;margin-top:2rem;">
       <i data-lucide="message-circle" class="ic-20" style="color:var(--primary);margin-bottom:0.625rem;"></i>

@@ -117,19 +117,33 @@ if ($active_count > 0):?>
 <?php if (!empty($demoProducts)): ?>
 <h2 style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--foreground);margin-bottom:1rem;">Available Products</h2>
 <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1rem;">
-  <?php foreach ($demoProducts as $p): ?>
-  <a href="<?= url('product-detail.php?slug='.urlencode($p['slug'])) ?>" style="display:block;text-decoration:none;"
-     class="st-card" style="padding:1.25rem;display:flex;flex-direction:column;gap:0.75rem;transition:all 0.2s;"
+  <?php foreach ($demoProducts as $p):
+    $iconName  = $p['lucide_icon'] ?: ($p['icon'] ?: 'box');
+    $iconColor = $p['icon_color'] ?: 'blue';
+    $BADGE_COLORS = [
+      'Flagship'=>['#f3e8ff','#7e22ce'], 'Popular'=>['#dbeafe','var(--primary-dark)'],
+      'Essential'=>['#dcfce7','#166534'], 'New'=>['#fef9c3','#854d0e'],
+      'Add-on'=>['var(--muted)','var(--muted-foreground)'],
+    ];
+    [$bbg,$bcol] = $BADGE_COLORS[$p['badge']??''] ?? ['#dbeafe','var(--primary-dark)'];
+  ?>
+  <a href="<?= url('product-detail.php?slug='.urlencode($p['slug'])) ?>"
+     class="st-card"
+     style="padding:1.25rem;display:flex;flex-direction:column;gap:0.625rem;text-decoration:none;transition:box-shadow 0.2s,border-color 0.2s;"
      onmouseover="this.style.boxShadow='var(--shadow-elevated)';this.style.borderColor='var(--primary)'" onmouseout="this.style.boxShadow='';this.style.borderColor=''">
-    <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.25rem;">
-      <span style="font-size:1.5rem;"><?= e($p['icon']??'') ?></span>
-      <div>
-        <div style="font-weight:700;font-size:0.875rem;color:var(--foreground);"><?= e($p['name']) ?></div>
-        <?php if (!empty($p['badge'])): ?><span style="font-size:0.6rem;padding:0.1rem 0.375rem;border-radius:9999px;background:#dbeafe;color:var(--primary-dark);font-weight:600;"><?= e($p['badge']) ?></span><?php endif; ?>
+    <div style="display:flex;align-items:center;gap:0.75rem;">
+      <div class="icon-box icon-box-<?= e($iconColor) ?>" style="width:2.5rem;height:2.5rem;border-radius:0.625rem;flex-shrink:0;display:grid;place-items:center;">
+        <i data-lucide="<?= e($iconName) ?>" style="width:1.125rem;height:1.125rem;color:#fff;"></i>
+      </div>
+      <div style="min-width:0;">
+        <div style="font-weight:700;font-size:0.875rem;color:var(--foreground);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"><?= e($p['name']) ?></div>
+        <?php if (!empty($p['badge'])): ?>
+        <span style="font-size:0.6rem;padding:0.1rem 0.4rem;border-radius:9999px;background:<?=$bbg?>;color:<?=$bcol?>;font-weight:700;letter-spacing:0.03em;"><?= e($p['badge']) ?></span>
+        <?php endif; ?>
       </div>
     </div>
-    <p style="font-size:0.8125rem;color:var(--muted-foreground);line-height:1.5;"><?= e(truncate($p['tagline']??$p['summary']??'',80)) ?></p>
-    <div style="margin-top:auto;font-size:0.75rem;font-weight:600;color:var(--primary);">Learn more →</div>
+    <p style="font-size:0.8125rem;color:var(--muted-foreground);line-height:1.5;flex:1;"><?= e(truncate($p['tagline']??$p['summary']??'',80)) ?></p>
+    <div style="font-size:0.75rem;font-weight:600;color:var(--primary);display:flex;align-items:center;gap:0.25rem;">Learn more <i data-lucide="arrow-right" style="width:0.75rem;height:0.75rem;"></i></div>
   </a>
   <?php endforeach; ?>
 </div>

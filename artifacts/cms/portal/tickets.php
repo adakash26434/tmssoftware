@@ -51,13 +51,15 @@ $PRI = ['low'=>'Low','normal'=>'Normal','high'=>'High','urgent'=>'Urgent'];
   </form>
 
   <div style="display:flex;flex-wrap:wrap;gap:0.375rem;">
-    <a href="<?= url('portal/tickets.php'.($search?'?q='.urlencode($search):'')) ?>" class="btn btn-<?= !$status_filter ? 'primary' : 'outline' ?> btn-sm">All</a>
+    <a href="<?= url('portal/tickets.php'.($search?'?q='.urlencode($search):'')) ?>"
+       class="btn btn-sm" style="<?= !$status_filter ? 'background:var(--primary);color:#fff;border-color:var(--primary);' : 'border:1px solid var(--border);background:var(--card);color:var(--foreground);' ?>">All</a>
     <?php foreach (['open','in_progress','replied','resolved','closed'] as $s):
       [$sbg,$scol,$slbl] = $STATUS_COLORS[$s];
+      $slbl = ltrim($slbl);
     ?>
     <a href="?status=<?=$s?><?=$search?'&q='.urlencode($search):''?>"
-       class="btn btn-sm" style="<?= $status_filter===$s ? "background:$sbg;color:$scol;border-color:$scol;" : 'border:1px solid var(--border);background:var(--card);color:var(--foreground);' ?>">
-      <?= $slbl ?>
+       class="btn btn-sm" style="<?= $status_filter===$s ? "background:$sbg;color:$scol;border-color:transparent;font-weight:700;" : 'border:1px solid var(--border);background:var(--card);color:var(--foreground);' ?>">
+      <?= e($slbl) ?>
     </a>
     <?php endforeach; ?>
   </div>
