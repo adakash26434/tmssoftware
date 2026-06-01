@@ -59,6 +59,15 @@ function execute(string $sql, array $params = []): int {
     return (int) getDB()->lastInsertId();
 }
 
+// नेपालीमा: site_settings table ma key-value upsert garne (SQLite + MySQL duwai)
+function saveSetting(string $key, string $val): void {
+    if (defined('DB_DRIVER') && DB_DRIVER === 'sqlite') {
+        execute("INSERT OR REPLACE INTO site_settings (setting_key, setting_val) VALUES (?,?)", [$key, $val]);
+    } else {
+        execute("INSERT INTO site_settings (setting_key, setting_val) VALUES (?,?) ON DUPLICATE KEY UPDATE setting_val=?", [$key, $val, $val]);
+    }
+}
+
 // नेपालीमा: Table ma kati row chha — count garne
 function count_rows(string $table, string $where = '1', array $params = []): int {
     $row = queryOne("SELECT COUNT(*) as c FROM `$table` WHERE $where", $params);

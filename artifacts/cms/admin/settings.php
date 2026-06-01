@@ -10,14 +10,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     verifyCsrf();
     $section = $_POST['section'] ?? '';
 
-    // नेपालीमा: saveSetting() — yo function le aafno kaam garchha
-    function saveSetting(string $key, string $val): void {
-        execute(
-            "INSERT INTO site_settings (setting_key, setting_val) VALUES (?,?) ON DUPLICATE KEY UPDATE setting_val=?",
-            [$key, $val, $val]
-        );
-    }
-
     try {
         if ($section === 'general') {
             saveSetting('site_name',    trim($_POST['site_name'] ?? ''));
