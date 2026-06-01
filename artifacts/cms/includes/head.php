@@ -51,7 +51,7 @@ $__themePref = (function_exists('currentUser') ? (currentUser()['theme_pref'] ??
 
 <!-- Self-hosted fonts (no Google Fonts network calls) -->
 <link rel="preload" as="font" type="font/woff2" crossorigin
-      href="<?= $__siteUrl ?>/assets/fonts/rP2Yp2ywxg089UriI5-g4vlH9VoD8Cmcqbu0-K4.woff2">
+      href="<?= $__siteUrl ?>/assets/fonts/poppins-latn-400.woff2">
 <link rel="stylesheet" href="<?= $__siteUrl ?>/assets/css/fonts.css">
 
 <!-- Compiled Tailwind (production build, ~31KB) replaces CDN runtime JIT -->

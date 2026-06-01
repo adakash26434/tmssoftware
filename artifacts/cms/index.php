@@ -90,7 +90,7 @@ for ($__pi = 0; $__pi < 4; $__pi++) {
 }
 unset($__pi,$__n,$_stepIcons,$_stepDefsT,$_stepDefsD);
 
-// Fonts and theme tokens are already loaded globally via includes/head.php (Sora + DM Sans + Noto Sans Devanagari).
+// Fonts and theme tokens are already loaded globally via includes/head.php (Poppins + Noto Sans Devanagari).
 // No duplicate font loading needed here.
 
 include 'includes/header.php';
