@@ -31,19 +31,23 @@ if [[ -z "${GITHUB_PAT:-}" ]]; then
   exit 1
 fi
 
-# Store original remote so we can restore it (in all exit paths).
-ORIGINAL_ORIGIN=$(git remote get-url origin 2>/dev/null || echo "$PUBLIC_URL")
-
-cleanup() {
-  git remote set-url origin "$ORIGINAL_ORIGIN" 2>/dev/null || true
-}
-trap cleanup EXIT
-
 echo "Syncing to GitHub (${PUBLIC_URL})..."
 
 AUTHED_URL="https://${GITHUB_USER}:${GITHUB_PAT}@github.com/${GITHUB_USER}/${GITHUB_REPO}.git"
-git remote set-url origin "$AUTHED_URL"
-git push origin HEAD:main --force-with-lease
+
+# Add or update the github remote (never touches 'origin' which may not exist)
+if git remote get-url github 2>/dev/null; then
+  git remote set-url github "$AUTHED_URL"
+else
+  git remote add github "$AUTHED_URL"
+fi
+
+cleanup() {
+  git remote set-url github "$PUBLIC_URL" 2>/dev/null || true
+}
+trap cleanup EXIT
+
+git push github HEAD:main --force-with-lease
 
 echo ""
 echo "Done. GitHub is now up to date."
