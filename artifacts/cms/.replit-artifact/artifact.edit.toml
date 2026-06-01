@@ -1,0 +1,12 @@
+kind = "web"
+previewPath = "/"
+title = "Ankur Infotech CMS"
+version = "1.0.0"
+
+[[services]]
+localPort = 8000
+name = "PHP CMS"
+paths = ["/"]
+
+[services.development]
+run = "cd /home/runner/workspace/artifacts/cms && php -S 0.0.0.0:8000 router.php"

@@ -1,0 +1,73 @@
+/* ======================================================
+   admin-forms.css — Uniform Admin Form Layout System
+   Loaded only in admin/portal context (see head.php)
+   ====================================================== */
+
+/* ── Split-panel layout ────────────────────────────────
+   Left: list/table  |  Right: 380px edit form panel
+   ─────────────────────────────────────────────────────*/
+.af-split {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 1.25rem;
+  align-items: start;
+}
+
+/* ── Sticky form panel wrapper ─────────────────────── */
+.af-panel {
+  position: sticky;
+  top: 1rem;
+}
+
+/* ── Settings: remove legacy max-width restriction ─── */
+.st-card.p-card-lg {
+  max-width: none;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* ── Uniform form-label size across all admin forms ── */
+.af-split .form-label,
+.af-panel .form-label,
+.p-tile .form-label {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  margin-bottom: 0.3rem;
+  display: block;
+  color: var(--muted-foreground);
+}
+
+/* ── Uniform inner form field gap ─────────────────── */
+.col-1 {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
+/* ── Form footer: buttons at bottom of form card ──── */
+.af-form-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+/* ── Empty state (dashed placeholder) ─────────────── */
+.af-empty {
+  border: 2px dashed var(--border);
+  border-radius: 1rem;
+  padding: 3rem;
+  text-align: center;
+  color: var(--muted-foreground);
+}
+
+/* ── Responsive: stack on mobile ──────────────────── */
+@media (max-width: 768px) {
+  .af-split {
+    grid-template-columns: 1fr !important;
+  }
+  .af-panel {
+    position: static;
+  }
+}
