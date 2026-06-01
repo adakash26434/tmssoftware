@@ -23,6 +23,8 @@ $moreLinks = [
   ['href' => 'faq.php',       'key' => 'nav_faq',       'icon' => 'help-circle'],
 ];
 $__lang = currentLang();
+// Self-sufficient: load settings if parent page didn't
+if (!isset($__s)) $__s = siteSettings();
 ?>
 <style>
 #st-desktop-nav     { display: none; }
@@ -218,7 +220,7 @@ html.dark .st-dropdown {
 }
 </style>
 
-<header id="st-navbar" class="sticky top-0 z-50" x-data="{ open: false }" style="position:sticky;top:0;z-index:50;">
+<header id="st-navbar" class="sticky top-0 z-50" x-data="{ open: false }" style="position:sticky;top:0;z-index:1000;">
   <nav class="container" role="navigation" aria-label="Main navigation"
        style="display:flex;align-items:center;justify-content:space-between;height:4rem;overflow:visible;">
 
@@ -261,8 +263,8 @@ html.dark .st-dropdown {
           <?= __('nav_company') ?>
           <svg id="st-chevron-company" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="chev"><polyline points="6 9 12 15 18 9"></polyline></svg>
         </button>
-        <div id="st-dd-company" class="st-dropdown" x-show="companyOpen" x-transition style="left:50%;transform:translateX(-50%);">
-          <div class="st-dd-caret" style="left:50%;transform:translateX(-50%) rotate(45deg);"></div>
+        <div id="st-dd-company" class="st-dropdown" x-show="companyOpen" x-transition style="left:0;">
+          <div class="st-dd-caret" style="left:1.125rem;"></div>
           <?php foreach ($companyLinks as $ci => $cl):
             $cActive = $__currentPath === $cl['href'];
             if ($ci === 5): /* divider before Careers */ ?>

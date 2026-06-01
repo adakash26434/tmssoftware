@@ -58,11 +58,11 @@ require __DIR__ . '/head.php';
     <div style="padding:1.25rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
       <a href="<?= url('index.php') ?>" style="display:flex;align-items:center;gap:0.625rem;font-family:var(--font-display);font-weight:700;font-size:0.9375rem;color:var(--foreground);text-decoration:none;">
         <?php if(!empty($__s['logo_url'])):?>
-        <img src="<?=e($__s['logo_url'])?>" alt="<?=e($__s['site_name']??SITE_NAME)?>" style="height:2rem;width:2rem;border-radius:0.5rem;object-fit:cover;">
+        <img src="<?=e($__s['logo_url'])?>" alt="<?=e($__s['site_name']??SITE_NAME)?>" style="height:1.75rem;width:auto;max-width:9rem;object-fit:contain;border-radius:0;">
         <?php else:?>
         <span style="display:grid;place-items:center;width:2rem;height:2rem;border-radius:0.5rem;background:var(--gradient-primary);color:#fff;font-weight:800;font-size:0.6875rem;"><?= strtoupper(substr(defined('SITE_NAME') ? SITE_NAME : 'NI', 0, 2)) ?></span>
-        <?php endif;?>
         <?= e($__s['site_name'] ?? SITE_NAME) ?>
+        <?php endif;?>
       </a>
       <!-- Close button (mobile only) -->
       <button onclick="closeSidebar()" style="display:none;width:2rem;height:2rem;border-radius:0.5rem;border:none;background:var(--muted);cursor:pointer;color:var(--muted-foreground);align-items:center;justify-content:center;" id="sidebar-close-btn" title="Close menu"><?= icon('x',16) ?></button>

@@ -85,7 +85,11 @@ require __DIR__ . '/head.php';
   <aside id="admin-sidebar" class="admin-sidebar" style="width:14rem;flex-shrink:0;display:flex;flex-direction:column;overflow:hidden;">
     <div style="padding:1rem 1.25rem;border-bottom:1px solid rgba(241,245,249,0.08);display:flex;align-items:center;justify-content:space-between;">
       <a href="<?= url('index.php') ?>" style="display:flex;align-items:center;gap:0.625rem;font-family:var(--font-display);font-weight:700;font-size:0.875rem;color:#f1f5f9;text-decoration:none;">
-        <span style="display:grid;place-items:center;width:1.875rem;height:1.875rem;border-radius:0.5rem;background:var(--gradient-primary);color:#fff;font-weight:800;font-size:0.6875rem;"><?= strtoupper(substr(defined('SITE_NAME') ? SITE_NAME : 'NI', 0, 2)) ?></span>
+        <?php if (!empty($__s['logo_url'])): ?>
+          <img src="<?= e($__s['logo_url']) ?>" alt="<?= e($__s['site_name'] ?? SITE_NAME) ?>" style="height:1.75rem;width:auto;max-width:8rem;object-fit:contain;border-radius:0;">
+        <?php else: ?>
+          <span style="display:grid;place-items:center;width:1.875rem;height:1.875rem;border-radius:0.5rem;background:var(--gradient-primary);color:#fff;font-weight:800;font-size:0.6875rem;"><?= strtoupper(substr(defined('SITE_NAME') ? SITE_NAME : 'NI', 0, 2)) ?></span>
+        <?php endif; ?>
         Admin Panel
       </a>
       <!-- Close button (mobile only) -->

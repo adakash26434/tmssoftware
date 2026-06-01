@@ -9,11 +9,11 @@
       <div>
         <a href="<?= url('index.php') ?>" style="display:inline-flex;align-items:center;gap:0.625rem;font-family:var(--font-display);font-weight:800;font-size:var(--text-md);color:#f1f5f9;text-decoration:none;margin-bottom:1.125rem;">
           <?php if (!empty($__s['logo_url'])): ?>
-            <img src="<?= e($__s['logo_url']) ?>" loading="lazy" alt="<?= e($__s['site_name']) ?>" style="height:2.25rem;width:2.25rem;border-radius:0.625rem;object-fit:cover;">
+            <img src="<?= e($__s['logo_url']) ?>" loading="lazy" alt="<?= e($__s['site_name']) ?>" style="height:2rem;width:auto;max-width:11rem;object-fit:contain;border-radius:0;">
           <?php else: ?>
             <span style="display:grid;place-items:center;height:2.25rem;width:2.25rem;border-radius:0.625rem;background:var(--gradient-primary);color:#fff;font-weight:800;font-size:var(--text-sm);"><?= strtoupper(substr(defined('SITE_NAME') ? SITE_NAME : 'NI', 0, 2)) ?></span>
+            <?= e($__s['site_name'] ?? SITE_NAME) ?>
           <?php endif; ?>
-          <?= e($__s['site_name'] ?? SITE_NAME) ?>
         </a>
         <p style="color:rgba(241,245,249,0.5);font-size:var(--text-sm);line-height:1.75;max-width:21rem;margin:0 0 1.5rem;">
           <?= e($__s['footer_tagline'] ?? "Trusted software & IT solutions partner based in Butwal, Rupandehi, Nepal.") ?>
