@@ -688,27 +688,40 @@ function sTab(slug){
     </div>
     <div id="news-grid" class="stagger-children" style="display:grid;grid-template-columns:repeat(3,1fr);gap:.875rem;">
       <?php foreach($newsItems as $article): ?>
-      <div class="st-card" style="overflow:hidden;">
+      <a href="<?= url('news-post.php?id='.($article['id']??'')) ?>" class="st-card" style="overflow:hidden;text-decoration:none;display:flex;flex-direction:column;transition:transform .18s,box-shadow .18s;" onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 28px rgba(0,0,0,.1)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
         <?php if(!empty($article['cover_image'])): ?>
-        <img src="<?= e($article['cover_image']) ?>" alt="<?= e($article['title']) ?>" style="width:100%;height:6.5rem;object-fit:cover;" loading="lazy">
+        <img src="<?= e($article['cover_image']) ?>" alt="<?= e($article['title']) ?>" style="width:100%;height:9rem;object-fit:cover;display:block;" loading="lazy">
         <?php else: ?>
-        <div style="width:100%;height:6.5rem;background:var(--gradient-primary);display:grid;place-items:center;"><i data-lucide="newspaper" style="width:20px;height:20px;color:rgba(255,255,255,.35);"></i></div>
+        <?php
+          $catColors = ['news'=>'#2563eb','updates'=>'#7c3aed','product'=>'#0d9488','event'=>'#d97706','announcement'=>'#e11d48'];
+          $catKey = strtolower($article['category']??'');
+          $ph_color = $catColors[$catKey] ?? 'var(--primary)';
+        ?>
+        <div style="width:100%;height:9rem;background:linear-gradient(135deg,<?= e($ph_color) ?>18 0%,<?= e($ph_color) ?>08 100%);border-bottom:1px solid <?= e($ph_color) ?>22;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;position:relative;overflow:hidden;">
+          <div style="position:absolute;inset:0;background-image:radial-gradient(<?= e($ph_color) ?>10 1px,transparent 1px);background-size:18px 18px;"></div>
+          <div style="width:2.75rem;height:2.75rem;border-radius:0.75rem;background:<?= e($ph_color) ?>18;border:1px solid <?= e($ph_color) ?>30;display:grid;place-items:center;position:relative;">
+            <i data-lucide="newspaper" style="width:18px;height:18px;color:<?= e($ph_color) ?>;"></i>
+          </div>
+          <?php if(!empty($article['category'])): ?>
+          <span style="font-size:.625rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:<?= e($ph_color) ?>;background:<?= e($ph_color) ?>15;padding:.125rem .5rem;border-radius:9999px;position:relative;"><?= e($article['category']) ?></span>
+          <?php endif; ?>
+        </div>
         <?php endif; ?>
-        <div style="padding:1rem;">
-          <?php if(!empty($article['category'])): ?><span style="font-size:var(--text-3xs);font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--primary);display:block;margin-bottom:.375rem;"><?= e($article['category']) ?></span><?php endif; ?>
-          <h3 style="font-family:var(--font-display);font-weight:700;font-size:var(--text-sm);color:var(--foreground);margin-bottom:.375rem;line-height:1.35;"><?= e($article['title']) ?></h3>
-          <p style="font-size:var(--text-xs);color:var(--muted-foreground);line-height:1.55;margin-bottom:.75rem;"><?= e(mb_strimwidth($article['excerpt']??'',0,80,'…')) ?></p>
-          <div style="display:flex;align-items:center;justify-content:space-between;">
+        <div style="padding:1rem 1.125rem;flex:1;display:flex;flex-direction:column;">
+          <?php if(!empty($article['category']) && !empty($article['cover_image'])): ?><span style="font-size:var(--text-3xs);font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--primary);display:block;margin-bottom:.375rem;"><?= e($article['category']) ?></span><?php endif; ?>
+          <h3 style="font-family:var(--font-display);font-weight:700;font-size:var(--text-sm);color:var(--foreground);margin-bottom:.375rem;line-height:1.35;flex:1;"><?= e($article['title']) ?></h3>
+          <p style="font-size:var(--text-xs);color:var(--muted-foreground);line-height:1.55;margin-bottom:.75rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;"><?= e($article['excerpt']??'') ?></p>
+          <div style="display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--border);padding-top:.625rem;margin-top:auto;">
             <div style="display:flex;align-items:center;gap:.25rem;font-size:var(--text-3xs);color:var(--muted-foreground);">
               <i data-lucide="calendar" class="ic-10"></i>
               <?= !empty($article['published_at'])?date('d M Y',strtotime($article['published_at'])):'' ?>
             </div>
-            <a href="<?= url('news-post.php?id='.($article['id']??'')) ?>" class="arr" style="font-size:var(--text-3xs);">
+            <span class="arr" style="font-size:var(--text-3xs);">
               <?= e(__('cta_read_more')) ?> <i data-lucide="arrow-right" class="ic-10"></i>
-            </a>
+            </span>
           </div>
         </div>
-      </div>
+      </a>
       <?php endforeach; ?>
     </div>
   </div>

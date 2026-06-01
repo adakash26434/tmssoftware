@@ -77,7 +77,7 @@
 @media (min-width: 768px) {
   #stats-bar  { grid-template-columns: repeat(4, 1fr) !important; }
   #bento      { grid-template-columns: repeat(2, 1fr) !important; }
-  #proc-grid  { grid-template-columns: repeat(2, 1fr) !important; }
+  #proc-grid  { grid-template-columns: repeat(4, 1fr) !important; }
   #price-grid,
   .price-grid,
   .price-grid--wide { grid-template-columns: repeat(3, 1fr) !important; }
