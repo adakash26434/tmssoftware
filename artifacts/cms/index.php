@@ -542,7 +542,7 @@ function sTab(slug){
       <h2 class="section-title"><?= e(trim($__s['home_process_title']??'')?:'From first call to go-live — 4 steps') ?></h2>
       <p style="color:var(--muted-foreground);max-width:38rem;margin:0 auto;"><?= e(trim($__s['home_process_sub']??'')?:'We handle the full implementation — data migration, staff training and 30-day post-launch hand-holding.') ?></p>
     </div>
-    <div id="proc-grid" class="stagger-children grid-1">
+    <div id="proc-grid" class="stagger-children grid-4">
       <?php foreach($processSteps as $i=>[$icon,$title,$desc]): ?>
       <div class="pi" style="text-align:center;padding:2rem 1.5rem;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-2xl);">
         <?php if($i<3): ?><div class="proc-con"></div><?php endif; ?>
