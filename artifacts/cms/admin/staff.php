@@ -66,138 +66,140 @@ $ROLE_CFG = [
   <?php
   $roleCounts = array_count_values(array_column($staff,'role'));
   $cards = [
-    ['Total Staff',  count($staff),                    '','#dbeafe','var(--primary-dark)'],
-    ['Active Now',   count(array_filter($staff,fn($s)=>$s['active'])), '','var(--success-soft)','var(--success-fg)'],
-    ['Open Tickets', array_sum(array_column($staff,'open_tickets')),   '','var(--warning-soft)','var(--warning-fg)'],
-    ['Resolved',     array_sum(array_column($staff,'resolved_tickets')),'','var(--success-soft)','var(--success-fg)'],
+    ['Total Staff',  count($staff),                     '#dbeafe','var(--primary-dark)'],
+    ['Active Now',   count(array_filter($staff,fn($s)=>$s['active'])), 'var(--success-soft)','var(--success-fg)'],
+    ['Open Tickets', array_sum(array_column($staff,'open_tickets')),   'var(--warning-soft)','var(--warning-fg)'],
+    ['Resolved',     array_sum(array_column($staff,'resolved_tickets')),'var(--success-soft)','var(--success-fg)'],
   ];
-  foreach($cards as [$lbl,$val,$ico,$bg,$col]):?>
+  foreach($cards as [$lbl,$val,$bg,$col]):?>
   <div style="padding:1rem;border-radius:0.875rem;border:1px solid var(--border);background:var(--card);">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">
-      <span style="font-size:1.1rem;"><?=$ico?></span>
-    </div>
     <div style="font-family:var(--font-display);font-size:1.5rem;font-weight:800;color:<?=$col?>;"><?=$val?></div>
     <div style="font-size:0.6875rem;color:var(--muted-foreground);font-weight:500;"><?=e($lbl)?></div>
   </div>
   <?php endforeach;?>
 </div>
 
-<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:0.75rem;">
-  <h2 class="h-eyebrow-flat">‍ Staff Members (<?=count($staff)?>)</h2>
-  <button onclick="document.getElementById('add-modal').style.display='flex'" class="btn btn-primary btn-sm">+ Add Staff</button>
-</div>
+<!-- ── Split: list + add form ─────────────────────── -->
+<div class="af-split">
 
-<div style="display:grid;gap:0.875rem;">
-<?php foreach($staff as $s):
-  [$rbg,$rcol,$rlbl] = $ROLE_CFG[$s['role']] ?? ['var(--muted)','var(--muted-foreground)','Staff'];
-  $pct = $s['total_tickets'] > 0 ? round($s['resolved_tickets']/$s['total_tickets']*100) : 0;
-?>
-<div class="st-card p-card">
-  <div style="display:flex;align-items:flex-start;gap:1rem;flex-wrap:wrap;">
+<!-- Staff list -->
+<div>
+  <div class="row-between-mb">
+    <h2 class="h-eyebrow-flat"> Staff Members (<?=count($staff)?>)</h2>
+  </div>
 
-    <!-- Avatar + info -->
-    <div style="display:flex;align-items:center;gap:0.875rem;flex:1;min-width:200px;">
-      <div style="width:2.75rem;height:2.75rem;border-radius:9999px;background:var(--gradient-primary);display:grid;place-items:center;font-size:1rem;font-weight:700;color:#fff;flex-shrink:0;">
-        <?=strtoupper(substr($s['display_name']??$s['email'],0,1))?>
-      </div>
-      <div>
-        <div style="font-weight:700;font-size:0.9375rem;color:var(--foreground);"><?=e($s['display_name']??$s['email'])?></div>
-        <div class="fs-xs-mt"><?=e($s['email'])?></div>
-        <?php if($s['phone']):?>
-        <div class="fs-xs-mt"><?=e($s['phone'])?></div>
-        <?php endif;?>
-      </div>
-    </div>
-
-    <!-- Role badge -->
-    <div style="display:flex;flex-direction:column;align-items:center;gap:0.375rem;">
-      <span style="padding:0.25rem 0.875rem;border-radius:9999px;font-size:0.6875rem;font-weight:700;background:<?=$rbg?>;color:<?=$rcol?>;"><?=$rlbl?></span>
-      <span style="font-size:0.6875rem;color:<?=$s['active']?'var(--success-fg)':'var(--danger-fg)'?>;font-weight:600;"><?=$s['active']?'● Active':'● Inactive'?></span>
-    </div>
-
-    <!-- Ticket stats -->
-    <div style="display:flex;gap:1.25rem;align-items:center;">
-      <div class="text-center">
-        <div style="font-family:var(--font-display);font-size:1.25rem;font-weight:800;color:var(--primary);"><?=$s['open_tickets']?></div>
-        <div class="fs-2xs-mt">Open</div>
-      </div>
-      <div class="text-center">
-        <div style="font-family:var(--font-display);font-size:1.25rem;font-weight:800;color:var(--success-fg);"><?=$s['resolved_tickets']?></div>
-        <div class="fs-2xs-mt">Resolved</div>
-      </div>
-      <div class="text-center">
-        <div style="font-family:var(--font-display);font-size:1.25rem;font-weight:800;color:var(--foreground);"><?=$s['total_tickets']?></div>
-        <div class="fs-2xs-mt">Total</div>
-      </div>
-    </div>
-
-    <!-- Resolution bar -->
-    <?php if($s['total_tickets'] > 0):?>
-    <div style="min-width:120px;">
-      <div style="display:flex;justify-content:space-between;font-size:0.6875rem;margin-bottom:0.25rem;">
-        <span class="text-muted">Resolution rate</span>
-        <span style="font-weight:700;color:var(--success-fg);"><?=$pct?>%</span>
-      </div>
-      <div style="height:6px;border-radius:9999px;background:var(--muted);">
-        <div style="height:100%;border-radius:9999px;background:var(--success-fg);width:<?=$pct?>%;"></div>
-      </div>
+  <div style="display:flex;flex-direction:column;gap:0.875rem;">
+    <?php if(empty($staff)):?>
+    <div class="af-empty">
+      <div style="font-size:2.5rem;margin-bottom:0.75rem;"></div>
+      <p>No staff found. Add your first team member using the form.</p>
     </div>
     <?php endif;?>
+    <?php foreach($staff as $s):
+      [$rbg,$rcol,$rlbl] = $ROLE_CFG[$s['role']] ?? ['var(--muted)','var(--muted-foreground)','Staff'];
+      $pct = $s['total_tickets'] > 0 ? round($s['resolved_tickets']/$s['total_tickets']*100) : 0;
+    ?>
+    <div class="st-card p-card">
+      <div style="display:flex;align-items:flex-start;gap:1rem;flex-wrap:wrap;">
 
-    <!-- Last login -->
-    <div style="font-size:0.75rem;color:var(--muted-foreground);text-align:right;min-width:80px;">
-      <div style="font-weight:500;color:var(--foreground);">Last login</div>
-      <?=$s['last_login_at'] ? date('M j, Y',strtotime($s['last_login_at'])) : 'Never'?>
+        <!-- Avatar + info -->
+        <div style="display:flex;align-items:center;gap:0.875rem;flex:1;min-width:200px;">
+          <div style="width:2.75rem;height:2.75rem;border-radius:9999px;background:var(--gradient-primary);display:grid;place-items:center;font-size:1rem;font-weight:700;color:#fff;flex-shrink:0;">
+            <?=strtoupper(substr($s['display_name']??$s['email'],0,1))?>
+          </div>
+          <div>
+            <div style="font-weight:700;font-size:0.9375rem;color:var(--foreground);"><?=e($s['display_name']??$s['email'])?></div>
+            <div class="fs-xs-mt"><?=e($s['email'])?></div>
+            <?php if($s['phone']):?>
+            <div class="fs-xs-mt"><?=e($s['phone'])?></div>
+            <?php endif;?>
+          </div>
+        </div>
+
+        <!-- Role badge + status -->
+        <div style="display:flex;flex-direction:column;align-items:center;gap:0.375rem;">
+          <span style="padding:0.25rem 0.875rem;border-radius:9999px;font-size:0.6875rem;font-weight:700;background:<?=$rbg?>;color:<?=$rcol?>;"><?=$rlbl?></span>
+          <span style="font-size:0.6875rem;color:<?=$s['active']?'var(--success-fg)':'var(--danger-fg)'?>;font-weight:600;"><?=$s['active']?'● Active':'● Inactive'?></span>
+        </div>
+
+        <!-- Ticket stats -->
+        <div style="display:flex;gap:1.25rem;align-items:center;">
+          <div class="text-center">
+            <div style="font-family:var(--font-display);font-size:1.25rem;font-weight:800;color:var(--primary);"><?=$s['open_tickets']?></div>
+            <div class="fs-2xs-mt">Open</div>
+          </div>
+          <div class="text-center">
+            <div style="font-family:var(--font-display);font-size:1.25rem;font-weight:800;color:var(--success-fg);"><?=$s['resolved_tickets']?></div>
+            <div class="fs-2xs-mt">Resolved</div>
+          </div>
+          <div class="text-center">
+            <div style="font-family:var(--font-display);font-size:1.25rem;font-weight:800;color:var(--foreground);"><?=$s['total_tickets']?></div>
+            <div class="fs-2xs-mt">Total</div>
+          </div>
+        </div>
+
+        <!-- Resolution bar -->
+        <?php if($s['total_tickets'] > 0):?>
+        <div style="min-width:120px;">
+          <div style="display:flex;justify-content:space-between;font-size:0.6875rem;margin-bottom:0.25rem;">
+            <span class="text-muted">Resolution rate</span>
+            <span style="font-weight:700;color:var(--success-fg);"><?=$pct?>%</span>
+          </div>
+          <div style="height:6px;border-radius:9999px;background:var(--muted);">
+            <div style="height:100%;border-radius:9999px;background:var(--success-fg);width:<?=$pct?>%;"></div>
+          </div>
+        </div>
+        <?php endif;?>
+
+        <!-- Last login -->
+        <div style="font-size:0.75rem;color:var(--muted-foreground);text-align:right;min-width:80px;">
+          <div style="font-weight:500;color:var(--foreground);">Last login</div>
+          <?=$s['last_login_at'] ? date('M j, Y',strtotime($s['last_login_at'])) : 'Never'?>
+        </div>
+
+        <!-- Row actions -->
+        <div style="display:flex;gap:0.375rem;flex-shrink:0;flex-wrap:wrap;">
+          <a href="<?=url('admin/tickets.php?assigned='.e($s['id']))?>" style="padding:0.3rem 0.75rem;border-radius:0.5rem;border:1px solid var(--border);background:var(--card);font-size:0.75rem;text-decoration:none;color:var(--foreground);">Tickets</a>
+          <form method="POST" class="inline">
+            <?=csrfField()?>
+            <input type="hidden" name="action" value="toggle_active">
+            <input type="hidden" name="id" value="<?=$s['id']?>">
+            <button type="submit" style="padding:0.3rem 0.75rem;border-radius:0.5rem;border:1px solid var(--border);background:var(--card);font-size:0.75rem;cursor:pointer;color:<?=$s['active']?'var(--danger-fg)':'var(--success-fg)'?>;">
+              <?=$s['active']?'Deactivate':'Activate'?>
+            </button>
+          </form>
+          <form method="POST" class="inline">
+            <?=csrfField()?>
+            <input type="hidden" name="action" value="update_role">
+            <input type="hidden" name="id" value="<?=$s['id']?>">
+            <select name="role" onchange="this.form.submit()" style="padding:0.3rem 0.5rem;border-radius:0.5rem;border:1px solid var(--border);background:var(--card);font-size:0.75rem;cursor:pointer;">
+              <?php foreach(['support','editor','admin'] as $r):?>
+              <option value="<?=$r?>" <?=$s['role']===$r?'selected':''?>><?=ucfirst($r)?></option>
+              <?php endforeach;?>
+            </select>
+          </form>
+        </div>
+
+      </div>
     </div>
-
-    <!-- Actions -->
-    <div style="display:flex;gap:0.375rem;flex-shrink:0;">
-      <a href="<?=url('admin/tickets.php?assigned='.e($s['id']))?>" style="padding:0.3rem 0.75rem;border-radius:0.5rem;border:1px solid var(--border);background:var(--card);font-size:0.75rem;text-decoration:none;color:var(--foreground);">Tickets</a>
-      <form method="POST" class="inline">
-        <?=csrfField()?>
-        <input type="hidden" name="action" value="toggle_active">
-        <input type="hidden" name="id" value="<?=$s['id']?>">
-        <button type="submit" style="padding:0.3rem 0.75rem;border-radius:0.5rem;border:1px solid var(--border);background:var(--card);font-size:0.75rem;cursor:pointer;color:<?=$s['active']?'var(--danger-fg)':'var(--success-fg)'?>;">
-          <?=$s['active']?'Deactivate':'Activate'?>
-        </button>
-      </form>
-      <form method="POST" class="inline">
-        <?=csrfField()?>
-        <input type="hidden" name="action" value="update_role">
-        <input type="hidden" name="id" value="<?=$s['id']?>">
-        <select name="role" onchange="this.form.submit()" style="padding:0.3rem 0.5rem;border-radius:0.5rem;border:1px solid var(--border);background:var(--card);font-size:0.75rem;cursor:pointer;">
-          <?php foreach(['support','editor','admin'] as $r):?>
-          <option value="<?=$r?>" <?=$s['role']===$r?'selected':''?>><?=ucfirst($r)?></option>
-          <?php endforeach;?>
-        </select>
-      </form>
-    </div>
-
+    <?php endforeach;?>
   </div>
 </div>
-<?php endforeach;?>
-<?php if(empty($staff)):?>
-<div class="st-card p-empty">
-  <div style="font-size:2.5rem;margin-bottom:0.75rem;"></div>
-  <p>No staff found. Add your first team member below.</p>
-</div>
-<?php endif;?>
-</div>
 
-<!-- Add Staff Modal -->
-<div id="add-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9999;align-items:center;justify-content:center;">
-  <div style="background:var(--card);border-radius:1rem;padding:1.75rem;width:min(480px,95vw);box-shadow:var(--shadow-elevated);">
-    <h3 style="font-family:var(--font-display);font-size:1rem;font-weight:700;margin-bottom:1.25rem;"> Add Staff Member</h3>
+<!-- ── Add Staff form ──────────────────────────────── -->
+<div class="af-panel">
+  <div class="st-card p-tile">
+    <h3 class="h-eyebrow-tight"> Add Staff Member</h3>
     <form method="POST" class="col-1">
       <?=csrfField()?>
       <input type="hidden" name="action" value="add_staff">
       <div>
-        <label class="form-label">Full Name *</label>
+        <label class="form-label">Full Name <span class="text-danger-token">*</span></label>
         <input type="text" name="display_name" required class="form-input" placeholder="e.g. Manisha Gurung">
       </div>
       <div>
-        <label class="form-label">Email *</label>
-        <input type="email" name="email" required class="form-input" placeholder="ankurinfotech8@gmail.com">
+        <label class="form-label">Email <span class="text-danger-token">*</span></label>
+        <input type="email" name="email" required class="form-input" placeholder="staff@ankurinfotech.com">
       </div>
       <div>
         <label class="form-label">Role</label>
@@ -208,15 +210,16 @@ $ROLE_CFG = [
         </select>
       </div>
       <div>
-        <label class="form-label">Temporary Password *</label>
+        <label class="form-label">Temporary Password <span class="text-danger-token">*</span></label>
         <input type="password" name="password" required minlength="8" class="form-input" placeholder="Min. 8 characters">
       </div>
-      <div style="display:flex;gap:0.75rem;">
-        <button type="submit" class="btn btn-primary">Add</button>
-        <button type="button" onclick="document.getElementById('add-modal').style.display='none'" class="btn btn-outline">Cancel</button>
+      <div class="af-form-footer">
+        <button type="submit" class="btn btn-primary w-100">Add Staff Member</button>
       </div>
     </form>
   </div>
+</div>
+
 </div>
 
 <?php require_once '../includes/admin-layout-close.php'; ?>

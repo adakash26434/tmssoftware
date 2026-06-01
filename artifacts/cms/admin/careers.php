@@ -28,12 +28,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $type        = trim($_POST['type'] ?? 'full-time');
         $salary_range= trim($_POST['salary_range'] ?? '');
         $experience  = trim($_POST['experience'] ?? '');
-        $description = trim($_POST['description'] ?? '');
-        $requirements= trim($_POST['requirements'] ?? '');
-        $deadline    = $_POST['deadline'] ?: null;
-        $active      = isset($_POST['active']) ? 1 : 0;
-        $salary_range= trim($_POST['salary_range'] ?? '');
-        $experience  = trim($_POST['experience'] ?? '');
         $short_desc  = trim($_POST['short_desc'] ?? '');
         $description = trim($_POST['description'] ?? '');
         $requirements= trim($_POST['requirements'] ?? '');
@@ -80,18 +74,21 @@ $TYPE_LABELS = ['full-time'=>'Full-time','part-time'=>'Part-time','contract'=>'C
 <?php if($success):?><div class="alert alert-success mb-1"><?=e($success)?></div><?php endif;?>
 <?php if($error):?><div class="alert alert-error mb-1"><?=e($error)?></div><?php endif;?>
 
-<!-- Tabs -->
-<div style="display:flex;gap:0;border-bottom:2px solid var(--border);margin-bottom:1.25rem;">
-  <a href="?tab=jobs" style="padding:0.625rem 1.25rem;font-size:0.875rem;font-weight:600;text-decoration:none;border-bottom:2px solid <?=$tab==='jobs'?'var(--primary)':'transparent'?>;color:<?=$tab==='jobs'?'var(--primary)':'var(--muted-foreground)'?>;margin-bottom:-2px;">
+<!-- Page-level tab navigation -->
+<div class="af-page-tabs">
+  <a href="?tab=jobs" class="af-page-tab <?=$tab==='jobs'?'active':''?>">
      Job Listings (<?=count($jobs)?>)
   </a>
-  <a href="?tab=apps" style="padding:0.625rem 1.25rem;font-size:0.875rem;font-weight:600;text-decoration:none;border-bottom:2px solid <?=$tab==='apps'?'var(--primary)':'transparent'?>;color:<?=$tab==='apps'?'var(--primary)':'var(--muted-foreground)'?>;margin-bottom:-2px;">
-     Applications (<?=count($apps)?>) <?php if($pending_apps>0):?><span style="margin-left:0.25rem;padding:0.1rem 0.4rem;border-radius:9999px;background:var(--danger-soft);color:var(--danger-fg);font-size:0.625rem;font-weight:700;"><?=$pending_apps?></span><?php endif;?>
+  <a href="?tab=apps" class="af-page-tab <?=$tab==='apps'?'active':''?>">
+     Applications (<?=count($apps)?>)
+    <?php if($pending_apps>0):?><span class="af-badge"><?=$pending_apps?></span><?php endif;?>
   </a>
 </div>
 
 <?php if($tab === 'jobs'): ?>
-<div style="display:grid;grid-template-columns:1fr <?=($editing||isset($_GET['new']))?'380px':'';?>;gap:1.25rem;align-items:start;">
+<div class="af-split" style="grid-template-columns:1fr <?=($editing||isset($_GET['new']))?'380px':'0px'?>;">
+
+<!-- Job list -->
 <div>
   <div class="row-between-mb">
     <span style="font-size:0.875rem;color:var(--muted-foreground);"><?=count($jobs)?> position<?=count($jobs)!==1?'s':''?></span>
@@ -99,14 +96,18 @@ $TYPE_LABELS = ['full-time'=>'Full-time','part-time'=>'Part-time','contract'=>'C
   </div>
   <div style="display:flex;flex-direction:column;gap:0.625rem;">
     <?php if(empty($jobs)):?>
-    <div style="border:2px dashed var(--border);border-radius:1rem;padding:3rem;text-align:center;color:var(--muted-foreground);">No jobs posted yet!</div>
+    <div class="af-empty">No jobs posted yet!</div>
     <?php else: foreach($jobs as $j): $isActive=(bool)$j['active']; ?>
     <div class="st-card" style="padding:1rem 1.25rem;<?=!$isActive?'opacity:0.6;':''?>">
       <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
         <div class="flex-1">
           <div style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;margin-bottom:0.25rem;">
             <span style="font-weight:700;color:var(--foreground);"><?=e($j['title'])?></span>
-            <?php if($isActive):?><span style="font-size:0.625rem;padding:0.1rem 0.35rem;border-radius:9999px;background:var(--success-soft);color:var(--success-fg);font-weight:700;">OPEN</span><?php else:?><span style="font-size:0.625rem;padding:0.1rem 0.35rem;border-radius:9999px;background:var(--muted);color:var(--muted-foreground);font-weight:700;">CLOSED</span><?php endif;?>
+            <?php if($isActive):?>
+            <span style="font-size:0.625rem;padding:0.1rem 0.35rem;border-radius:9999px;background:var(--success-soft);color:var(--success-fg);font-weight:700;">OPEN</span>
+            <?php else:?>
+            <span style="font-size:0.625rem;padding:0.1rem 0.35rem;border-radius:9999px;background:var(--muted);color:var(--muted-foreground);font-weight:700;">CLOSED</span>
+            <?php endif;?>
           </div>
           <div class="fs-sm-mt">
             <?=e($j['department']??'All Teams')?> · <?=e($j['location'])?> · <?=$TYPE_LABELS[$j['type']]??$j['type']?>
@@ -130,6 +131,7 @@ $TYPE_LABELS = ['full-time'=>'Full-time','part-time'=>'Part-time','contract'=>'C
 </div>
 
 <?php if($editing || isset($_GET['new'])):?>
+<!-- Job form panel -->
 <div class="af-panel">
   <div class="st-card p-tile">
     <h3 class="h-eyebrow-tight"><?=$editing?' Edit Job':' Post New Job'?></h3>
@@ -141,6 +143,10 @@ $TYPE_LABELS = ['full-time'=>'Full-time','part-time'=>'Part-time','contract'=>'C
       <div>
         <label class="form-label fs-2xs2">Job Title <span class="text-danger-token">*</span></label>
         <input type="text" name="title" required class="form-input fs-sm2" value="<?=e($editing['title']??'')?>">
+      </div>
+      <div>
+        <label class="form-label fs-2xs2">Short Summary <span style="color:var(--muted-foreground);font-weight:400;">(shown on listing cards)</span></label>
+        <input type="text" name="short_desc" class="form-input fs-sm2" maxlength="300" value="<?=e($editing['short_desc']??'')?>" placeholder="Build and scale our Core Banking platform.">
       </div>
       <div>
         <label class="form-label fs-2xs2">Slug</label>
@@ -170,13 +176,15 @@ $TYPE_LABELS = ['full-time'=>'Full-time','part-time'=>'Part-time','contract'=>'C
           <input type="text" name="salary_range" class="form-input fs-sm2" value="<?=e($editing['salary_range']??'')?>" placeholder="NPR 40k–60k">
         </div>
       </div>
-      <div>
-        <label class="form-label fs-2xs2">Experience Required</label>
-        <input type="text" name="experience" class="form-input fs-sm2" value="<?=e($editing['experience']??'')?>" placeholder="2+ years PHP">
-      </div>
-      <div>
-        <label class="form-label fs-2xs2">Application Deadline</label>
-        <input type="date" name="deadline" class="form-input fs-sm2" value="<?=e(substr($editing['deadline']??'',0,10))?>">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
+        <div>
+          <label class="form-label fs-2xs2">Experience Required</label>
+          <input type="text" name="experience" class="form-input fs-sm2" value="<?=e($editing['experience']??'')?>" placeholder="2+ years PHP">
+        </div>
+        <div>
+          <label class="form-label fs-2xs2">Application Deadline</label>
+          <input type="date" name="deadline" class="form-input fs-sm2" value="<?=e(substr($editing['deadline']??'',0,10))?>">
+        </div>
       </div>
       <div>
         <label class="form-label fs-2xs2">Job Description</label>
@@ -189,18 +197,16 @@ $TYPE_LABELS = ['full-time'=>'Full-time','part-time'=>'Part-time','contract'=>'C
       <label class="row-check">
         <input type="checkbox" name="active" value="1" <?=($editing['active']??1)?'checked':''?>> Open / Accepting Applications
       </label>
-      <button type="submit" class="btn btn-primary w-100"><?=$editing?'Update Job':'Post Job'?></button>
-      <a href="?tab=jobs" class="btn btn-ghost w-100-c">Cancel</a>
+      <div class="af-form-footer">
+        <button type="submit" class="btn btn-primary w-100"><?=$editing?'Update Job':'Post Job'?></button>
+        <a href="?tab=jobs" class="btn btn-ghost w-100-c">Cancel</a>
+      </div>
     </form>
   </div>
 </div>
 <?php endif;?>
 </div>
-      <div>
-        <label class="form-label fs-2xs2">Short Summary <span style="color:var(--muted-foreground);font-weight:400;">(one line, shown on the cards)</span></label>
-        <input type="text" name="short_desc" class="form-input fs-sm2" maxlength="300" value="<?=e($editing['short_desc']??'')?>" placeholder="Build and scale our Core Banking platform.">
-      </div>
-      <div>
+
 <?php else: // Applications tab ?>
 <div>
   <div style="margin-bottom:1rem;font-size:0.875rem;color:var(--muted-foreground);"><?=count($apps)?> total · <?=$pending_apps?> pending review</div>

@@ -50,6 +50,7 @@ $_SERVER['SCRIPT_NAME'] = $path;
 $phpFile = __DIR__ . rtrim($path, '/');
 if (!str_ends_with($phpFile, '.php')) $phpFile .= '.php';
 if ($path !== '/' && is_file($phpFile)) {
+    chdir(dirname($phpFile));
     require $phpFile;
     return true;
 }
@@ -57,6 +58,7 @@ if ($path !== '/' && is_file($phpFile)) {
 // Directory with index.php
 $indexFile = __DIR__ . rtrim($path, '/') . '/index.php';
 if (is_file($indexFile)) {
+    chdir(dirname($indexFile));
     require $indexFile;
     return true;
 }
@@ -66,16 +68,19 @@ if (str_starts_with($path, '/admin')) {
     $adminPath = '/admin' . substr($path, 6);
     $adminFile = __DIR__ . $adminPath . '.php';
     if (is_file($adminFile)) {
+        chdir(dirname($adminFile));
         require $adminFile;
         return true;
     }
     $adminIndex = __DIR__ . '/admin/index.php';
     if (is_file($adminIndex)) {
+        chdir(dirname($adminIndex));
         require $adminIndex;
         return true;
     }
 }
 
 // Default: serve index.php
+chdir(__DIR__);
 require __DIR__ . '/index.php';
 return true;

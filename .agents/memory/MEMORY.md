@@ -1,0 +1,2 @@
+- [PHP router chdir fix](php-router-chdir.md) — router.php must chdir() to each PHP file's directory before require, or relative ../includes/ paths fail
+- [Admin form system](admin-form-system.md) — split-panel layout, tab CSS classes, and JS all live in admin-forms.css + admin-layout-close.php

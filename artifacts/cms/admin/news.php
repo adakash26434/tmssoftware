@@ -30,7 +30,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if (!$title) { $error = 'Title is required.'; }
         else {
-            // Check slug uniqueness
             $existing = queryOne("SELECT id FROM news WHERE slug=? AND id!=?", [$slug, $id]);
             if ($existing) { $slug .= '-' . time(); }
 
@@ -72,7 +71,7 @@ $CATS = ['General','Product Update','Company News','Cooperatives Nepal','Technol
 
 <div class="af-split">
 
-<!-- List -->
+<!-- ── List ───────────────────────────────────────── -->
 <div>
   <div class="row-between-mb">
     <h2 class="h-eyebrow-flat"> Blog Posts (<?=count($posts)?>)</h2>
@@ -124,78 +123,94 @@ $CATS = ['General','Product Update','Company News','Cooperatives Nepal','Technol
   </div>
 </div>
 
-<!-- Form -->
+<!-- ── Form panel ──────────────────────────────────── -->
 <div class="af-panel">
   <div class="st-card p-tile">
-    <h3 class="h-eyebrow-tight">
-      <?=$editing?' Edit Post':( isset($_GET['new'])?' New Post':' New Post')?>
-    </h3>
-    <form method="POST" class="col-1-tight">
+    <h3 class="h-eyebrow-tight"><?=$editing?' Edit Post': ' New Post'?></h3>
+
+    <form method="POST">
       <?=csrfField()?>
       <input type="hidden" name="action" value="<?=$editing?'update':'create'?>">
       <?php if($editing):?><input type="hidden" name="id" value="<?=$editing['id']?>"><?php endif;?>
 
-      <div>
-        <label class="form-label fs-2xs2">Title <span class="text-danger-token">*</span></label>
-        <input type="text" name="title" required class="form-input fs-sm2" value="<?=e($editing['title']??'')?>">
+      <!-- Tab nav -->
+      <div class="af-tab-nav">
+        <button type="button" class="af-tab-btn active" data-tab="content">Content</button>
+        <button type="button" class="af-tab-btn" data-tab="publish">Publish</button>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
+
+      <!-- Tab: Content -->
+      <div class="af-tab-pane active" data-tab-pane="content">
         <div>
-          <label class="form-label fs-2xs2">Slug (URL)</label>
-          <input type="text" name="slug" class="form-input fs-sm2" value="<?=e($editing['slug']??'')?>" placeholder="auto-generated">
+          <label class="form-label fs-2xs2">Title <span class="text-danger-token">*</span></label>
+          <input type="text" name="title" required class="form-input fs-sm2" value="<?=e($editing['title']??'')?>">
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
+          <div>
+            <label class="form-label fs-2xs2">Slug (URL)</label>
+            <input type="text" name="slug" class="form-input fs-sm2" value="<?=e($editing['slug']??'')?>" placeholder="auto-generated">
+          </div>
+          <div>
+            <label class="form-label fs-2xs2">Category</label>
+            <select name="category" class="form-input fs-sm2">
+              <?php foreach($CATS as $c):?>
+              <option value="<?=$c?>" <?=($editing['category']??'General')===$c?'selected':''?>><?=$c?></option>
+              <?php endforeach;?>
+            </select>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
+          <div>
+            <label class="form-label fs-2xs2">Author Name</label>
+            <input type="text" name="author_name" class="form-input fs-sm2" value="<?=e($editing['author_name']??'Ankur Infotech Pvt. Ltd.')?>">
+          </div>
+          <div>
+            <label class="form-label fs-2xs2">Read Time (min)</label>
+            <input type="number" name="read_time" min="1" max="60" class="form-input fs-sm2" value="<?=e($editing['read_time']??5)?>">
+          </div>
         </div>
         <div>
-          <label class="form-label fs-2xs2">Category</label>
-          <select name="category" class="form-input fs-sm2">
-            <?php foreach($CATS as $c):?>
-            <option value="<?=$c?>" <?=($editing['category']??'General')===$c?'selected':''?>><?=$c?></option>
-            <?php endforeach;?>
-          </select>
+          <label class="form-label fs-2xs2">Cover Image URL</label>
+          <input type="url" name="cover_url" class="form-input fs-sm2" value="<?=e($editing['cover_url']??'')?>" placeholder="https://...">
+        </div>
+        <div>
+          <label class="form-label fs-2xs2">Excerpt <span style="color:var(--muted-foreground);font-weight:400;">(for cards)</span></label>
+          <textarea name="excerpt" class="form-input fs-sm-r" rows="2"><?=e($editing['excerpt']??'')?></textarea>
+        </div>
+        <div>
+          <label class="form-label fs-2xs2">Body Content <span style="color:var(--muted-foreground);font-weight:400;">(HTML)</span></label>
+          <textarea name="content" class="form-input" rows="8" style="font-size:0.8125rem;resize:vertical;font-family:monospace;"><?=e($editing['content']??'')?></textarea>
         </div>
       </div>
-      <div>
-        <label class="form-label fs-2xs2">Author Name</label>
-        <input type="text" name="author_name" class="form-input fs-sm2" value="<?=e($editing['author_name']??'Ankur Infotech Pvt. Ltd.')?>">
-      </div>
-      <div>
-        <label class="form-label fs-2xs2">Cover Image URL</label>
-        <input type="url" name="cover_url" class="form-input fs-sm2" value="<?=e($editing['cover_url']??'')?>" placeholder="https://...">
-      </div>
-      <div>
-        <label class="form-label fs-2xs2">Excerpt (for cards)</label>
-        <textarea name="excerpt" class="form-input fs-sm-r" rows="2"><?=e($editing['excerpt']??'')?></textarea>
-      </div>
-      <div>
-        <label class="form-label fs-2xs2">Body Content (HTML)</label>
-        <textarea name="content" class="form-input" rows="8" style="font-size:0.8125rem;resize:vertical;font-family:monospace;"><?=e($editing['content']??'')?></textarea>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
+
+      <!-- Tab: Publish -->
+      <div class="af-tab-pane" data-tab-pane="publish">
         <div>
-          <label class="form-label fs-2xs2">Tags (comma-separated)</label>
+          <label class="form-label fs-2xs2">Tags <span style="color:var(--muted-foreground);font-weight:400;">(comma-separated)</span></label>
           <input type="text" name="tags" class="form-input fs-sm2" value="<?=e($editing['tags_text']??'')?>" placeholder="Software, IT, Nepal">
         </div>
         <div>
-          <label class="form-label fs-2xs2">Read Time (min)</label>
-          <input type="number" name="read_time" min="1" max="60" class="form-input fs-sm2" value="<?=e($editing['read_time']??5)?>">
+          <label class="form-label fs-2xs2">Publish Date / Time</label>
+          <input type="datetime-local" name="published_at" class="form-input fs-sm2" value="<?=e(isset($editing['published_at'])&&$editing['published_at']?str_replace(' ','T',substr($editing['published_at'],0,16)):'')?>">
+        </div>
+        <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+          <label class="row-check">
+            <input type="checkbox" name="published" value="1" <?=($editing['published']??0)?'checked':''?>> Published
+          </label>
+          <label class="row-check">
+            <input type="checkbox" name="featured" value="1" <?=($editing['featured']??0)?'checked':''?>> Featured
+          </label>
+          <label class="row-check">
+            <input type="checkbox" name="active" value="1" <?=($editing['active']??1)?'checked':''?>> Active
+          </label>
         </div>
       </div>
-      <div>
-        <label class="form-label fs-2xs2">Publish Date/Time</label>
-        <input type="datetime-local" name="published_at" class="form-input fs-sm2" value="<?=e(isset($editing['published_at'])&&$editing['published_at']?str_replace(' ','T',substr($editing['published_at'],0,16)):'')?>">
+
+      <!-- Footer: always visible -->
+      <div class="af-form-footer">
+        <button type="submit" class="btn btn-primary w-100"><?=$editing?'Update Post':'Create Post'?></button>
+        <?php if($editing):?><a href="?" class="btn btn-ghost w-100-c">Cancel</a><?php endif;?>
       </div>
-      <div style="display:flex;gap:1rem;flex-wrap:wrap;">
-        <label class="row-check">
-          <input type="checkbox" name="published" value="1" <?=($editing['published']??0)?'checked':''?>> Published
-        </label>
-        <label class="row-check">
-          <input type="checkbox" name="featured" value="1" <?=($editing['featured']??0)?'checked':''?>> Featured
-        </label>
-        <label class="row-check">
-          <input type="checkbox" name="active" value="1" <?=($editing['active']??1)?'checked':''?>> Active
-        </label>
-      </div>
-      <button type="submit" class="btn btn-primary w-100"><?=$editing?'Update Post':'Create Post'?></button>
-      <?php if($editing):?><a href="?" class="btn btn-ghost w-100-c">Cancel</a><?php endif;?>
     </form>
   </div>
 </div>

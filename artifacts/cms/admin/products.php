@@ -74,7 +74,7 @@ if (!empty($_GET['edit'])) {
 
 <div class="af-split">
 
-<!-- List -->
+<!-- ── List ───────────────────────────────────────── -->
 <div>
   <div class="row-between-mb">
     <h2 class="h-eyebrow-flat"> Products (<?=count($products)?>)</h2>
@@ -84,11 +84,9 @@ if (!empty($_GET['edit'])) {
   <div class="st-card ov-hidden">
     <table style="width:100%;border-collapse:collapse;font-size:0.8125rem;">
       <thead><tr style="border-bottom:2px solid var(--border);background:var(--muted);">
-        <th style="padding:0.625rem 1rem;text-align:left;font-size:0.6875rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:var(--muted-foreground);">Product</th>
-        <th style="padding:0.625rem 1rem;text-align:left;font-size:0.6875rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:var(--muted-foreground);">Category</th>
-        <th style="padding:0.625rem 1rem;text-align:left;font-size:0.6875rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:var(--muted-foreground);">Price</th>
-        <th style="padding:0.625rem 1rem;text-align:center;font-size:0.6875rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:var(--muted-foreground);">Active</th>
-        <th style="padding:0.625rem 1rem;"></th>
+        <?php foreach(['Product','Category','Price','Active',''] as $h):?>
+        <th style="padding:0.625rem 1rem;text-align:left;font-size:0.6875rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:var(--muted-foreground);"><?=$h?></th>
+        <?php endforeach;?>
       </tr></thead>
       <tbody>
         <?php if(empty($products)):?>
@@ -132,108 +130,114 @@ if (!empty($_GET['edit'])) {
   </div>
 </div>
 
-<!-- Form -->
+<!-- ── Form panel ──────────────────────────────────── -->
 <div class="af-panel">
   <div class="st-card p-tile">
-    <h3 class="h-eyebrow-tight">
-      <?= $editing ? ' Edit Product' : (isset($_GET['new'])?' New Product':' New Product') ?>
-    </h3>
-    <form method="POST" class="col-1-tight">
+    <h3 class="h-eyebrow-tight"><?= $editing ? ' Edit Product' : ' New Product' ?></h3>
+
+    <form method="POST">
       <?=csrfField()?>
       <input type="hidden" name="action" value="<?=$editing?'update':'create'?>">
       <?php if($editing):?><input type="hidden" name="id" value="<?=$editing['id']?>"><?php endif;?>
 
-      <!-- Name + Icon row -->
-      <div style="display:grid;grid-template-columns:54px 1fr;gap:0.5rem;">
-        <div>
-          <label class="form-label fs-2xs2">Emoji</label>
-          <input type="text" name="icon" class="form-input" style="font-size:1.125rem;text-align:center;padding:0.5rem;" value="<?=e($editing['icon']??'')?>">
-        </div>
-        <div>
-          <label class="form-label fs-2xs2">Product Name <span class="text-danger-token">*</span></label>
-          <input type="text" name="name" required class="form-input fs-sm2" value="<?=e($editing['name']??'')?>">
-        </div>
+      <!-- Tab nav -->
+      <div class="af-tab-nav">
+        <button type="button" class="af-tab-btn active" data-tab="basic">Basic</button>
+        <button type="button" class="af-tab-btn" data-tab="content">Content</button>
+        <button type="button" class="af-tab-btn" data-tab="homepage">Homepage</button>
       </div>
-      <!-- Lucide icon + Icon color -->
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
-        <div>
-          <label class="form-label fs-2xs2">Lucide Icon name <a href="https://lucide.dev/icons" target="_blank" style="color:var(--primary);font-size:0.6rem;">browse ↗</a></label>
-          <input type="text" name="lucide_icon" class="form-input fs-sm2" value="<?=e($editing['lucide_icon']??'')?>" placeholder="monitor">
+
+      <!-- Tab: Basic -->
+      <div class="af-tab-pane active" data-tab-pane="basic">
+        <div style="display:grid;grid-template-columns:54px 1fr;gap:0.5rem;">
+          <div>
+            <label class="form-label fs-2xs2">Emoji</label>
+            <input type="text" name="icon" class="form-input" style="font-size:1.125rem;text-align:center;padding:0.5rem;" value="<?=e($editing['icon']??'')?>">
+          </div>
+          <div>
+            <label class="form-label fs-2xs2">Product Name <span class="text-danger-token">*</span></label>
+            <input type="text" name="name" required class="form-input fs-sm2" value="<?=e($editing['name']??'')?>">
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
+          <div>
+            <label class="form-label fs-2xs2">Lucide Icon <a href="https://lucide.dev/icons" target="_blank" style="color:var(--primary);font-size:0.6rem;">browse ↗</a></label>
+            <input type="text" name="lucide_icon" class="form-input fs-sm2" value="<?=e($editing['lucide_icon']??'')?>" placeholder="monitor">
+          </div>
+          <div>
+            <label class="form-label fs-2xs2">Icon Color</label>
+            <select name="icon_color" class="form-input fs-sm2">
+              <?php foreach(['blue','teal','purple','green','amber','rose','indigo','cyan'] as $col): ?>
+              <option value="<?=$col?>" <?=($editing['icon_color']??'blue')===$col?'selected':''?>><?=ucfirst($col)?></option>
+              <?php endforeach; ?>
+            </select>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
+          <div>
+            <label class="form-label fs-2xs2">Slug</label>
+            <input type="text" name="slug" class="form-input fs-sm2" value="<?=e($editing['slug']??'')?>" placeholder="auto">
+          </div>
+          <div>
+            <label class="form-label fs-2xs2">Badge</label>
+            <input type="text" name="badge" class="form-input fs-sm2" value="<?=e($editing['badge']??'')?>" placeholder="e.g. Popular">
+          </div>
         </div>
         <div>
-          <label class="form-label fs-2xs2">Icon Color</label>
-          <select name="icon_color" class="form-input fs-sm2">
-            <?php foreach(['blue','teal','purple','green','amber','rose','indigo','cyan'] as $col): ?>
-            <option value="<?=$col?>" <?=($editing['icon_color']??'blue')===$col?'selected':''?>><?=ucfirst($col)?></option>
-            <?php endforeach; ?>
-          </select>
+          <label class="form-label fs-2xs2">Tagline</label>
+          <input type="text" name="tagline" class="form-input fs-sm2" value="<?=e($editing['tagline']??'')?>">
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
+          <div>
+            <label class="form-label fs-2xs2">Price From</label>
+            <input type="text" name="price_from" class="form-input fs-sm2" value="<?=e($editing['price_from']??'')?>" placeholder="NPR 4,999/mo">
+          </div>
+          <div>
+            <label class="form-label fs-2xs2">Category</label>
+            <select name="category" class="form-input fs-sm2">
+              <option value="">Select</option>
+              <?php foreach(['Banking Software','Mobile App','Document Management','HR Software','Website','Support'] as $c):?>
+              <option value="<?=$c?>" <?=($editing['category']??'')===$c?'selected':''?>><?=$c?></option>
+              <?php endforeach;?>
+            </select>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
+          <div>
+            <label class="form-label fs-2xs2">Position</label>
+            <input type="number" name="position" class="form-input fs-sm2" value="<?=e($editing['position']??0)?>">
+          </div>
+          <div style="display:flex;align-items:flex-end;padding-bottom:0.25rem;">
+            <label class="row-check">
+              <input type="checkbox" name="active" value="1" <?=($editing['active']??1)?'checked':''?>> Active / Visible
+            </label>
+          </div>
         </div>
       </div>
 
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
+      <!-- Tab: Content -->
+      <div class="af-tab-pane" data-tab-pane="content">
         <div>
-          <label class="form-label fs-2xs2">Slug</label>
-          <input type="text" name="slug" class="form-input fs-sm2" value="<?=e($editing['slug']??'')?>" placeholder="auto">
+          <label class="form-label fs-2xs2">Short Summary</label>
+          <textarea name="summary" class="form-input fs-sm-r" rows="2"><?=e($editing['summary']??'')?></textarea>
         </div>
         <div>
-          <label class="form-label fs-2xs2">Badge</label>
-          <input type="text" name="badge" class="form-input fs-sm2" value="<?=e($editing['badge']??'')?>" placeholder="e.g. Popular">
+          <label class="form-label fs-2xs2">Full Description <span style="color:var(--muted-foreground);font-weight:400;">(HTML ok)</span></label>
+          <textarea name="description" class="form-input fs-sm-r" rows="5"><?=e($editing['description']??'')?></textarea>
+        </div>
+        <div>
+          <label class="form-label fs-2xs2">Features <span style="color:var(--muted-foreground);font-weight:400;">(one per line)</span></label>
+          <textarea name="features" class="form-input fs-sm-r" rows="4" placeholder="NRB-compliant reports&#10;Mobile Banking&#10;Multi-branch support"><?=e($editing['features_text']??'')?></textarea>
+        </div>
+        <div>
+          <label class="form-label fs-2xs2">Highlights <span style="color:var(--muted-foreground);font-weight:400;">(one per line)</span></label>
+          <textarea name="highlights" class="form-input fs-sm-r" rows="2" placeholder="120+ cooperatives&#10;24/7 support"><?=e($editing['highlights_text']??'')?></textarea>
         </div>
       </div>
 
-      <div>
-        <label class="form-label fs-2xs2">Tagline</label>
-        <input type="text" name="tagline" class="form-input fs-sm2" value="<?=e($editing['tagline']??'')?>">
-      </div>
-      <div>
-        <label class="form-label fs-2xs2">Short Summary</label>
-        <textarea name="summary" class="form-input fs-sm-r" rows="2"><?=e($editing['summary']??'')?></textarea>
-      </div>
-      <div>
-        <label class="form-label fs-2xs2">Full Description (HTML ok)</label>
-        <textarea name="description" class="form-input fs-sm-r" rows="4"><?=e($editing['description']??'')?></textarea>
-      </div>
-      <div>
-        <label class="form-label fs-2xs2">Features (one per line)</label>
-        <textarea name="features" class="form-input fs-sm-r" rows="4" placeholder="NRB-compliant reports&#10;Mobile Banking&#10;Multi-branch support"><?=e($editing['features_text']??'')?></textarea>
-      </div>
-      <div>
-        <label class="form-label fs-2xs2">Highlights (one per line)</label>
-        <textarea name="highlights" class="form-input fs-sm-r" rows="2" placeholder="120+ cooperatives&#10;24/7 support"><?=e($editing['highlights_text']??'')?></textarea>
-      </div>
-
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
-        <div>
-          <label class="form-label fs-2xs2">Price From</label>
-          <input type="text" name="price_from" class="form-input fs-sm2" value="<?=e($editing['price_from']??'')?>" placeholder="NPR 4,999/mo">
-        </div>
-        <div>
-          <label class="form-label fs-2xs2">Category</label>
-          <select name="category" class="form-input fs-sm2">
-            <option value="">Select</option>
-            <?php foreach(['Banking Software','Mobile App','Document Management','HR Software','Website','Support'] as $c):?>
-            <option value="<?=$c?>" <?=($editing['category']??'')===$c?'selected':''?>><?=$c?></option>
-            <?php endforeach;?>
-          </select>
-        </div>
-      </div>
-
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
-        <div>
-          <label class="form-label fs-2xs2">Position</label>
-          <input type="number" name="position" class="form-input fs-sm2" value="<?=e($editing['position']??0)?>">
-        </div>
-        <div style="display:flex;align-items:flex-end;padding-bottom:0.125rem;">
-          <label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer;font-size:0.8125rem;">
-            <input type="checkbox" name="active" value="1" <?=($editing['active']??1)?'checked':''?>> Active / Visible
-          </label>
-        </div>
-      </div>
-
-      <!-- Homepage display -->
-      <div style="border-top:1px solid var(--border);padding-top:0.875rem;margin-top:0.25rem;">
-        <div style="font-size:0.6875rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--muted-foreground);margin-bottom:0.625rem;">Homepage Display</div>
-        <div style="display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:0.625rem;">
+      <!-- Tab: Homepage -->
+      <div class="af-tab-pane" data-tab-pane="homepage">
+        <div style="display:flex;flex-wrap:wrap;gap:0.5rem;">
           <label class="row-check">
             <input type="checkbox" name="show_on_home" value="1" <?=($editing['show_on_home']??1)?'checked':''?>> Show on homepage
           </label>
@@ -244,30 +248,27 @@ if (!empty($_GET['edit'])) {
             <input type="checkbox" name="home_card_dark" value="1" <?=($editing['home_card_dark']??0)?'checked':''?>> Dark card
           </label>
         </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;margin-bottom:0.625rem;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
           <div>
-            <label class="form-label fs-2xs2">Home position</label>
+            <label class="form-label fs-2xs2">Home Position</label>
             <input type="number" name="home_position" class="form-input fs-sm2" value="<?=e($editing['home_position']??0)?>">
           </div>
           <div>
-            <label class="form-label fs-2xs2">Tab Label <span style="color:var(--muted-foreground)">(default: name)</span></label>
+            <label class="form-label fs-2xs2">Tab Label <span style="color:var(--muted-foreground);font-weight:400;">(default: name)</span></label>
             <input type="text" name="tab_label" class="form-input fs-sm2" value="<?=e($editing['tab_label']??'')?>" placeholder="e.g. Core Banking">
           </div>
         </div>
-        <div class="mb-5e">
-          <label class="form-label fs-2xs2">Card background CSS <span style="color:var(--muted-foreground)">(optional override)</span></label>
+        <div>
+          <label class="form-label fs-2xs2">Card Background CSS <span style="color:var(--muted-foreground);font-weight:400;">(optional)</span></label>
           <input type="text" name="home_bg_css" class="form-input fs-sm2" value="<?=e($editing['home_bg_css']??'')?>" placeholder="background:linear-gradient(135deg,#0f172a,#1e3a8a)">
         </div>
         <div>
           <label class="form-label fs-2xs2">
-            Demo screenshot URL
-            <span style="color:var(--muted-foreground);font-weight:400;"> — shown in "See it in action" tabs</span>
+            Demo Screenshot URL
+            <span style="color:var(--muted-foreground);font-weight:400;"> — "See it in action" tabs</span>
           </label>
-          <div style="display:flex;gap:0.375rem;align-items:flex-end;">
-            <input type="url" name="demo_screenshot_url" id="dss_url_<?=($editing['id']??'new')?>" class="form-input" style="font-size:0.8125rem;flex:1;"
-                   value="<?=e($editing['demo_screenshot_url']??'')?>" placeholder="https://… or upload below">
-          </div>
-          <!-- Upload button -->
+          <input type="url" name="demo_screenshot_url" id="dss_url_<?=($editing['id']??'new')?>" class="form-input fs-sm2"
+                 value="<?=e($editing['demo_screenshot_url']??'')?>" placeholder="https://… or upload below">
           <div style="margin-top:0.375rem;display:flex;align-items:center;gap:0.625rem;flex-wrap:wrap;">
             <label style="display:inline-flex;align-items:center;gap:0.375rem;padding:0.3rem 0.75rem;border-radius:0.4rem;border:1px solid var(--border);background:var(--muted);cursor:pointer;font-size:0.75rem;font-weight:600;color:var(--muted-foreground);">
               <i data-lucide="upload" class="ic-13"></i> Upload image
@@ -283,8 +284,11 @@ if (!empty($_GET['edit'])) {
         </div>
       </div>
 
-      <button type="submit" class="btn btn-primary w-100"><?=$editing?'Update Product':'Create Product'?></button>
-      <?php if($editing):?><a href="?" class="btn btn-ghost w-100-c">Cancel</a><?php endif;?>
+      <!-- Footer: always visible -->
+      <div class="af-form-footer">
+        <button type="submit" class="btn btn-primary w-100"><?=$editing?'Update Product':'Create Product'?></button>
+        <?php if($editing):?><a href="?" class="btn btn-ghost w-100-c">Cancel</a><?php endif;?>
+      </div>
     </form>
   </div>
 </div>
