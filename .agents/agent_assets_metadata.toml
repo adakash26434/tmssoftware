@@ -1,0 +1,8 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "GGlMgZETEnALD6CPf4H4F"
+uri = "file://ankurinfotech-cms.zip"
+type = "unspecified"
+title = "Ankur Infotech CMS — Production ZIP"
