@@ -1,3 +1,5 @@
 - [PHP router chdir fix](php-router-chdir.md) — router.php must chdir() to each PHP file's directory before require, or relative ../includes/ paths fail
 - [Admin form system](admin-form-system.md) — split-panel layout, tab CSS classes, and JS all live in admin-forms.css + admin-layout-close.php
 - [SQLite compat shim](sqlite-compat.md) — sqliteCompat() in db.php converts MySQL syntax to SQLite; all execute/query/queryOne calls go through it automatically
+- [CMS table architecture](cms-table-architecture.md) — services/products are separate tables; services.php public page uses services table (IT services), products.php uses products table (software)
+- [CMS schema migrations](cms-schema-migrations.md) — sqliteMigrate() in sqlite-init.php adds new columns via ALTER TABLE wrapped in try/catch; new columns also in CREATE TABLE for fresh DBs

@@ -58,11 +58,17 @@ function sqliteInit(PDO $pdo): void {
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         title TEXT NOT NULL,
         slug TEXT NOT NULL UNIQUE,
+        tagline TEXT DEFAULT '',
         summary TEXT,
         description TEXT,
         icon TEXT DEFAULT 'settings',
+        lucide_icon TEXT DEFAULT 'layers',
         icon_color TEXT DEFAULT 'blue',
+        badge TEXT DEFAULT '',
+        price_from REAL DEFAULT NULL,
+        highlights TEXT DEFAULT '[]',
         features TEXT,
+        screenshot_url TEXT DEFAULT NULL,
         active INTEGER NOT NULL DEFAULT 1,
         position INTEGER NOT NULL DEFAULT 0,
         created_at TEXT NOT NULL DEFAULT (datetime('now')),
@@ -77,11 +83,20 @@ function sqliteInit(PDO $pdo): void {
         summary TEXT,
         description TEXT,
         icon TEXT DEFAULT 'box',
+        lucide_icon TEXT DEFAULT 'package',
+        icon_color TEXT DEFAULT 'blue',
         badge TEXT,
         category TEXT,
         highlights TEXT,
         features TEXT,
         price_from REAL,
+        show_on_home INTEGER NOT NULL DEFAULT 0,
+        home_position INTEGER NOT NULL DEFAULT 0,
+        home_card_wide INTEGER NOT NULL DEFAULT 0,
+        home_card_dark INTEGER NOT NULL DEFAULT 0,
+        home_bg_css TEXT DEFAULT NULL,
+        demo_screenshot_url TEXT DEFAULT NULL,
+        tab_label TEXT DEFAULT NULL,
         active INTEGER NOT NULL DEFAULT 1,
         position INTEGER NOT NULL DEFAULT 0,
         created_at TEXT NOT NULL DEFAULT (datetime('now')),
@@ -695,6 +710,33 @@ function sqliteMigrate(PDO $pdo): void {
         updated_at TEXT NOT NULL DEFAULT (datetime('now'))
     );
     ");
+
+    // Services table — add columns introduced after initial schema (idempotent: ignore if already exists)
+    foreach ([
+        "ALTER TABLE services ADD COLUMN tagline TEXT DEFAULT ''",
+        "ALTER TABLE services ADD COLUMN badge TEXT DEFAULT ''",
+        "ALTER TABLE services ADD COLUMN price_from REAL DEFAULT NULL",
+        "ALTER TABLE services ADD COLUMN lucide_icon TEXT DEFAULT 'layers'",
+        "ALTER TABLE services ADD COLUMN highlights TEXT DEFAULT '[]'",
+        "ALTER TABLE services ADD COLUMN screenshot_url TEXT DEFAULT NULL",
+    ] as $__col) {
+        try { $pdo->exec($__col); } catch (\Throwable $ignored) {}
+    }
+
+    // Products table — add columns introduced after initial schema (idempotent: ignore if already exists)
+    foreach ([
+        "ALTER TABLE products ADD COLUMN lucide_icon TEXT DEFAULT 'package'",
+        "ALTER TABLE products ADD COLUMN icon_color TEXT DEFAULT 'blue'",
+        "ALTER TABLE products ADD COLUMN show_on_home INTEGER NOT NULL DEFAULT 0",
+        "ALTER TABLE products ADD COLUMN home_position INTEGER NOT NULL DEFAULT 0",
+        "ALTER TABLE products ADD COLUMN home_card_wide INTEGER NOT NULL DEFAULT 0",
+        "ALTER TABLE products ADD COLUMN home_card_dark INTEGER NOT NULL DEFAULT 0",
+        "ALTER TABLE products ADD COLUMN home_bg_css TEXT DEFAULT NULL",
+        "ALTER TABLE products ADD COLUMN demo_screenshot_url TEXT DEFAULT NULL",
+        "ALTER TABLE products ADD COLUMN tab_label TEXT DEFAULT NULL",
+    ] as $__col) {
+        try { $pdo->exec($__col); } catch (\Throwable $ignored) {}
+    }
 }
 
 function _sqliteInitSeedData(PDO $pdo): void
@@ -779,17 +821,30 @@ function _sqliteInitSeedData(PDO $pdo): void
     $stmt = $pdo->prepare("INSERT OR IGNORE INTO team_members (name, role, bio, is_leadership, active, position) VALUES (?,?,?,?,1,?)");
     foreach ($team as $t) $stmt->execute($t);
 
-    // Seed services
+    // Seed services (IT infrastructure & support services)
     $services = [
-        ['Core Banking System', 'cbs',          'Full-featured CBS with member KYC, savings, loans, share capital and 100+ NRB reports.',  'monitor',    'blue',   '["Member & KYC","Savings & FD","Loan Lifecycle","Share Capital","NRB Reports","Multi-branch","BS Calendar"]', 1],
-        ['Mobile Banking App',  'mobile',       'Branded Android & iOS app — balance, transfers, QR payments, EMI, biometric login.',        'smartphone', 'teal',   '["Android & iOS","QR Payments","Push Alerts","Biometric Login"]',                                        2],
-        ['Document Management', 'dms',          'Paperless KYC & loan files with OCR indexing, version history and role-based access.',       'file-text',  'purple', '["OCR Indexing","Version History","Role-based Access","Audit Trail"]',                                  3],
-        ['HR & Payroll',        'hr',           'Full HR, payroll, TDS, SSF and CIT ready with employee self-service portal.',                'users',      'green',  '["Payroll & TDS","SSF & CIT","ESS Portal","Leave Management"]',                                         4],
-        ['Cooperative Website', 'website',      'SEO-optimised cooperative website with notices, loan calculator and multilingual CMS.',       'globe',      'orange', '["SEO Optimised","Multilingual","Notice Board","Loan Calculator","Self-service CMS"]',                  5],
-        ['24×7 Support',        'support',      'Real people, not bots. On-site visits across all 7 provinces. <2 hr SLA for critical issues.','headphones', 'rose',   '["<2 hr SLA","On-site Visits","24×7 Portal","All Provinces"]',                                         6],
+        // title, slug, tagline, summary, icon, lucide_icon, icon_color, badge, price_from, highlights, features, position
+        ['Cloud Services',       'cloud',    'Managed cloud for businesses across Nepal',               'Scalable, secure cloud infrastructure — managed servers, auto backups, 99.9% uptime SLA and 24×7 NOC monitoring.',    'cloud',          'cloud',          'blue',   'Popular',   null, '["Managed Servers","Auto Backups","99.9% Uptime SLA","24×7 NOC Monitor"]',   '["Managed Hosting","Auto Backups","99.9% SLA","NOC Monitoring","SSL Included"]', 1],
+        ['Domain & Hosting',     'domain',   '.com.np, .org.np and international domains',              'Register domains with local support. Blazing-fast SSD hosting, free SSL, email hosting and Nepal-based control panel.',  'globe',          'globe',          'teal',   'Essential',  null, '["Domain Registration",".com.np & .np","Free SSL","SSD Hosting","Email Hosting"]', '["Domain Reg","cPanel Hosting","Email Hosting","Free SSL","DNS Management"]', 2],
+        ['Bulk SMS Services',    'sms',      'High-delivery SMS for all Nepal telecom networks',        'Send transaction alerts, reminders, OTPs and promotional messages instantly across Ncell and NTC networks.',            'message-square', 'message-square', 'amber',  'Add-on',    null, '["Ncell & NTC Gateway","OTP / 2FA","Transaction Alerts","Delivery Reports"]',  '["OTP & 2FA","Transactional SMS","Promotional SMS","Delivery Reports","API Access"]', 3],
+        ['Security Audit',       'security', 'End-to-end cybersecurity audit & penetration testing',   'Identify vulnerabilities before attackers do — penetration testing, vulnerability scan, source code review and compliance audit.', 'shield-check',  'shield-check', 'rose',   'Audit',     null, '["Penetration Testing","Vulnerability Scan","IT Compliance","Audit Report PDF"]', '["Pen Testing","Vuln Scan","Code Review","IT Compliance","Audit Report"]', 4],
+        ['Website Development',  'website',  'SEO-optimised cooperative & business websites',           'Modern, fast, multilingual websites built for cooperatives and SMEs — with CMS, notice board and loan calculator.', 'globe',           'monitor',        'purple', '',          null, '["SEO Optimised","Multilingual CMS","Notice Board","Loan Calculator"]',       '["Custom Design","SEO","CMS","Mobile-friendly","Multilingual"]', 5],
+        ['IT Consultancy',       'it-consultancy', 'Digital transformation for cooperatives & SMEs',   'Strategic IT guidance, system selection, staff training and hands-on implementation support for your organisation.',    'briefcase',      'briefcase',      'indigo', '',          null, '["Needs Assessment","System Selection","Staff Training","Implementation","Ongoing Advisory"]', '["Needs Assessment","System Selection","Staff Training","Implementation"]', 6],
     ];
-    $stmt = $pdo->prepare("INSERT OR IGNORE INTO services (title, slug, summary, icon, icon_color, features, active, position) VALUES (?,?,?,?,?,?,1,?)");
-    foreach ($services as $s) $stmt->execute([$s[0],$s[1],$s[2],$s[3],$s[4],$s[5],$s[6]]);
+    $stmt = $pdo->prepare("INSERT OR IGNORE INTO services (title, slug, tagline, summary, icon, lucide_icon, icon_color, badge, price_from, highlights, features, active, position) VALUES (?,?,?,?,?,?,?,?,?,?,?,1,?)");
+    foreach ($services as $s) $stmt->execute([$s[0],$s[1],$s[2],$s[3],$s[4],$s[5],$s[6],$s[7],$s[8],$s[9],$s[10],$s[11]]);
+
+    // Seed products (software products)
+    // cols: name, slug, tagline, summary, icon, lucide_icon, icon_color, badge, category, highlights, features, price_from, position
+    $products = [
+        ['Core Banking System',  'cbs',    'Full-featured CBS for Nepal cooperatives', 'Member KYC, savings, loans, share capital, 100+ NRB reports. BS calendar native. Multi-branch ready.',         'monitor',    'monitor',    'blue',   'Flagship', 'Banking',   '["Member & KYC","Savings & FD","Loan Lifecycle","Share Capital","NRB Reports","Multi-branch","BS Calendar"]',   '["Member KYC","Savings","FD","Loans","Share Capital","NRB Reports","Multi-branch","BS Calendar","Audit Trail"]', null, 1],
+        ['Mobile Banking App',   'mobile', 'Branded Android & iOS banking app',        'Branded mobile app — balance, transfers, QR payments, EMI calculator, push alerts, biometric login.',          'smartphone', 'smartphone', 'teal',   'Popular',  'Banking',   '["Android & iOS","QR Payments","Push Alerts","Biometric Login"]',                                                  '["Android","iOS","QR Payments","Push Notifications","Biometric Login","EMI Calc","Mini Statement"]', null, 2],
+        ['Document Management',  'dms',    'Paperless KYC & loan file management',     'OCR indexing of KYC and loan files, version history, role-based access and full audit trail.',                  'file-text',  'file-text',  'purple', '',         'Documents', '["OCR Indexing","Version History","Role-based Access","Audit Trail"]',                                              '["OCR Indexing","Version History","Role-based Access","Audit Trail","Cloud Storage","Bulk Upload"]', null, 3],
+        ['HR & Payroll',         'hr',     'Complete HR management for cooperatives',  'Full HR, payroll, TDS, SSF and CIT ready. Includes employee self-service portal and leave management.',        'users',      'users',      'green',  '',         'HR',        '["Payroll & TDS","SSF & CIT","ESS Portal","Leave Management"]',                                                    '["Payroll","TDS","SSF","CIT","Leave Mgmt","ESS Portal","Attendance","Payslip PDF"]', null, 4],
+        ['Cooperative Website',  'website','SEO-optimised website with built-in CMS',  'Modern, fast cooperative website with self-service CMS, notice board, loan calculator and multilingual support.','globe',     'globe',      'orange', 'Add-on',   'Web',       '["SEO Optimised","Multilingual CMS","Notice Board","Loan Calculator"]',                                             '["Custom Design","SEO","CMS","Mobile-friendly","Nepali & English","Contact Forms"]', null, 5],
+    ];
+    $stmt = $pdo->prepare("INSERT OR IGNORE INTO products (name, slug, tagline, summary, icon, lucide_icon, icon_color, badge, category, highlights, features, price_from, active, position) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,1,?)");
+    foreach ($products as $p) $stmt->execute([$p[0],$p[1],$p[2],$p[3],$p[4],$p[5],$p[6],$p[7],$p[8],$p[9],$p[10],$p[11],$p[12]]);
 
     // Seed pricing plans
     $plans = [

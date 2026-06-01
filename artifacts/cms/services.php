@@ -25,8 +25,11 @@ $__svcDefaults = [
 $services = [];
 try {
     $rows = query(
-        "SELECT id,name,slug,tagline,summary,badge,lucide_icon,icon_color,highlights,features,price_from,active,demo_screenshot_url
-         FROM products WHERE active=1 ORDER BY position,id LIMIT 20"
+        "SELECT id, title AS name, slug, tagline, summary, badge,
+                COALESCE(lucide_icon, icon, 'layers') AS lucide_icon,
+                icon_color, highlights, features, price_from, active,
+                screenshot_url AS demo_screenshot_url
+         FROM services WHERE active=1 ORDER BY position, id LIMIT 20"
     );
     foreach ($rows as $r) {
         $highs = json_decode($r['highlights'] ?? '[]', true) ?: [];

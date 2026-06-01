@@ -29,6 +29,5 @@ if ($e2) echo "document.addEventListener('DOMContentLoaded',()=>showToast(".json
 if ($w)  echo "document.addEventListener('DOMContentLoaded',()=>showToast(".json_encode($w).",'warning'));";
 ?>
 </script>
-<script src="<?= url('assets/js/nepali-datepicker.js') ?>"></script>
 </body>
 </html>
