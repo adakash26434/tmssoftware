@@ -17,7 +17,7 @@ if (empty($__logoClients)) {
 // Show section if we have any clients/partners (even text-only, no logo required)
 
 $newsItems = [];
-try { $newsItems = query("SELECT * FROM news WHERE published=1 AND active=1 ORDER BY published_at DESC LIMIT 3"); } catch(\Throwable $e) {}
+try { $newsItems = query("SELECT * FROM news WHERE published=1 AND active=1 ORDER BY published_at DESC LIMIT 4"); } catch(\Throwable $e) {}
 
 $homeProducts = [];
 try {
@@ -686,7 +686,7 @@ function sTab(slug){
       </div>
       <a href="<?= url('news.php') ?>" class="btn btn-outline btn-sm"><?= e(__('home_news_view_all')) ?> <i data-lucide="arrow-right" class="ic-13"></i></a>
     </div>
-    <div id="news-grid" class="stagger-children" style="display:grid;grid-template-columns:repeat(3,1fr);gap:.875rem;">
+    <div id="news-grid" class="news-grid stagger-children" style="gap:.875rem;">
       <?php foreach($newsItems as $article): ?>
       <a href="<?= url('news-post.php?id='.($article['id']??'')) ?>" class="st-card" style="overflow:hidden;text-decoration:none;display:flex;flex-direction:column;transition:transform .18s,box-shadow .18s;" onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 28px rgba(0,0,0,.1)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
         <?php if(!empty($article['cover_image'])): ?>

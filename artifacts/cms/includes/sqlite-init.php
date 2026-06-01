@@ -874,10 +874,13 @@ function _sqliteInitSeedData(PDO $pdo): void
          'News', 1, 1, date('Y-m-d H:i:s', strtotime('-7 days'))],
         ['New Mobile Banking App Live for 15 Cooperatives', 'mobile-banking-live-15',
          'We are thrilled to announce that our new branded mobile banking app is now live for 15 cooperative clients across 6 districts of Nepal.',
-         'Updates', 1, 0, date('Y-m-d H:i:s', strtotime('-21 days'))],
+         'Updates', 1, 1, date('Y-m-d H:i:s', strtotime('-21 days'))],
         ['Ankur Infotech Pvt. Ltd. Expands to Madhesh Province', 'madhesh-expansion',
          'We opened our regional office in Birgunj, making it easier to serve cooperatives across Madhesh Province with on-site support.',
-         'Company', 0, 0, date('Y-m-d H:i:s', strtotime('-45 days'))],
+         'Company', 1, 1, date('Y-m-d H:i:s', strtotime('-45 days'))],
+        ['Introducing DMS 2.0: Faster Search and E-Signature Support', 'dms-2-esignature',
+         'Document Management System 2.0 ships with full-text search, drag-and-drop upload, and legally compliant e-signature workflows for Nepali institutions.',
+         'Product', 0, 1, date('Y-m-d H:i:s', strtotime('-60 days'))],
     ];
     $stmt = $pdo->prepare("INSERT OR IGNORE INTO news (title, slug, excerpt, category, featured, published, published_at, active) VALUES (?,?,?,?,?,?,?,1)");
     foreach ($news as $n) $stmt->execute($n);
