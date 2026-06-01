@@ -342,6 +342,30 @@ html.dark .glass {
   color: var(--primary);
   box-shadow: 0 0 0 3px rgba(79,70,229,.06);
 }
+.section-eyebrow-amber {
+  border-color: rgba(245,158,11,.3);
+  background: rgba(245,158,11,.1);
+  color: #b45309;
+  box-shadow: 0 0 0 3px rgba(245,158,11,.06);
+}
+.section-eyebrow-green {
+  border-color: rgba(34,197,94,.3);
+  background: rgba(34,197,94,.1);
+  color: #15803d;
+  box-shadow: 0 0 0 3px rgba(34,197,94,.06);
+}
+.section-eyebrow-violet {
+  border-color: rgba(139,92,246,.3);
+  background: rgba(139,92,246,.1);
+  color: #7c3aed;
+  box-shadow: 0 0 0 3px rgba(139,92,246,.06);
+}
+.section-eyebrow-rose {
+  border-color: rgba(244,63,94,.3);
+  background: rgba(244,63,94,.1);
+  color: #be123c;
+  box-shadow: 0 0 0 3px rgba(244,63,94,.06);
+}
 
 /* ── 7. Cards ─────────────────────────────────────────────── */
 .st-card {

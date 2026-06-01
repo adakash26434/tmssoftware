@@ -72,13 +72,18 @@ $_metaTitle = cms($__s, 'home_meta_title');
 if ($_metaTitle) $pageTitle = $_metaTitle;
 
 $_stepIcons = ['calendar','file-check','settings','rocket'];
-$_stepDefsT = ['Discovery Call','Custom Proposal','Setup & Migration','Go Live'];
-$_stepDefsD = [
-  'We meet to understand your business needs — free, no commitment.',
-  'A detailed proposal with pricing, timeline and scope arrives within 2 business days.',
-  'Your dedicated project manager migrates data, configures the system and trains your staff.',
-  'You go live in as little as 2 weeks. We stay on-call for 30 days post-launch.',
-];
+$_stepDefsT = isNepali()
+  ? ['पहिलो परामर्श','कस्टम प्रस्ताव','सेटअप र माइग्रेसन','लाइभ जानुस']
+  : ['Discovery Call','Proposal','Setup & Training','Go Live'];
+$_stepDefsD = isNepali()
+  ? ['तपाईंको आवश्यकता बुझ्छौं — निःशुल्क, कुनै बाध्यता छैन।',
+     'विस्तृत प्रस्ताव २ कार्यदिवसभित्र पठाइन्छ।',
+     'डाटा माइग्रेसन, कन्फिगरेसन र स्टाफ तालिम।',
+     '२ हप्तामा लाइभ। लन्च पछि ३० दिन अन-कल सहयोग।']
+  : ['We learn your needs — free, no commitment.',
+     'Detailed proposal with price & timeline in 2 days.',
+     'We migrate data, configure the system and train staff.',
+     'Live in 2 weeks. On-call support for 30 days post-launch.'];
 $processSteps = [];
 for ($__pi = 0; $__pi < 4; $__pi++) {
   $__n = $__pi + 1;
@@ -260,12 +265,12 @@ include 'includes/stats-bar.php';
   <!-- Section header — uniform with all other sections -->
   <div class="container">
     <div class="animate-fade-up section-head">
-      <div class="section-eyebrow mb-card">
+      <div class="section-eyebrow section-eyebrow-green mb-card">
         <i data-lucide="building-2" class="ic-11"></i>
-        <?= e(trim($__s['home_trust_eyebrow']??'')?:(isNepali()?'हाम्रा साझेदार':'Our Partners') ) ?>
+        <?= e(cms($__s,'home_trust_eyebrow') ?: (isNepali() ? 'हाम्रा साझेदार' : 'Our Partners')) ?>
       </div>
       <h2 class="section-title">
-        <?= trim($__s['home_trust_title']??'') ?: (isNepali()
+        <?= cms($__s,'home_trust_title') ?: (isNepali()
           ? 'नेपालभरका अग्रणी <span class="tg">संस्थाहरूको</span> भरोसा'
           : 'Trusted by leading <span class="tg">institutions</span> across Nepal') ?>
       </h2>
@@ -413,15 +418,15 @@ include 'includes/stats-bar.php';
 <section class="band">
   <div class="container">
     <div class="animate-fade-up section-head">
-      <div class="section-eyebrow mb-card">
+      <div class="section-eyebrow section-eyebrow-violet mb-card">
         <i data-lucide="monitor" class="ic-11"></i>
-        <?= e(trim($__s['home_products_eyebrow']??'')?:'Product deep-dive') ?>
+        <?= e(cms($__s,'home_products_eyebrow') ?: (isNepali() ? 'उत्पादनहरू' : 'Our Products')) ?>
       </div>
       <h2 style="font-family:var(--font-display);font-weight:800;letter-spacing:-.025em;color:var(--foreground);">
-        <?= e($_inActionTitle ?: 'See it in action') ?>
+        <?= e($_inActionTitle ?: (isNepali() ? 'कार्यमा हेर्नुस' : 'See it in action')) ?>
       </h2>
       <p style="max-width:34rem;margin:.875rem auto 0;color:var(--muted-foreground);">
-        <?= e($_inActionSub ?: 'Explore the actual screens your team and members will use every day.') ?>
+        <?= e($_inActionSub ?: (isNepali() ? 'तपाईंको टोलीले दैनिक प्रयोग गर्ने स्क्रिनहरू।' : 'The actual screens your team will use every day.')) ?>
       </p>
     </div>
 
@@ -535,12 +540,12 @@ function sTab(slug){
 <section class="band-tinted">
   <div class="container">
     <div class="animate-fade-up section-head">
-      <div class="section-eyebrow mb-card">
+      <div class="section-eyebrow section-eyebrow-amber mb-card">
         <i data-lucide="map" class="ic-11"></i>
-        <?= e(trim($__s['home_process_eyebrow']??'')?:'Getting started') ?>
+        <?= e(cms($__s,'home_process_eyebrow') ?: (isNepali() ? 'कसरी सुरु गर्ने' : 'Getting started')) ?>
       </div>
-      <h2 class="section-title"><?= e(trim($__s['home_process_title']??'')?:'From first call to go-live — 4 steps') ?></h2>
-      <p style="color:var(--muted-foreground);max-width:38rem;margin:0 auto;"><?= e(trim($__s['home_process_sub']??'')?:'We handle the full implementation — data migration, staff training and 30-day post-launch hand-holding.') ?></p>
+      <h2 class="section-title"><?= cms($__s,'home_process_title') ?: (isNepali() ? 'पहिलो कलदेखि लाइभसम्म — <span class="tg">४ चरण</span>' : 'From first call to go-live — <span class="tg">4 steps</span>') ?></h2>
+      <p style="color:var(--muted-foreground);max-width:38rem;margin:0 auto;"><?= e(cms($__s,'home_process_sub') ?: (isNepali() ? 'डाटा माइग्रेसन, स्टाफ तालिम र ३०-दिन पोस्ट-लन्च सहयोगसहित सम्पूर्ण कार्यान्वयन हामी गर्छौं।' : 'We handle the full implementation — data migration, staff training and 30-day post-launch support.')) ?></p>
     </div>
     <div id="proc-grid" class="stagger-children grid-4">
       <?php foreach($processSteps as $i=>[$icon,$title,$desc]): ?>
@@ -558,7 +563,7 @@ function sTab(slug){
     <div class="animate-fade-up section-foot">
       <a href="<?= url('contact.php') ?>" class="btn btn-primary btn-md">
         <i data-lucide="calendar" class="ic-15"></i>
-        <?= e(trim($__s['home_process_cta']??'')?:'Start your discovery call') ?>
+        <?= e(cms($__s,'home_process_cta') ?: (isNepali() ? 'परामर्श बुक गर्नुस' : 'Book a discovery call')) ?>
       </a>
     </div>
   </div>
@@ -574,7 +579,7 @@ function sTab(slug){
 <section class="band" style="overflow:hidden;">
 
   <div class="container section-head">
-    <div class="section-eyebrow mb-card">
+    <div class="section-eyebrow section-eyebrow-primary mb-card">
       <i data-lucide="star" class="ic-11" style="fill:currentColor;"></i>
       <?= e(__('home_testi_eyebrow')) ?>
     </div>
@@ -623,12 +628,12 @@ function sTab(slug){
 <section class="band-tinted">
   <div class="container">
     <div class="animate-fade-up section-head">
-      <div class="section-eyebrow mb-card">
+      <div class="section-eyebrow section-eyebrow-primary mb-card">
         <i data-lucide="tag" class="ic-11"></i>
-        <?= e(trim($__s['home_pricing_eyebrow']??'')?:'Simple pricing') ?>
+        <?= e(cms($__s,'home_pricing_eyebrow') ?: (isNepali() ? 'मूल्य निर्धारण' : 'Simple pricing')) ?>
       </div>
-      <h2 class="section-title"><?= e(trim($__s['home_pricing_title']??'')?:'Plans for every business') ?></h2>
-      <p class="section-lede"><?= e(trim($__s['home_pricing_sub']??'')?:'No hidden fees. Upgrade any time. Local support included in every plan.') ?></p>
+      <h2 class="section-title"><?= cms($__s,'home_pricing_title') ?: (isNepali() ? 'हरेक व्यवसायका लागि <span class="tg">योजना</span>' : 'Plans for <span class="tg">every business</span>') ?></h2>
+      <p class="section-lede"><?= e(cms($__s,'home_pricing_sub') ?: (isNepali() ? 'कुनै लुकेको शुल्क छैन। जुनसुकै बेला अपग्रेड। हरेक योजनामा स्थानीय सहयोग।' : 'No hidden fees. Upgrade any time. Local support in every plan.')) ?></p>
     </div>
     <?php include 'includes/pricing-teaser.php'; ?>
     <div class="section-foot animate-fade-up">
@@ -647,8 +652,8 @@ function sTab(slug){
   <div class="container">
     <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:3rem;" class="animate-fade-up">
       <div>
-        <div class="section-eyebrow" style="margin-bottom:.75rem;"><?= e(trim($__s['home_news_eyebrow']??'')?:'Latest from us') ?></div>
-        <h2 style="font-family:var(--font-display);font-weight:800;letter-spacing:-.025em;color:var(--foreground);margin:0;"><?= e(trim($__s['home_news_title']??'')?:'News & updates') ?></h2>
+        <div class="section-eyebrow section-eyebrow-rose" style="margin-bottom:.75rem;"><?= e(cms($__s,'home_news_eyebrow') ?: (isNepali() ? 'समाचार' : 'Latest from us')) ?></div>
+        <h2 style="font-family:var(--font-display);font-weight:800;letter-spacing:-.025em;color:var(--foreground);margin:0;"><?= e(cms($__s,'home_news_title') ?: (isNepali() ? 'समाचार र अपडेट' : 'News & updates')) ?></h2>
       </div>
       <a href="<?= url('news.php') ?>" class="btn btn-outline btn-sm"><?= e(__('home_news_view_all')) ?> <i data-lucide="arrow-right" class="ic-13"></i></a>
     </div>
