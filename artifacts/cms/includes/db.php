@@ -39,14 +39,14 @@ function getDB(): PDO {
 
 // नेपालीमा: Multiple rows return garne query helper
 function query(string $sql, array $params = []): array {
-    $stmt = getDB()->prepare($sql);
+    $stmt = getDB()->prepare(sqliteCompat($sql));
     $stmt->execute($params);
     return $stmt->fetchAll();
 }
 
 // नेपालीमा: Ek row matra return garne query helper
 function queryOne(string $sql, array $params = []): ?array {
-    $stmt = getDB()->prepare($sql);
+    $stmt = getDB()->prepare(sqliteCompat($sql));
     $stmt->execute($params);
     $row = $stmt->fetch();
     return $row ?: null;
@@ -54,7 +54,7 @@ function queryOne(string $sql, array $params = []): ?array {
 
 // नेपालीमा: INSERT/UPDATE/DELETE chalauney ra last insert ID return garne
 function execute(string $sql, array $params = []): int {
-    $stmt = getDB()->prepare($sql);
+    $stmt = getDB()->prepare(sqliteCompat($sql));
     $stmt->execute($params);
     return (int) getDB()->lastInsertId();
 }
@@ -76,4 +76,97 @@ function uuid(): string {
 // नेपालीमा: SQLite ra MySQL duwai kaam garne RAND()/RANDOM() helper
 function sqlRand(): string {
     return (defined('DB_DRIVER') && DB_DRIVER === 'sqlite') ? 'RANDOM()' : 'RAND()';
+}
+
+// ── SQLite compatibility shim ────────────────────────────────────────
+// Converts MySQL-only SQL syntax to SQLite equivalents so the same PHP
+// files work in both dev (SQLite) and production (MySQL) without changes.
+
+function _sqliteParseArgs(string $sql, int $start): array {
+    // Parse balanced-paren comma-separated arguments starting after an opening (
+    $depth = 1; $args = ['']; $idx = 0; $j = $start;
+    $len = strlen($sql);
+    while ($j < $len && $depth > 0) {
+        $ch = $sql[$j];
+        if ($ch === '(') { $depth++; $args[$idx] .= $ch; }
+        elseif ($ch === ')') { $depth--; if ($depth > 0) $args[$idx] .= $ch; }
+        elseif ($ch === ',' && $depth === 1) { $idx++; $args[$idx] = ''; }
+        else { $args[$idx] .= $ch; }
+        $j++;
+    }
+    return [$args, $j];
+}
+
+function _sqliteConvertIf(string $sql): string {
+    $out = ''; $i = 0; $len = strlen($sql);
+    while ($i < $len) {
+        $prev = $i > 0 ? $sql[$i - 1] : ' ';
+        if (!ctype_alnum($prev) && $prev !== '_'
+            && $i + 3 <= $len
+            && strtoupper(substr($sql, $i, 3)) === 'IF(') {
+            [$args, $j] = _sqliteParseArgs($sql, $i + 3);
+            if (count($args) === 3) {
+                $out .= 'CASE WHEN ' . trim($args[0]) . ' THEN ' . trim($args[1]) . ' ELSE ' . trim($args[2]) . ' END';
+            } else {
+                $out .= substr($sql, $i, $j - $i);
+            }
+            $i = $j;
+        } else { $out .= $sql[$i++]; }
+    }
+    return $out;
+}
+
+function _sqliteConvertField(string $sql): string {
+    $out = ''; $i = 0; $len = strlen($sql);
+    while ($i < $len) {
+        $prev = $i > 0 ? $sql[$i - 1] : ' ';
+        if (!ctype_alnum($prev) && $prev !== '_'
+            && $i + 6 <= $len
+            && strtoupper(substr($sql, $i, 6)) === 'FIELD(') {
+            [$args, $j] = _sqliteParseArgs($sql, $i + 6);
+            if (count($args) >= 2) {
+                $col = trim($args[0]); $cases = '';
+                for ($k = 1; $k < count($args); $k++) {
+                    $cases .= ' WHEN ' . trim($args[$k]) . ' THEN ' . $k;
+                }
+                $out .= "CASE $col$cases ELSE " . count($args) . ' END';
+            } else { $out .= substr($sql, $i, $j - $i); }
+            $i = $j;
+        } else { $out .= $sql[$i++]; }
+    }
+    return $out;
+}
+
+function sqliteCompat(string $sql): string {
+    static $isSQLite = null;
+    if ($isSQLite === null) $isSQLite = defined('DB_DRIVER') && DB_DRIVER === 'sqlite';
+    if (!$isSQLite) return $sql;
+
+    // 1. IF(cond,a,b) → CASE WHEN cond THEN a ELSE b END  (before NOW() so nested NOW() is preserved)
+    $sql = _sqliteConvertIf($sql);
+
+    // 2. FIELD(col,v1,v2,...) → CASE col WHEN v1 THEN 1 ... END
+    $sql = _sqliteConvertField($sql);
+
+    // 3. NOW() → datetime('now')
+    $sql = str_ireplace('NOW()', "datetime('now')", $sql);
+
+    // 4. =!column → =(1-column)  (active=!active toggle pattern)
+    $sql = preg_replace('/=!(\w+)/i', '=(1-$1)', $sql);
+
+    // 5. DATE_SUB(expr, INTERVAL n UNIT)
+    $sql = preg_replace_callback(
+        "/DATE_SUB\s*\(([^,]+),\s*INTERVAL\s+([\d?]+)\s+(\w+)\)/i",
+        fn($m) => "datetime(" . trim($m[1]) . ", '-{$m[2]} {$m[3]}s')",
+        $sql
+    );
+
+    // 6. DATE_ADD(expr, INTERVAL n UNIT)
+    $sql = preg_replace_callback(
+        "/DATE_ADD\s*\(([^,]+),\s*INTERVAL\s+([^)]+)\s+(\w+)\)/i",
+        fn($m) => "datetime(" . trim($m[1]) . ", '+{$m[2]} {$m[3]}s')",
+        $sql
+    );
+
+    return $sql;
 }

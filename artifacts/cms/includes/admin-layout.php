@@ -189,7 +189,7 @@ require __DIR__ . '/head.php';
         <div id="<?= $grpId ?>" style="overflow:hidden;padding-left:0.5rem;<?= $isActive ? '' : 'display:none;' ?>">
           <?php foreach ($grpItems as [$file,$icon,$label]):
             $active = $__currentPath === $file; ?>
-          <a href="<?= url('admin/'.$file) ?>" onclick="closeAdminSidebar()" class="sidebar-link <?= $active ? 'active' : '' ?>" style="margin-bottom:0.125rem;" class="fs-sm2">
+          <a href="<?= url('admin/'.$file) ?>" onclick="closeAdminSidebar()" class="sidebar-link fs-sm2 <?= $active ? 'active' : '' ?>" style="margin-bottom:0.125rem;">
             <span class="sidebar-icon"><?= $icon ?></span>
             <span><?= e($label) ?></span>
           </a>

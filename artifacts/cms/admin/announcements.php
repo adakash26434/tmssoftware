@@ -124,8 +124,8 @@ $SCOPES = ['banner'=>'Inline Banner (top of page)','popup'=>'Modal Popup','toast
 </div>
 
 <!-- Right: Form -->
-<div>
-  <div class="st-card p-tile af-panel">
+<div class="af-panel">
+  <div class="st-card p-tile">
     <h3 class="h-eyebrow-tight">
       <?= $edit ? ' Edit Announcement' : (isset($_GET['new']) ? ' New Announcement' : ' New Announcement') ?>
     </h3>
@@ -202,8 +202,10 @@ $SCOPES = ['banner'=>'Inline Banner (top of page)','popup'=>'Modal Popup','toast
         </label>
       </div>
 
-      <button type="submit" class="btn btn-primary w-100"><?=$edit?'Update':'Create'?> Announcement</button>
-      <?php if($edit):?><a href="?" class="btn btn-ghost w-100-c">Cancel</a><?php endif;?>
+      <div class="af-form-footer">
+        <button type="submit" class="btn btn-primary"><?=$edit?'Update':'Create'?> Announcement</button>
+        <?php if($edit):?><a href="?" class="btn btn-ghost">Cancel</a><?php endif;?>
+      </div>
     </form>
   </div>
 </div>

@@ -129,7 +129,7 @@ if (isset($_GET['edit'])) {
 
   <!-- Create / Edit Form -->
   <div>
-    <div class="st-card p-tile af-panel">
+    <div class="af-panel"><div class="st-card p-tile">
       <h3 class="h-eyebrow-tight">
         <?= $edit ? 'Edit Banner' : (isset($_GET['new']) ? 'Create Banner' : 'Banner Form') ?>
       </h3>
@@ -186,7 +186,7 @@ if (isset($_GET['edit'])) {
           <?php if ($edit): ?><a href="banners.php" class="btn btn-outline">Cancel</a><?php endif; ?>
         </div>
       </form>
-    </div>
+    </div></div>
   </div>
 </div>
 

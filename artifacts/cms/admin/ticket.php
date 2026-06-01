@@ -31,21 +31,6 @@ $error   = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     verifyCsrf();
     $action = $_POST['action'] ?? '';
-                $new_status = $_POST['new_status'] ?? $ticket['status'];
-                execute("UPDATE tickets SET status=?, last_message_at=NOW() WHERE id=?", [$new_status, $ticket['id']]);
-                // v3.2 — Mark SLA first response + notify client in-app
-                try {
-                    require_once __DIR__ . '/../includes/sla.php';
-                    require_once __DIR__ . '/../includes/notify.php';
-                    sla_mark_first_response(getDb(), (int)$ticket['id']);
-                    sla_recompute_breach(getDb(), (int)$ticket['id']);
-                    notify(getDb(), (int)$ticket['user_id'], 'ticket',
-                        'New reply on ticket #' . $ticket['id'],
-                        mb_substr(strip_tags($body), 0, 200),
-                        '/portal/ticket.php?id=' . $ticket['id'], 'message-square');
-                } catch (\Throwable $e) {}
-                execute("INSERT INTO audit_log (user_id, action, target_type, target_id, new_value) VALUES (?,?,?,?,?)",
-                    [$__user['id'], 'ticket_reply', 'ticket', (int)$ticket['id'], json_encode(['status' => $new_status])]);
 
     if ($action === 'reply') {
         $body = trim($_POST['body'] ?? '');
@@ -60,6 +45,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 execute("UPDATE tickets SET status=?, last_message_at=NOW() WHERE id=?", [$new_status, $ticket['id']]);
                 execute("INSERT INTO audit_log (user_id, action, target_type, target_id, new_value) VALUES (?,?,?,?,?)",
                     [$__user['id'], 'ticket_reply', 'ticket', (int)$ticket['id'], json_encode(['status' => $new_status])]);
+                // Mark SLA first response + notify client in-app
+                try {
+                    require_once __DIR__ . '/../includes/sla.php';
+                    require_once __DIR__ . '/../includes/notify.php';
+                    sla_mark_first_response(getDB(), (int)$ticket['id']);
+                    sla_recompute_breach(getDB(), (int)$ticket['id']);
+                    notify(getDB(), (int)$ticket['user_id'], 'ticket',
+                        'New reply on ticket #' . $ticket['id'],
+                        mb_substr(strip_tags($body), 0, 200),
+                        '/portal/ticket.php?id=' . $ticket['id'], 'message-square');
+                } catch (\Throwable $e) {}
                 // Notify client by email
                 try {
                     require_once __DIR__ . '/../includes/mailer.php';
