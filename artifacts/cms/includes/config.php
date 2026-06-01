@@ -24,7 +24,7 @@ if (!defined('DB_CHARSET')) define('DB_CHARSET', 'utf8mb4');
 // ── Site URL (no trailing slash) ──────────────────────────────
 // Root install:      define('SITE_URL', 'https://yourdomain.com');
 // Subfolder install: define('SITE_URL', 'https://yourdomain.com/sahakari');
-if (!defined('SITE_URL')) define('SITE_URL', 'https://ankurinfotech.com.np/');
+if (!defined('SITE_URL')) define('SITE_URL', 'https://ankurinfotech.com.np');
 
 // ── Site Identity ─────────────────────────────────────────────
 define('SITE_NAME', 'Ankur Infotech Pvt. Ltd.');

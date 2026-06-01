@@ -1,0 +1,36 @@
+# ─────────────────────────────────────────────────────────────────────
+# Ankur Infotech CMS — cPanel Deployment Router
+#
+# HOW TO DEPLOY:
+#   1. git clone <repo-url> public_html   (or git pull inside public_html)
+#   2. This file routes all web traffic to artifacts/cms/ automatically.
+#   3. Set DB credentials + SITE_URL in artifacts/cms/includes/config.php
+# ─────────────────────────────────────────────────────────────────────
+
+# Disable directory listing
+Options -Indexes
+
+# Block access to repo/config files that must not be served over HTTP
+<FilesMatch "(^\.git|package\.json|pnpm-lock\.yaml|pnpm-workspace\.yaml|tsconfig|replit\.md|\.env)">
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
+  <IfModule !mod_authz_core.c>
+    Order deny,allow
+    Deny from all
+  </IfModule>
+</FilesMatch>
+
+# ── Route all requests to the CMS in artifacts/cms/ ──────────────────
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Let real files and directories that already exist pass through
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # Forward everything else into the CMS
+  RewriteRule ^(.*)$ artifacts/cms/$1 [L,QSA]
+</IfModule>
