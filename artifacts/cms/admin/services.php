@@ -134,7 +134,7 @@ $ICONS_JSON = json_encode($ICONS);
 <!-- ── Tabbed Form ── -->
 <div class="af-panel">
   <div class="st-card p-tile"
-       x-data="svcForm(<?= json_encode($editing['lucide_icon'] ?? 'layers') ?>, <?= $ICONS_JSON ?>, <?= json_encode($editing['features'] ?? '') ?>, <?= json_encode($editing['screenshot_url'] ?? '') ?>)">
+       x-data="svcForm(<?= htmlspecialchars(json_encode($editing['lucide_icon'] ?? 'layers'), ENT_QUOTES) ?>, <?= $ICONS_JSON ?>, <?= htmlspecialchars(json_encode($editing['features'] ?? ''), ENT_QUOTES) ?>, <?= htmlspecialchars(json_encode($editing['screenshot_url'] ?? ''), ENT_QUOTES) ?>)">
 
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.875rem;">
       <h3 class="h-eyebrow-tight" style="margin:0;"><?=$editing?'Edit Service':'New Service'?></h3>
