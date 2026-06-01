@@ -81,7 +81,7 @@ if (!empty($_GET['edit'])) {
       <div class="flex-1-min">
         <div style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;">
           <span class="fw-strong"><?=e($m['name'])?></span>
-          <?php if($m['is_leadership']):?><span style="font-size:0.625rem;padding:0.1rem 0.35rem;border-radius:9999px;background:#fef9c3;color:#b45309;font-weight:700;">LEADERSHIP</span><?php endif;?>
+          <?php if($m['is_leadership']):?><span style="font-size:0.625rem;padding:0.1rem 0.35rem;border-radius:9999px;background:var(--warning-soft);color:var(--warning-fg);font-weight:700;">LEADERSHIP</span><?php endif;?>
           <?php if(!$m['active']):?><span style="font-size:0.625rem;color:var(--muted-foreground);">inactive</span><?php endif;?>
         </div>
         <div class="fs-sm-mt"><?=e($m['role']??'—')?></div>
@@ -90,7 +90,7 @@ if (!empty($_GET['edit'])) {
         <a href="?edit=<?=$m['id']?>" class="btn btn-ghost btn-sm">Edit</a>
         <form method="POST" class="inline" onsubmit="return confirm('Delete this team member?')">
           <?=csrfField()?><input type="hidden" name="action" value="delete"><input type="hidden" name="id" value="<?=$m['id']?>">
-          <button type="submit" class="btn btn-sm" style="background:#fee2e2;color:#b91c1c;border:none;"></button>
+          <button type="submit" class="btn btn-sm" style="background:var(--danger-soft);color:var(--danger-fg);border:none;"></button>
         </form>
       </div>
     </div>

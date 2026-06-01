@@ -78,7 +78,7 @@ $subs   = query("SELECT * FROM subscribers $whereSQL ORDER BY created_at DESC LI
 <!-- Stats strip -->
 <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:0.75rem;margin-bottom:1.25rem;">
   <?php foreach ([
-    ['Active',       $active,        '#dcfce7','#15803d'],
+    ['Active',       $active,        'var(--success-soft)','var(--success-fg)'],
     ['Unsubscribed', $total-$active, 'var(--muted)','var(--muted-foreground)'],
     ['Total',        $total,         '#dbeafe','var(--primary-dark)'],
   ] as [$lbl,$cnt,$bg,$col]): ?>
@@ -134,7 +134,7 @@ $subs   = query("SELECT * FROM subscribers $whereSQL ORDER BY created_at DESC LI
           <td class="fs-sm-mt"><?= e($s['source'] ?? 'website') ?></td>
           <td>
             <?php if ($s['status'] === 'active'): ?>
-            <span style="padding:0.2rem 0.625rem;border-radius:9999px;background:#dcfce7;color:#15803d;font-size:0.6875rem;font-weight:600;"> Active</span>
+            <span style="padding:0.2rem 0.625rem;border-radius:9999px;background:var(--success-soft);color:var(--success-fg);font-size:0.6875rem;font-weight:600;"> Active</span>
             <?php else: ?>
             <span style="padding:0.2rem 0.625rem;border-radius:9999px;background:var(--muted);color:var(--muted-foreground);font-size:0.6875rem;font-weight:600;">Unsubscribed</span>
             <?php endif; ?>
@@ -154,7 +154,7 @@ $subs   = query("SELECT * FROM subscribers $whereSQL ORDER BY created_at DESC LI
                 <?= csrfField() ?>
                 <input type="hidden" name="action" value="delete">
                 <input type="hidden" name="id" value="<?= (int)$s['id'] ?>">
-                <button type="submit" class="btn btn-sm" style="font-size:0.75rem;padding:0.2rem 0.6rem;border:1px solid #fca5a5;color:#dc2626;background:transparent;"></button>
+                <button type="submit" class="btn btn-sm" style="font-size:0.75rem;padding:0.2rem 0.6rem;border:1px solid var(--danger-border);color:var(--danger);background:transparent;"></button>
               </form>
             </div>
           </td>

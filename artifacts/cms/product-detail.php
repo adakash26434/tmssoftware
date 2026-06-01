@@ -119,7 +119,7 @@ require_once 'includes/header.php';
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;margin-bottom:2rem;">
           <?php foreach (array_slice($features, 0, 8) as $f): ?>
           <div style="display:flex;align-items:flex-start;gap:0.5rem;font-size:var(--text-sm);color:var(--foreground);">
-            <span style="color:#10b981;margin-top:0.1rem;flex-shrink:0;"></span><?= e($f) ?>
+            <span style="color:var(--secondary);margin-top:0.1rem;flex-shrink:0;"></span><?= e($f) ?>
           </div>
           <?php endforeach; ?>
         </div>
@@ -147,10 +147,10 @@ require_once 'includes/header.php';
           <p style="font-size:var(--text-sm);color:var(--muted-foreground);margin-bottom:1.25rem;">Our team will set up a personalized demo within 24 hours.</p>
 
           <?php if ($demo_success): ?>
-          <div style="padding:1.25rem;border-radius:0.875rem;background:#f0fdf4;border:1px solid #bbf7d0;text-align:center;">
+          <div style="padding:1.25rem;border-radius:0.875rem;background:var(--success-soft);border:1px solid var(--success-border);text-align:center;">
             <div style="font-size:2rem;margin-bottom:0.5rem;"></div>
-            <div style="font-weight:700;color:#15803d;margin-bottom:0.25rem;">Demo Requested!</div>
-            <div style="font-size:var(--text-sm);color:#166534;">We'll contact you within 24 hours to schedule your demo.</div>
+            <div style="font-weight:700;color:var(--success-fg);margin-bottom:0.25rem;">Demo Requested!</div>
+            <div style="font-size:var(--text-sm);color:var(--success-fg);">We'll contact you within 24 hours to schedule your demo.</div>
           </div>
           <?php else: ?>
           <?php if ($demo_error): ?>
@@ -220,7 +220,7 @@ require_once 'includes/header.php';
     <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:0.875rem;">
       <?php foreach ($modules as $mod): ?>
       <div style="display:flex;align-items:center;gap:0.625rem;padding:0.875rem 1rem;border-radius:0.75rem;border:1px solid var(--border);background:var(--background);">
-        <span style="color:#10b981;font-size:var(--text-md);flex-shrink:0;"></span>
+        <span style="color:var(--secondary);font-size:var(--text-md);flex-shrink:0;"></span>
         <span style="font-size:var(--text-sm);font-weight:500;color:var(--foreground);"><?= e($mod) ?></span>
       </div>
       <?php endforeach; ?>
@@ -240,7 +240,7 @@ require_once 'includes/header.php';
     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.625rem;">
       <?php foreach ($features as $f): ?>
       <div style="display:flex;align-items:flex-start;gap:0.5rem;font-size:var(--text-sm);color:var(--foreground);padding:0.5rem;">
-        <span style="color:#10b981;margin-top:0.1rem;flex-shrink:0;"></span><?= e($f) ?>
+        <span style="color:var(--secondary);margin-top:0.1rem;flex-shrink:0;"></span><?= e($f) ?>
       </div>
       <?php endforeach; ?>
     </div>

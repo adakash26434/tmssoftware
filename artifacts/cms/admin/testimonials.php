@@ -74,7 +74,7 @@ if (!empty($_GET['edit'])) {
         <a href="?edit=<?=$t['id']?>" class="btn btn-ghost btn-sm">Edit</a>
         <form method="POST" class="inline" onsubmit="return confirm('Delete?')">
           <?=csrfField()?><input type="hidden" name="action" value="delete"><input type="hidden" name="id" value="<?=$t['id']?>">
-          <button type="submit" class="btn btn-sm" style="background:#fee2e2;color:#b91c1c;border:none;"></button>
+          <button type="submit" class="btn btn-sm" style="background:var(--danger-soft);color:var(--danger-fg);border:none;"></button>
         </form>
       </div>
     </div>

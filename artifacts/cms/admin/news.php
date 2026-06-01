@@ -99,13 +99,13 @@ $CATS = ['General','Product Update','Company News','Cooperatives Nepal','Technol
           <td style="padding:0.75rem 1rem;color:var(--muted-foreground);"><?=e($p['author_name']??'—')?></td>
           <td class="p-row">
             <?php if($p['published'] && $p['published_at']):?>
-            <span style="font-size:0.75rem;color:#15803d;font-weight:600;"> <?=date('M j, Y',strtotime($p['published_at']))?></span>
+            <span style="font-size:0.75rem;color:var(--success-fg);font-weight:600;"> <?=date('M j, Y',strtotime($p['published_at']))?></span>
             <?php elseif($p['published']):?>
-            <span style="font-size:0.75rem;color:#15803d;">Published</span>
+            <span style="font-size:0.75rem;color:var(--success-fg);">Published</span>
             <?php else:?>
             <span class="fs-xs-mt">Draft</span>
             <?php endif;?>
-            <?php if($p['featured']):?><span style="margin-left:0.25rem;font-size:0.6rem;padding:0.1rem 0.35rem;border-radius:9999px;background:#fef9c3;color:#b45309;font-weight:600;">FEATURED</span><?php endif;?>
+            <?php if($p['featured']):?><span style="margin-left:0.25rem;font-size:0.6rem;padding:0.1rem 0.35rem;border-radius:9999px;background:var(--warning-soft);color:var(--warning-fg);font-weight:600;">FEATURED</span><?php endif;?>
           </td>
           <td style="padding:0.75rem 1rem;text-align:center;"><?=$p['active']?'':'⬜'?></td>
           <td class="p-row">
@@ -113,7 +113,7 @@ $CATS = ['General','Product Update','Company News','Cooperatives Nepal','Technol
               <a href="?edit=<?=$p['id']?>" class="btn btn-ghost btn-sm">Edit</a>
               <form method="POST" class="inline" onsubmit="return confirm('Delete this post?')">
                 <?=csrfField()?><input type="hidden" name="action" value="delete"><input type="hidden" name="id" value="<?=$p['id']?>">
-                <button type="submit" class="btn btn-sm" style="background:#fee2e2;color:#b91c1c;border:none;"></button>
+                <button type="submit" class="btn btn-sm" style="background:var(--danger-soft);color:var(--danger-fg);border:none;"></button>
               </form>
             </div>
           </td>

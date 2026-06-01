@@ -11,10 +11,10 @@ try {
 } catch(\Throwable $e) {}
 
 $STATUS_COLORS = [
-    'active'    => ['#dcfce7','#15803d',' Active'],
-    'pending'   => ['#fef9c3','#b45309','⏳ Pending'],
+    'active'    => ['var(--success-soft)','var(--success-fg)',' Active'],
+    'pending'   => ['var(--warning-soft)','var(--warning-fg)','⏳ Pending'],
     'expired'   => ['var(--muted)','var(--muted-foreground)',' Expired'],
-    'cancelled' => ['#fef2f2','#b91c1c',' Cancelled'],
+    'cancelled' => ['var(--danger-soft)','var(--danger-fg)',' Cancelled'],
     'trial'     => ['#f3e8ff','#7e22ce',' Trial'],
 ];
 
@@ -42,9 +42,9 @@ if (empty($orders)) {
 <?php
 $active_count = count(array_filter($orders, fn($o) => ($o['status']??'pending') === 'active'));
 if ($active_count > 0):?>
-<div style="padding:1rem 1.25rem;border-radius:0.875rem;background:#dcfce7;border:1px solid #bbf7d0;font-size:0.875rem;color:#15803d;display:flex;align-items:center;gap:0.75rem;margin-bottom:1.5rem;">
+<div style="padding:1rem 1.25rem;border-radius:0.875rem;background:var(--success-soft);border:1px solid var(--success-border);font-size:0.875rem;color:var(--success-fg);display:flex;align-items:center;gap:0.75rem;margin-bottom:1.5rem;">
   <span style="font-size:1.25rem;"></span>
-  <div>You have <strong><?= $active_count ?> active license<?= $active_count!==1?'s':''?></strong>. For renewal or upgrades, <a href="<?= url('contact.php') ?>" style="color:#15803d;text-decoration:underline;">contact our sales team</a>.
+  <div>You have <strong><?= $active_count ?> active license<?= $active_count!==1?'s':''?></strong>. For renewal or upgrades, <a href="<?= url('contact.php') ?>" style="color:var(--success-fg);text-decoration:underline;">contact our sales team</a>.
   </div>
 </div>
 <?php endif; ?>
@@ -75,10 +75,10 @@ if ($active_count > 0):?>
         <?php if (!empty($o['plan_name'])): ?><span>Plan: <strong class="text-fg"><?= e($o['plan_name']) ?></strong></span><?php endif; ?>
         <?php if (!empty($o['started_at'])): ?><span>Started: <?= date('M j, Y', strtotime($o['started_at'])) ?></span><?php endif; ?>
         <?php if (!empty($o['expires_at'])): ?>
-        <span style="color:<?= strtotime($o['expires_at']) < time()+30*86400 ? '#d97706':'inherit' ?>;">
+        <span style="color:<?= strtotime($o['expires_at']) < time()+30*86400 ? 'var(--warning)':'inherit' ?>;">
           Expires: <?= date('M j, Y', strtotime($o['expires_at'])) ?>
           <?php if (strtotime($o['expires_at']) < time()+30*86400 && strtotime($o['expires_at']) > time()): ?>
-          <span style="font-weight:700;color:#d97706;"> expiring soon</span>
+          <span style="font-weight:700;color:var(--warning);"> expiring soon</span>
           <?php endif; ?>
         </span>
         <?php endif; ?>

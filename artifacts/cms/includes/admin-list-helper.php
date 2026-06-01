@@ -271,14 +271,14 @@ function adminListPagination(int $total, int $perPage, int $currentPage, array $
 // ── 6. Status/badge renderer (consistent across modules) ───────
 function adminStatusBadge(string $status, array $colorMap = []): string {
     $defaults = [
-        'open'        => ['#fee2e2', '#b91c1c'],
-        'in_progress' => ['#fef3c7', '#92400e'],
-        'replied'     => ['#dbeafe', 'var(--primary-dark)'],
-        'resolved'    => ['#dcfce7', '#15803d'],
-        'closed'      => ['var(--border)', '#475569'],
-        'active'      => ['#dcfce7', '#15803d'],
-        'inactive'    => ['var(--border)', '#475569'],
-        'pending'     => ['#fef3c7', '#92400e'],
+        'open'        => ['var(--danger-soft)',  'var(--danger-fg)'],
+        'in_progress' => ['var(--warning-soft)', 'var(--warning-fg)'],
+        'replied'     => ['var(--info-soft)',     'var(--info-fg)'],
+        'resolved'    => ['var(--success-soft)', 'var(--success-fg)'],
+        'closed'      => ['var(--border)',        '#475569'],
+        'active'      => ['var(--success-soft)', 'var(--success-fg)'],
+        'inactive'    => ['var(--border)',        '#475569'],
+        'pending'     => ['var(--warning-soft)', 'var(--warning-fg)'],
     ];
     [$bg, $fg] = $colorMap[$status] ?? $defaults[$status] ?? ['var(--muted)', 'var(--muted-foreground)'];
     return '<span style="padding:0.2rem 0.5rem;border-radius:9999px;font-size:0.6875rem;font-weight:600;background:'

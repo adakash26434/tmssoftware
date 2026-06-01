@@ -36,9 +36,9 @@ foreach ($announcements as $ann):
 
     $TYPE_STYLES = [
         'info'    => ['bg'=>'#eff6ff','border'=>'#bfdbfe','color'=>'var(--primary-dark)','icon'=>'ℹ'],
-        'success' => ['bg'=>'#f0fdf4','border'=>'#bbf7d0','color'=>'#15803d','icon'=>'✓'],
-        'warning' => ['bg'=>'#fffbeb','border'=>'#fde68a','color'=>'#b45309','icon'=>'⚠'],
-        'danger'  => ['bg'=>'#fef2f2','border'=>'#fecaca','color'=>'#b91c1c','icon'=>'✕'],
+        'success' => ['bg'=>'var(--success-soft)','border'=>'var(--success-border)','color'=>'var(--success-fg)','icon'=>'✓'],
+        'warning' => ['bg'=>'#fffbeb','border'=>'var(--warning-border)','color'=>'var(--warning-fg)','icon'=>'⚠'],
+        'danger'  => ['bg'=>'var(--danger-soft)','border'=>'#fecaca','color'=>'var(--danger-fg)','icon'=>'✕'],
         'promo'   => ['bg'=>'#faf5ff','border'=>'#e9d5ff','color'=>'#7e22ce','icon'=>'★'],
     ];
     $ts = $TYPE_STYLES[$ann['type']] ?? $TYPE_STYLES['info'];

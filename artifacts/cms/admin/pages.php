@@ -163,7 +163,7 @@ foreach ($settings as $k => $v) {
         <a href="?edit=<?= urlencode($k) ?>" style="display:flex;align-items:center;justify-content:space-between;padding:0.5rem 0.625rem;border-radius:0.5rem;border:1px solid var(--border);font-size:0.8125rem;text-decoration:none;color:var(--foreground);" onmouseover="this.style.background='var(--background)'" onmouseout="this.style.background='transparent'">
           <span><?= e($label) ?></span>
           <?php if ($exists): ?>
-          <span style="font-size:0.6875rem;color:#16a34a;font-weight:600;"> set</span>
+          <span style="font-size:0.6875rem;color:var(--success-fg);font-weight:600;"> set</span>
           <?php else: ?>
           <span class="fs-2xs-mt">+ add</span>
           <?php endif; ?>

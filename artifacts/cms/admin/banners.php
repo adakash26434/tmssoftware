@@ -89,7 +89,7 @@ if (isset($_GET['edit'])) {
       <?php foreach ($banners as $b): ?>
       <div class="st-card" style="padding:1.25rem;display:flex;align-items:flex-start;gap:1rem;">
         <!-- Color indicator -->
-        <div style="width:4px;height:4rem;border-radius:9999px;flex-shrink:0;background:<?= $b['banner_style']==='success'?'#10b981':($b['banner_style']==='warning'?'#f59e0b':($b['banner_style']==='danger'?'#ef4444':'#3b82f6')) ?>"></div>
+        <div style="width:4px;height:4rem;border-radius:9999px;flex-shrink:0;background:<?= $b['banner_style']==='success'?'var(--secondary)':($b['banner_style']==='warning'?'#f59e0b':($b['banner_style']==='danger'?'#ef4444':'#3b82f6')) ?>"></div>
 
         <?php if (!empty($b['image_url'])): ?>
         <img src="<?= e($b['image_url']) ?>" style="width:3.5rem;height:3.5rem;object-fit:cover;border-radius:0.5rem;flex-shrink:0;">
@@ -98,7 +98,7 @@ if (isset($_GET['edit'])) {
         <div class="flex-1-min">
           <div style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;margin-bottom:0.25rem;">
             <span style="font-weight:700;font-size:0.9375rem;color:var(--foreground);"><?= e($b['title']) ?></span>
-            <?php if (!$b['active']): ?><span class="badge" style="background:#fee2e2;color:#dc2626;">Inactive</span><?php else: ?><span class="badge" style="background:#dcfce7;color:#16a34a;">Active</span><?php endif; ?>
+            <?php if (!$b['active']): ?><span class="badge" style="background:var(--danger-soft);color:var(--danger);">Inactive</span><?php else: ?><span class="badge" style="background:var(--success-soft);color:var(--success-fg);">Active</span><?php endif; ?>
             <span class="badge badge-secondary"><?= e(ucfirst($b['banner_style'] ?? 'info')) ?></span>
             <?php if(!empty($b['page_target'])): ?><span class="badge" style="background:var(--background);border:1px solid var(--border);color:var(--muted-foreground);font-size:0.6875rem;"> <?= e($b['page_target']) ?></span><?php endif; ?>
           </div>

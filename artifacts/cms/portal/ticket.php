@@ -81,17 +81,17 @@ try {
 } catch(\Throwable $e) {}
 
 $STATUS_COLORS = [
-    'open'        => ['#fee2e2','#b91c1c','Open'],
-    'in_progress' => ['#fef9c3','#854d0e','In Progress'],
+    'open'        => ['var(--danger-soft)','var(--danger-fg)','Open'],
+    'in_progress' => ['var(--warning-soft)','#854d0e','In Progress'],
     'replied'     => ['#f3e8ff','#7e22ce','Replied — please respond'],
-    'resolved'    => ['#dcfce7','#15803d','Resolved'],
+    'resolved'    => ['var(--success-soft)','var(--success-fg)','Resolved'],
     'closed'      => ['var(--muted)','var(--muted-foreground)','Closed'],
 ];
 $PRI_COLORS = [
     'low'    => ['var(--muted)','var(--muted-foreground)'],
     'normal' => ['#dbeafe','var(--primary-dark)'],
-    'high'   => ['#fef9c3','#b45309'],
-    'urgent' => ['#fee2e2','#b91c1c'],
+    'high'   => ['var(--warning-soft)','var(--warning-fg)'],
+    'urgent' => ['var(--danger-soft)','var(--danger-fg)'],
 ];
 [$sbg,$scol,$slbl] = $STATUS_COLORS[$ticket['status']] ?? ['var(--muted)','var(--muted-foreground)','Unknown'];
 [$pbg,$pcol] = $PRI_COLORS[$ticket['priority']] ?? ['#dbeafe','var(--primary-dark)'];
@@ -100,8 +100,8 @@ $is_new = isset($_GET['new']);
 ?>
 
 <?php if ($is_new): ?>
-<div style="padding:1rem 1.25rem;border-radius:0.875rem;background:#dcfce7;border:1px solid #bbf7d0;font-size:0.875rem;color:#15803d;display:flex;align-items:center;gap:0.75rem;margin-bottom:1.5rem;">
-  <?= icon('check-circle',20,'color:#15803d;flex-shrink:0;') ?>
+<div style="padding:1rem 1.25rem;border-radius:0.875rem;background:var(--success-soft);border:1px solid var(--success-border);font-size:0.875rem;color:var(--success-fg);display:flex;align-items:center;gap:0.75rem;margin-bottom:1.5rem;">
+  <?= icon('check-circle',20,'color:var(--success-fg);flex-shrink:0;') ?>
   <div><strong>Ticket submitted!</strong> We'll respond within 24 business hours. You'll see the reply here.</div>
 </div>
 <?php endif; ?>

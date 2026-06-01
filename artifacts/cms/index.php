@@ -161,7 +161,7 @@ include 'includes/header.php';
         <div id="hero-trust" class="cta-in" style="display:flex;flex-wrap:wrap;justify-content:center;gap:1.5rem;">
           <?php foreach([['check',__('trust_no_card')],['zap',__('trust_go_live')],['shield',__('trust_nrb')]] as [$ic,$lb]): ?>
           <div style="display:flex;align-items:center;gap:.375rem;font-size:var(--text-sm);color:var(--muted-foreground);">
-            <i data-lucide="<?= $ic ?>" style="width:13px;height:13px;color:#10b981;flex-shrink:0;"></i>
+            <i data-lucide="<?= $ic ?>" style="width:13px;height:13px;color:var(--secondary);flex-shrink:0;"></i>
             <?= e($lb) ?>
           </div>
           <?php endforeach; ?>
@@ -185,7 +185,7 @@ include 'includes/header.php';
           <div style="background:var(--card);padding:1.25rem;">
             <!-- KPI row -->
             <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.625rem;margin-bottom:.875rem;">
-              <?php foreach([[__('home_members'),trim($__s['hero_mock_members']??'')?:' 2,847','users','var(--primary)'],[__('home_deposits'),trim($__s['hero_mock_deposits']??'')?:'NPR 8.4 Cr','trending-up','#10b981'],[__('home_loans'),(trim($__s['hero_mock_loans']??'')?:'142').' '.__('home_active'),'credit-card','#f59e0b']] as [$l,$v,$ic,$c]): ?>
+              <?php foreach([[__('home_members'),trim($__s['hero_mock_members']??'')?:' 2,847','users','var(--primary)'],[__('home_deposits'),trim($__s['hero_mock_deposits']??'')?:'NPR 8.4 Cr','trending-up','var(--secondary)'],[__('home_loans'),(trim($__s['hero_mock_loans']??'')?:'142').' '.__('home_active'),'credit-card','#f59e0b']] as [$l,$v,$ic,$c]): ?>
               <div style="background:var(--muted);border-radius:.625rem;padding:.75rem;">
                 <div style="font-size:var(--text-3xs);color:var(--muted-foreground);margin-bottom:.25rem;display:flex;align-items:center;gap:.25rem;"><i data-lucide="<?= $ic ?>" style="width:9px;height:9px;color:<?= $c ?>;"></i><?= $l ?></div>
                 <div style="font-family:var(--font-display);font-weight:800;font-size:.925rem;color:var(--foreground);"><?= $v ?></div>
@@ -202,7 +202,7 @@ include 'includes/header.php';
               </div>
             </div>
             <!-- Recent transactions -->
-            <?php foreach([['Ramesh Koirala','Savings Deposit','+ NPR 25,000','#16a34a'],['Sita Devi','Loan EMI','– NPR 8,500','#dc2626'],['Gopal Bhatt','Share Capital','+ NPR 5,000','var(--primary)']] as [$n,$t,$a,$c]): ?>
+            <?php foreach([['Ramesh Koirala','Savings Deposit','+ NPR 25,000','var(--success-fg)'],['Sita Devi','Loan EMI','– NPR 8,500','var(--danger)'],['Gopal Bhatt','Share Capital','+ NPR 5,000','var(--primary)']] as [$n,$t,$a,$c]): ?>
             <div style="display:flex;align-items:center;justify-content:space-between;padding:.4rem 0;border-bottom:1px solid var(--border);">
               <div style="display:flex;align-items:center;gap:.5rem;">
                 <div style="width:1.5rem;height:1.5rem;border-radius:9999px;background:var(--primary-light);display:grid;place-items:center;flex-shrink:0;font-size:var(--text-3xs);font-weight:800;color:var(--primary);"><?= $n[0] ?></div>
@@ -221,9 +221,9 @@ include 'includes/header.php';
         <!-- Floating stat chips -->
         <div class="fl-b" style="position:absolute;top:-1.25rem;right:-1.25rem;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-xl);padding:.75rem 1rem;box-shadow:var(--shadow-elevated);display:flex;align-items:center;gap:.625rem;">
           <div style="width:2rem;height:2rem;border-radius:9999px;background:rgba(34,197,94,.12);display:grid;place-items:center;">
-            <i data-lucide="trending-up" style="width:14px;height:14px;color:#16a34a;"></i>
+            <i data-lucide="trending-up" style="width:14px;height:14px;color:var(--success-fg);"></i>
           </div>
-          <div><div class="mono-meta-strong"><?= __('home_members_month') ?></div><div style="font-family:var(--font-display);font-weight:800;font-size:.9rem;color:#16a34a;"><?= e(trim($__s['hero_mock_growth']??'')?:'+14.2%') ?></div></div>
+          <div><div class="mono-meta-strong"><?= __('home_members_month') ?></div><div style="font-family:var(--font-display);font-weight:800;font-size:.9rem;color:var(--success-fg);"><?= e(trim($__s['hero_mock_growth']??'')?:'+14.2%') ?></div></div>
         </div>
         <div class="fl-a" style="position:absolute;bottom:-1rem;left:-1rem;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-xl);padding:.75rem 1rem;box-shadow:var(--shadow-elevated);display:flex;align-items:center;gap:.625rem;">
           <div style="width:2rem;height:2rem;border-radius:9999px;background:rgba(37,99,235,.1);display:grid;place-items:center;">
@@ -270,7 +270,7 @@ include 'includes/stats-bar.php';
           : 'Trusted by leading <span class="tg">institutions</span> across Nepal') ?>
       </h2>
       <p class="section-lede">
-        <span style="display:inline-flex;align-items:center;gap:.4rem;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);border-radius:9999px;padding:.2rem .75rem .2rem .5rem;font-size:.75rem;font-weight:700;color:#15803d;vertical-align:middle;">
+        <span style="display:inline-flex;align-items:center;gap:.4rem;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);border-radius:9999px;padding:.2rem .75rem .2rem .5rem;font-size:.75rem;font-weight:700;color:var(--success-fg);vertical-align:middle;">
           <span style="width:.45rem;height:.45rem;border-radius:9999px;background:#22c55e;box-shadow:0 0 0 2px rgba(34,197,94,.25);animation:live-pulse 2s ease-in-out infinite;flex-shrink:0;"></span>
           <span id="trust-count"><?= e(trim($__s['stat_1_value'] ?? '') ?: '120') ?></span>+&nbsp;<?= e(trim($__s['home_trust_unit']??'')?:(isNepali()?'ग्राहकहरू':'clients')) ?>
         </span>
@@ -351,7 +351,7 @@ include 'includes/stats-bar.php';
         $chipCol   = $isDark ? '#93c5fd'                : 'var(--primary)';
         $cardBg    = $bgCss ?: ($isDark
           ? 'background:linear-gradient(135deg,#0f172a 0%,#1e3a8a 100%)'
-          : 'background:linear-gradient(135deg,#eff6ff 0%,#f0fdf4 100%)');
+          : 'background:linear-gradient(135deg,var(--primary-light) 0%,var(--success-soft) 100%)');
         $cardStyle = $cardBg . ($isDark ? ';border-color:#1e293b' : '');
       ?>
       <div class="bc <?= $isWide ? 'bw' : '' ?>" style="<?= e($cardStyle) ?>">
@@ -388,7 +388,7 @@ include 'includes/stats-bar.php';
         <div style="position:relative;display:flex;flex-direction:column;gap:.5rem;">
           <?php foreach(array_slice($prodHighs,0,6) as $f): ?>
           <div style="display:flex;align-items:center;gap:.5rem;font-size:var(--text-xs);font-weight:600;color:<?= $textC ?>;">
-            <i data-lucide="check-circle" style="width:13px;height:13px;color:<?= $isDark?'#86efac':'var(--primary)' ?>;flex-shrink:0;"></i><?= e($f) ?>
+            <i data-lucide="check-circle" style="width:13px;height:13px;color:<?= $isDark?'var(--success-border)':'var(--primary)' ?>;flex-shrink:0;"></i><?= e($f) ?>
           </div>
           <?php endforeach; ?>
         </div>

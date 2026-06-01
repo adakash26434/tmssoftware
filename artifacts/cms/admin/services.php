@@ -75,7 +75,7 @@ $COLORS = ['blue','green','purple','amber','teal','rose','orange','indigo'];
         <a href="?edit=<?=$s['id']?>" class="btn btn-ghost btn-sm">Edit</a>
         <form method="POST" class="inline" onsubmit="return confirm('Delete this service?')">
           <?=csrfField()?><input type="hidden" name="action" value="delete"><input type="hidden" name="id" value="<?=$s['id']?>">
-          <button type="submit" class="btn btn-sm" style="background:#fee2e2;color:#b91c1c;border:none;"><?=icon('trash-2',13)?></button>
+          <button type="submit" class="btn btn-sm" style="background:var(--danger-soft);color:var(--danger-fg);border:none;"><?=icon('trash-2',13)?></button>
         </form>
       </div>
     </div>

@@ -86,7 +86,7 @@ $DISTRICTS = ['Kathmandu','Lalitpur','Bhaktapur','Pokhara','Chitwan','Butwal','B
           <a href="?edit=<?=$p['id']?>" class="btn btn-ghost btn-sm"></a>
           <form method="POST" class="inline" onsubmit="return confirm('Delete?')">
             <?=csrfField()?><input type="hidden" name="action" value="delete"><input type="hidden" name="id" value="<?=$p['id']?>">
-            <button type="submit" class="btn btn-sm" style="background:#fee2e2;color:#b91c1c;border:none;padding:0.25rem 0.5rem;"></button>
+            <button type="submit" class="btn btn-sm" style="background:var(--danger-soft);color:var(--danger-fg);border:none;padding:0.25rem 0.5rem;"></button>
           </form>
         </div>
       </div>

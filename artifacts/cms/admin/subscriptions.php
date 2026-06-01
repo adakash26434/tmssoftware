@@ -88,10 +88,10 @@ foreach ($subs as $s) {
 }
 
 $STATUS_CFG = [
-    'active'    => ['#dcfce7','#15803d','Active'],
+    'active'    => ['var(--success-soft)','var(--success-fg)','Active'],
     'trial'     => ['#dbeafe','var(--primary-dark)','Trial'],
-    'expired'   => ['#fee2e2','#b91c1c','Expired'],
-    'suspended' => ['#fef9c3','#b45309','Suspended'],
+    'expired'   => ['var(--danger-soft)','var(--danger-fg)','Expired'],
+    'suspended' => ['var(--warning-soft)','var(--warning-fg)','Suspended'],
     'cancelled' => ['var(--muted)','var(--muted-foreground)','Cancelled'],
 ];
 $DEPLOY_ICONS = ['cloud'=>'','on-premise'=>'','hybrid'=>''];
@@ -102,11 +102,11 @@ $DEPLOY_ICONS = ['cloud'=>'','on-premise'=>'','hybrid'=>''];
 
 <!-- Alerts -->
 <?php if($expiring > 0):?>
-<div style="display:flex;align-items:center;gap:0.75rem;padding:0.875rem 1.25rem;border-radius:0.75rem;background:#fef9c3;border:1px solid #fde047;margin-bottom:1.25rem;">
+<div style="display:flex;align-items:center;gap:0.75rem;padding:0.875rem 1.25rem;border-radius:0.75rem;background:var(--warning-soft);border:1px solid #fde047;margin-bottom:1.25rem;">
   <span style="font-size:1.25rem;"></span>
   <div>
-    <div style="font-weight:700;color:#b45309;font-size:0.875rem;"><?=$expiring?> subscription<?=$expiring>1?'s':''?> expiring within 30 days</div>
-    <div style="font-size:0.75rem;color:#92400e;">Contact clients to renew before expiry to avoid service interruption.</div>
+    <div style="font-weight:700;color:var(--warning-fg);font-size:0.875rem;"><?=$expiring?> subscription<?=$expiring>1?'s':''?> expiring within 30 days</div>
+    <div style="font-size:0.75rem;color:var(--warning-fg);">Contact clients to renew before expiry to avoid service interruption.</div>
   </div>
 </div>
 <?php endif;?>
@@ -139,7 +139,7 @@ $DEPLOY_ICONS = ['cloud'=>'','on-premise'=>'','hybrid'=>''];
       $expiring_soon = $s['status']==='active' && $s['expires_at'] && strtotime($s['expires_at']) < strtotime('+30 days') && strtotime($s['expires_at']) > time();
       $expired_now   = $s['status']==='active' && $s['expires_at'] && strtotime($s['expires_at']) < time();
     ?>
-    <tr style="border-bottom:1px solid var(--border);<?=$expiring_soon?'background:#fffbeb':($expired_now?'background:#fef2f2':'')?>">
+    <tr style="border-bottom:1px solid var(--border);<?=$expiring_soon?'background:#fffbeb':($expired_now?'background:var(--danger-soft)':'')?>">
       <td class="p-row">
         <div class="fw-strong"><?=e($s['display_name'])?></div>
         <div class="fs-2xs-mt"><?=e($s['org_name']??$s['email'])?></div>
@@ -164,13 +164,13 @@ $DEPLOY_ICONS = ['cloud'=>'','on-premise'=>'','hybrid'=>''];
       </td>
       <td class="p-row">
         <span style="padding:0.175rem 0.625rem;border-radius:9999px;font-size:0.6875rem;font-weight:600;background:<?=$bg?>;color:<?=$col?>;"><?=$lbl?></span>
-        <?php if($expiring_soon):?><div style="font-size:0.625rem;color:#b45309;margin-top:0.2rem;"> Expiring soon</div><?php endif;?>
-        <?php if($expired_now):?><div style="font-size:0.625rem;color:#b91c1c;margin-top:0.2rem;"> Overdue renewal</div><?php endif;?>
+        <?php if($expiring_soon):?><div style="font-size:0.625rem;color:var(--warning-fg);margin-top:0.2rem;"> Expiring soon</div><?php endif;?>
+        <?php if($expired_now):?><div style="font-size:0.625rem;color:var(--danger-fg);margin-top:0.2rem;"> Overdue renewal</div><?php endif;?>
       </td>
       <td style="padding:0.75rem 1rem;font-size:0.75rem;color:var(--muted-foreground);"><?=$s['starts_at']?date('M j, Y',strtotime($s['starts_at'])):'—'?></td>
       <td style="padding:0.75rem 1rem;font-size:0.75rem;">
         <?php if($s['expires_at']):?>
-        <span style="color:<?=$expiring_soon||$expired_now?'#b91c1c':'var(--foreground)'?>;font-weight:<?=$expiring_soon||$expired_now?'700':'400'?>;"><?=date('M j, Y',strtotime($s['expires_at']))?></span>
+        <span style="color:<?=$expiring_soon||$expired_now?'var(--danger-fg)':'var(--foreground)'?>;font-weight:<?=$expiring_soon||$expired_now?'700':'400'?>;"><?=date('M j, Y',strtotime($s['expires_at']))?></span>
         <?php else:?><span class="text-muted">Perpetual</span><?php endif;?>
       </td>
       <td class="p-row">
@@ -180,7 +180,7 @@ $DEPLOY_ICONS = ['cloud'=>'','on-premise'=>'','hybrid'=>''];
             <?=csrfField()?>
             <input type="hidden" name="action" value="delete">
             <input type="hidden" name="id" value="<?=$s['id']?>">
-            <button type="submit" style="padding:0.25rem 0.625rem;border-radius:0.375rem;border:1px solid #fecaca;background:#fef2f2;font-size:0.6875rem;cursor:pointer;color:#b91c1c;">Delete</button>
+            <button type="submit" style="padding:0.25rem 0.625rem;border-radius:0.375rem;border:1px solid #fecaca;background:var(--danger-soft);font-size:0.6875rem;cursor:pointer;color:var(--danger-fg);">Delete</button>
           </form>
         </div>
       </td>

@@ -244,11 +244,11 @@ require_once '../includes/admin-layout.php';
 
 <style>
 .imp-row { display:flex;align-items:flex-start;gap:.625rem;padding:.5rem .875rem;border-radius:.5rem;font-size:.8125rem;margin-bottom:.25rem; }
-.imp-insert { background:#f0fdf4;color:#15803d; }
+.imp-insert { background:var(--success-soft);color:var(--success-fg); }
 .imp-update { background:#eff6ff;color:var(--primary-dark); }
-.imp-skip   { background:#fef9c3;color:#92400e; }
-.imp-error  { background:#fef2f2;color:#b91c1c; }
-.xl-col { background:#f0fdf4;border:1px solid #bbf7d0;border-radius:.375rem;padding:.175rem .5rem;font-size:.75rem;font-weight:700;color:#15803d;white-space:nowrap; }
+.imp-skip   { background:var(--warning-soft);color:var(--warning-fg); }
+.imp-error  { background:var(--danger-soft);color:var(--danger-fg); }
+.xl-col { background:var(--success-soft);border:1px solid var(--success-border);border-radius:.375rem;padding:.175rem .5rem;font-size:.75rem;font-weight:700;color:var(--success-fg);white-space:nowrap; }
 </style>
 
 <div style="max-width:860px;">
@@ -330,10 +330,10 @@ require_once '../includes/admin-layout.php';
     <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.125rem;flex-wrap:wrap;">
       <h2 style="font-family:var(--font-display);font-weight:800;font-size:1rem;margin:0;">Import Results</h2>
       <div style="display:flex;gap:.5rem;flex-wrap:wrap;">
-        <span style="padding:.2rem .75rem;border-radius:9999px;font-size:.75rem;font-weight:700;background:#f0fdf4;color:#15803d;">
+        <span style="padding:.2rem .75rem;border-radius:9999px;font-size:.75rem;font-weight:700;background:var(--success-soft);color:var(--success-fg);">
           <?= $imported ?> imported/updated
         </span>
-        <span style="padding:.2rem .75rem;border-radius:9999px;font-size:.75rem;font-weight:700;background:#fef9c3;color:#92400e;">
+        <span style="padding:.2rem .75rem;border-radius:9999px;font-size:.75rem;font-weight:700;background:var(--warning-soft);color:var(--warning-fg);">
           <?= $skipped ?> skipped
         </span>
       </div>

@@ -90,14 +90,14 @@ $CATS = ['Core Banking','Mobile App','DMS','HR Software','Website / Portal','Tra
       <div style="padding:0.75rem;">
         <div style="display:flex;align-items:center;gap:0.25rem;margin-bottom:0.125rem;">
           <span style="font-weight:600;color:var(--foreground);font-size:0.8125rem;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><?=e(truncate($p['title'],30))?></span>
-          <?php if($p['featured']):?><span style="font-size:0.5rem;padding:0.1rem 0.3rem;background:#fef9c3;color:#b45309;border-radius:9999px;font-weight:700;"></span><?php endif;?>
+          <?php if($p['featured']):?><span style="font-size:0.5rem;padding:0.1rem 0.3rem;background:var(--warning-soft);color:var(--warning-fg);border-radius:9999px;font-weight:700;"></span><?php endif;?>
         </div>
         <div class="fs-2xs-mt"><?=e($p['client_name']??'—')?><?=!empty($p['category'])?' · '.e($p['category']):'';?></div>
         <div style="display:flex;gap:0.375rem;margin-top:0.625rem;">
           <a href="?edit=<?=$p['id']?>" class="btn btn-ghost btn-sm" style="flex:1;text-align:center;font-size:0.75rem;">Edit</a>
           <form method="POST" class="inline" onsubmit="return confirm('Delete?')">
             <?=csrfField()?><input type="hidden" name="action" value="delete"><input type="hidden" name="id" value="<?=$p['id']?>">
-            <button type="submit" class="btn btn-sm" style="background:#fee2e2;color:#b91c1c;border:none;font-size:0.75rem;"></button>
+            <button type="submit" class="btn btn-sm" style="background:var(--danger-soft);color:var(--danger-fg);border:none;font-size:0.75rem;"></button>
           </form>
         </div>
       </div>

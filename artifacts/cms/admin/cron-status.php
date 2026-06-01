@@ -47,10 +47,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 // नेपालीमा:  statusBadge() — yo function le aafno kaam garchha
 function _statusBadge(?array $row): string {
-    if (!$row) return '<span style="padding:0.15rem 0.5rem;border-radius:9999px;background:#fee2e2;color:#b91c1c;font-size:0.7rem;font-weight:600;">Never ran</span>';
+    if (!$row) return '<span style="padding:0.15rem 0.5rem;border-radius:9999px;background:var(--danger-soft);color:var(--danger-fg);font-size:0.7rem;font-weight:600;">Never ran</span>';
     $st = $row['status'];
-    $bg = $st==='ok'?'#dcfce7':($st==='partial'?'#fef3c7':'#fee2e2');
-    $c  = $st==='ok'?'#15803d':($st==='partial'?'#92400e':'#b91c1c');
+    $bg = $st==='ok'?'var(--success-soft)':($st==='partial'?'var(--warning-soft)':'var(--danger-soft)');
+    $c  = $st==='ok'?'var(--success-fg)':($st==='partial'?'var(--warning-fg)':'var(--danger-fg)');
     return "<span style=\"padding:0.15rem 0.5rem;border-radius:9999px;background:$bg;color:$c;font-size:0.7rem;font-weight:600;\">".strtoupper($st)."</span>";
 }
 ?>

@@ -151,8 +151,8 @@ $PRODUCTS   = ['Custom Software', 'Mobile App', 'DMS', 'HR & Payroll', 'Website 
         $pris = [
           ['low',    icon('arrow-down',18,'color:var(--muted-foreground);'),   'Low',    'Non-urgent, when time permits'],
           ['normal', icon('minus',18,'color:var(--primary-dark);'),        'Normal', 'Standard issue, 24h response'],
-          ['high',   icon('arrow-up',18,'color:#b45309;'),     'High',   'Affecting work, respond soon'],
-          ['urgent', icon('zap',18,'color:#b91c1c;'),          'Urgent', 'System down / critical loss'],
+          ['high',   icon('arrow-up',18,'color:var(--warning-fg);'),     'High',   'Affecting work, respond soon'],
+          ['urgent', icon('zap',18,'color:var(--danger-fg);'),          'Urgent', 'System down / critical loss'],
         ];
         $selected_pri = $_POST['priority'] ?? 'normal';
         foreach ($pris as [$val,$priIco,$label,$hint]):?>

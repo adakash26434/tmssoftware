@@ -208,7 +208,7 @@
 
 /* ── Toast ── */
 function showToast(msg, type='success') {
-  const colors={success:'#16a34a',error:'#dc2626',warning:'#d97706',info:'var(--primary)'};
+  const colors={success:'var(--success-fg)',error:'var(--danger-fg)',warning:'var(--warning-fg)',info:'var(--info-fg)'};
   const icons={
     success:'<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>',
     error:'<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>',

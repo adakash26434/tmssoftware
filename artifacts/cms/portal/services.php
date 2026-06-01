@@ -15,10 +15,10 @@ try {
 } catch(\Throwable $e) {}
 
 $STATUS_CFG = [
-    'active'    => ['#dcfce7','#15803d',' Active'],
+    'active'    => ['var(--success-soft)','var(--success-fg)',' Active'],
     'trial'     => ['#dbeafe','var(--primary-dark)',' Trial'],
-    'expired'   => ['#fee2e2','#b91c1c',' Expired'],
-    'suspended' => ['#fef9c3','#b45309',' Suspended'],
+    'expired'   => ['var(--danger-soft)','var(--danger-fg)',' Expired'],
+    'suspended' => ['var(--warning-soft)','var(--warning-fg)',' Suspended'],
     'cancelled' => ['var(--muted)','var(--muted-foreground)',' Cancelled'],
 ];
 $DEPLOY_CFG = [
@@ -37,8 +37,8 @@ $pastSubs    = array_filter($subs, fn($s) => in_array($s['status'], ['expired','
 <div style="display:flex;align-items:flex-start;gap:0.875rem;padding:1rem 1.25rem;border-radius:0.875rem;background:#fffbeb;border:1px solid #fde047;margin-bottom:1.5rem;">
   <span style="font-size:1.375rem;flex-shrink:0;"></span>
   <div class="flex-1">
-    <div style="font-weight:700;color:#b45309;font-size:0.9375rem;">Renewal Required</div>
-    <div style="font-size:0.8125rem;color:#92400e;margin-top:0.25rem;">
+    <div style="font-weight:700;color:var(--warning-fg);font-size:0.9375rem;">Renewal Required</div>
+    <div style="font-size:0.8125rem;color:var(--warning-fg);margin-top:0.25rem;">
       <?=count($expiringSoon)?> of your subscription<?=count($expiringSoon)>1?'s are':' is'?> expiring within 30 days.
       Please contact our support team to renew and avoid service interruption.
     </div>
@@ -59,9 +59,9 @@ $pastSubs    = array_filter($subs, fn($s) => in_array($s['status'], ['expired','
   $expired  = count(array_filter($subs, fn($s)=>$s['status']==='expired'));
   $cards = [
     ['Total Services', $total,   'var(--primary)', 'var(--card)'],
-    ['Active',         $active,  '#15803d',        '#f0fdf4'],
+    ['Active',         $active,  'var(--success-fg)',        'var(--success-soft)'],
     ['Trial',          $trial,   'var(--primary-dark)',        '#eff6ff'],
-    ['Expired',        $expired, '#b91c1c',        '#fef2f2'],
+    ['Expired',        $expired, 'var(--danger-fg)',        'var(--danger-soft)'],
   ];
   foreach($cards as [$lbl,$val,$col,$bg]):?>
   <div style="padding:1.25rem;border-radius:1rem;border:1px solid var(--border);background:<?=$bg?>;text-align:center;">
@@ -82,7 +82,7 @@ $pastSubs    = array_filter($subs, fn($s) => in_array($s['status'], ['expired','
   $expWarn   = $daysLeft !== null && $daysLeft <= 30 && $daysLeft > 0;
   $expCrit   = $daysLeft !== null && $daysLeft <= 7  && $daysLeft > 0;
 ?>
-<div class="st-card" style="padding:1.5rem;<?=$expWarn?'border-color:'.($expCrit?'#fca5a5':'#fde047').';':''?>">
+<div class="st-card" style="padding:1.5rem;<?=$expWarn?'border-color:'.($expCrit?'var(--danger-border)':'#fde047').';':''?>">
   <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:1.25rem;">
     <div>
       <div style="font-family:var(--font-display);font-size:1.0625rem;font-weight:800;color:var(--foreground);"><?=e($s['product_name'])?></div>
@@ -119,9 +119,9 @@ $pastSubs    = array_filter($subs, fn($s) => in_array($s['status'], ['expired','
       <div style="font-size:0.875rem;font-weight:600;color:var(--foreground);"><?=date('M j, Y',strtotime($s['starts_at']))?></div>
     </div>
     <?php if($s['expires_at']):?>
-    <div style="padding:0.75rem;border-radius:0.625rem;background:<?=$expCrit?'#fef2f2':($expWarn?'#fffbeb':'var(--muted)')?>;">
-      <div style="font-size:0.6875rem;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:<?=$expWarn?'#b45309':'var(--muted-foreground)'?>;margin-bottom:0.25rem;">Expires</div>
-      <div style="font-size:0.875rem;font-weight:700;color:<?=$expCrit?'#b91c1c':($expWarn?'#b45309':'var(--foreground)')?>;">
+    <div style="padding:0.75rem;border-radius:0.625rem;background:<?=$expCrit?'var(--danger-soft)':($expWarn?'#fffbeb':'var(--muted)')?>;">
+      <div style="font-size:0.6875rem;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:<?=$expWarn?'var(--warning-fg)':'var(--muted-foreground)'?>;margin-bottom:0.25rem;">Expires</div>
+      <div style="font-size:0.875rem;font-weight:700;color:<?=$expCrit?'var(--danger-fg)':($expWarn?'var(--warning-fg)':'var(--foreground)')?>;">
         <?=date('M j, Y',strtotime($s['expires_at']))?>
         <?php if($daysLeft !== null):?>
         <div style="font-size:0.6875rem;font-weight:600;margin-top:0.125rem;"><?=$daysLeft > 0 ? $daysLeft.' days left' : 'Expired'?></div>

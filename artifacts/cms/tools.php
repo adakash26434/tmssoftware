@@ -134,7 +134,7 @@ include 'includes/page-hero.php';
           </div>
         </div>
         <div id="date-info" style="margin-top:1.5rem;padding:1rem;background:var(--background);border:1px solid var(--border);border-radius:0.75rem;font-size:var(--text-sm);color:var(--foreground);display:none;"></div>
-        <div style="margin-top:1rem;padding:0.75rem 1rem;background:#f0fdf4;border-radius:0.625rem;border:1px solid #bbf7d0;font-size:var(--text-sm);color:#15803d;">
+        <div style="margin-top:1rem;padding:0.75rem 1rem;background:var(--success-soft);border-radius:0.625rem;border:1px solid var(--success-border);font-size:var(--text-sm);color:var(--success-fg);">
           ℹ Supported BS range: 1975 – 2100. Calculation uses NepSoft algorithm.
         </div>
       </div>
@@ -161,7 +161,7 @@ include 'includes/page-hero.php';
           </div>
           <button onclick="copyN2W()" class="btn btn-primary btn-sm w-fit"> Copy to Clipboard</button>
         </div>
-        <div style="margin-top:1rem;padding:0.75rem 1rem;background:#fefce8;border-radius:0.625rem;border:1px solid #fde68a;font-size:var(--text-sm);color:#92400e;">
+        <div style="margin-top:1rem;padding:0.75rem 1rem;background:#fefce8;border-radius:0.625rem;border:1px solid var(--warning-border);font-size:var(--text-sm);color:var(--warning-fg);">
            Uses Nepali <em>lakh</em> and <em>crore</em> system. Supports up to 10 crore (100,000,000).
         </div>
       </div>

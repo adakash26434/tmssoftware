@@ -71,7 +71,7 @@ try {
 $totalPages = (int)ceil($total / $perPage);
 
 $ROLE_STYLES = [
-    'admin'      => ['#fee2e2','#b91c1c'],
+    'admin'      => ['var(--danger-soft)','var(--danger-fg)'],
     'support'    => ['#f3e8ff','#7e22ce'],
     'editor'     => ['#e0e7ff','#4338ca'],
     'client'     => ['#dbeafe','var(--primary-dark)'],
@@ -146,7 +146,7 @@ function pageUrl(int $p, string $q, string $role): string {
           </form>
         </td>
         <td class="p-row">
-          <span style="padding:0.2rem 0.5rem;border-radius:9999px;font-size:0.6875rem;font-weight:600;background:<?=$is_active?'#dcfce7':'#fee2e2'?>;color:<?=$is_active?'#15803d':'#b91c1c'?>;"><?=$is_active?'Active':'Inactive'?></span>
+          <span style="padding:0.2rem 0.5rem;border-radius:9999px;font-size:0.6875rem;font-weight:600;background:<?=$is_active?'var(--success-soft)':'var(--danger-soft)'?>;color:<?=$is_active?'var(--success-fg)':'var(--danger-fg)'?>;"><?=$is_active?'Active':'Inactive'?></span>
         </td>
         <td style="padding:0.75rem 1rem;font-size:0.75rem;color:var(--muted-foreground);"><?=$u['last_login_at']?timeAgo($u['last_login_at']):'Never'?></td>
         <td style="padding:0.75rem 1rem;font-size:0.75rem;color:var(--muted-foreground);white-space:nowrap;"><?=date('M j Y',strtotime($u['created_at']))?></td>

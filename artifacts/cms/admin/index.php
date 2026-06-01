@@ -9,13 +9,13 @@ function safeCount(string $sql, array $p=[]): int {
 
 $stats = [
   ['Total Users',       safeCount("SELECT COUNT(*) c FROM users WHERE active=1"),               'user','#dbeafe','var(--primary-dark)', url('admin/users.php')],
-  ['Open Tickets',      safeCount("SELECT COUNT(*) c FROM tickets WHERE status IN('open','in_progress')"), 'ticket','#fef9c3','#b45309', url('admin/tickets.php?status=open')],
+  ['Open Tickets',      safeCount("SELECT COUNT(*) c FROM tickets WHERE status IN('open','in_progress')"), 'ticket','var(--warning-soft)','var(--warning-fg)', url('admin/tickets.php?status=open')],
   ['Replied (Awaiting)',safeCount("SELECT COUNT(*) c FROM tickets WHERE status='replied'"),     'message-circle','#f3e8ff','#7e22ce', url('admin/tickets.php?status=replied')],
-  ['New Contacts',      safeCount("SELECT COUNT(*) c FROM contact_submissions WHERE status='new'"),'mail','#fef9c3','#b45309', url('admin/contacts.php')],
-  ['Demo Requests',     safeCount("SELECT COUNT(*) c FROM demo_requests WHERE status='new'"),  'telescope','#dcfce7','#15803d', url('admin/demo-requests.php')],
-  ['Job Applications',  safeCount("SELECT COUNT(*) c FROM job_applications WHERE status='new'"),'clipboard','#fef9c3','#b45309', url('admin/applications.php')],
-  ['Active Subs',       safeCount("SELECT COUNT(*) c FROM client_subscriptions WHERE status='active'"),'repeat','#dcfce7','#15803d', url('admin/subscriptions.php?status=active')],
-  ['Expiring (30d)',    safeCount("SELECT COUNT(*) c FROM client_subscriptions WHERE status='active' AND expires_at BETWEEN CURDATE() AND DATE_ADD(CURDATE(),INTERVAL 30 DAY)"),'alert-triangle','#fef9c3','#b45309', url('admin/subscriptions.php?status=active')],
+  ['New Contacts',      safeCount("SELECT COUNT(*) c FROM contact_submissions WHERE status='new'"),'mail','var(--warning-soft)','var(--warning-fg)', url('admin/contacts.php')],
+  ['Demo Requests',     safeCount("SELECT COUNT(*) c FROM demo_requests WHERE status='new'"),  'telescope','var(--success-soft)','var(--success-fg)', url('admin/demo-requests.php')],
+  ['Job Applications',  safeCount("SELECT COUNT(*) c FROM job_applications WHERE status='new'"),'clipboard','var(--warning-soft)','var(--warning-fg)', url('admin/applications.php')],
+  ['Active Subs',       safeCount("SELECT COUNT(*) c FROM client_subscriptions WHERE status='active'"),'repeat','var(--success-soft)','var(--success-fg)', url('admin/subscriptions.php?status=active')],
+  ['Expiring (30d)',    safeCount("SELECT COUNT(*) c FROM client_subscriptions WHERE status='active' AND expires_at BETWEEN CURDATE() AND DATE_ADD(CURDATE(),INTERVAL 30 DAY)"),'alert-triangle','var(--warning-soft)','var(--warning-fg)', url('admin/subscriptions.php?status=active')],
   ['Live Chats',        safeCount("SELECT COUNT(*) c FROM support_conversations WHERE status='open'"),'message-square','#f3e8ff','#7e22ce', url('admin/livechat.php')],
   ['Subscribers',       safeCount("SELECT COUNT(*) c FROM subscribers WHERE status='active'"),  'mail-check','#f5f3ff','#7c3aed', url('admin/subscribers.php')],
 ];
@@ -59,10 +59,10 @@ try {
 } catch(\Throwable $e) {}
 
 $STATUS_COLORS = [
-    'open'        => ['#fee2e2','#b91c1c','Open'],
-    'in_progress' => ['#fef9c3','#854d0e','In Progress'],
+    'open'        => ['var(--danger-soft)','var(--danger-fg)','Open'],
+    'in_progress' => ['var(--warning-soft)','#854d0e','In Progress'],
     'replied'     => ['#f3e8ff','#7e22ce','Replied'],
-    'resolved'    => ['#dcfce7','#15803d','Resolved'],
+    'resolved'    => ['var(--success-soft)','var(--success-fg)','Resolved'],
     'closed'      => ['var(--muted)','var(--muted-foreground)','Closed'],
 ];
 
@@ -101,15 +101,15 @@ try {
 
 <?php if (!empty($expiringSubscriptions)): ?>
 <div style="display:flex;align-items:flex-start;gap:0.875rem;padding:1rem 1.25rem;border-radius:0.875rem;background:#fffbeb;border:1px solid #fde047;margin-bottom:1.25rem;">
-  <?= icon('alert-triangle',22,'color:#b45309;flex-shrink:0;') ?>
+  <?= icon('alert-triangle',22,'color:var(--warning-fg);flex-shrink:0;') ?>
   <div class="flex-1">
-    <div style="font-weight:700;color:#b45309;font-size:0.875rem;margin-bottom:0.5rem;"><?=count($expiringSubscriptions)?> subscription<?=count($expiringSubscriptions)>1?'s':''?> expiring within 30 days — renewal required</div>
+    <div style="font-weight:700;color:var(--warning-fg);font-size:0.875rem;margin-bottom:0.5rem;"><?=count($expiringSubscriptions)?> subscription<?=count($expiringSubscriptions)>1?'s':''?> expiring within 30 days — renewal required</div>
     <div style="display:flex;flex-direction:column;gap:0.375rem;">
     <?php foreach($expiringSubscriptions as $es): $d=ceil((strtotime($es['expires_at'])-time())/86400); ?>
     <div style="display:flex;align-items:center;gap:0.75rem;font-size:0.8125rem;">
       <span class="fw-strong"><?=e($es['display_name'])?> — <?=e($es['org_name']??$es['email'])?></span>
       <span class="text-muted"><?=e($es['product_name'])?></span>
-      <span style="margin-left:auto;font-weight:700;color:<?=$d<=7?'#b91c1c':'#b45309'?>;"><?=$d?> day<?=$d>1?'s':''?></span>
+      <span style="margin-left:auto;font-weight:700;color:<?=$d<=7?'var(--danger-fg)':'var(--warning-fg)'?>;"><?=$d?> day<?=$d>1?'s':''?></span>
     </div>
     <?php endforeach; ?>
     </div>
@@ -171,10 +171,10 @@ try {
 <div style="display:flex;flex-wrap:wrap;gap:0.75rem;margin-bottom:1.25rem;">
   <?php
   $pri_info = [
-    'urgent'=>['alert-circle','#fee2e2','#b91c1c','Urgent'],
-    'high'  =>['arrow-up','#fef9c3','#b45309','High'],
+    'urgent'=>['alert-circle','var(--danger-soft)','var(--danger-fg)','Urgent'],
+    'high'  =>['arrow-up','var(--warning-soft)','var(--warning-fg)','High'],
     'normal'=>['minus','#dbeafe','var(--primary-dark)','Normal'],
-    'low'   =>['arrow-down','#dcfce7','#15803d','Low'],
+    'low'   =>['arrow-down','var(--success-soft)','var(--success-fg)','Low'],
   ];
   foreach($pri_info as $pri=>[$ico,$bg,$col,$lbl]):
     if(empty($ticketPri[$pri])) continue;
@@ -230,7 +230,7 @@ try {
           <div style="font-size:0.8125rem;font-weight:600;color:var(--foreground);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><?=e($c['name'])?></div>
           <div class="fs-2xs-mt"><?=e(truncate($c['subject']??'',40))?> · <?=timeAgo($c['created_at'])?></div>
         </div>
-        <?php if($c['status']==='new'):?><span style="font-size:0.6rem;padding:0.1rem 0.35rem;border-radius:9999px;background:#fef9c3;color:#b45309;font-weight:700;">NEW</span><?php endif;?>
+        <?php if($c['status']==='new'):?><span style="font-size:0.6rem;padding:0.1rem 0.35rem;border-radius:9999px;background:var(--warning-soft);color:var(--warning-fg);font-weight:700;">NEW</span><?php endif;?>
       </a>
       <?php endforeach;?>
       <?php if(empty($recentContacts)):?><div style="padding:1.5rem;text-align:center;color:var(--muted-foreground);font-size:0.875rem;">No contacts yet.</div><?php endif;?>
@@ -272,7 +272,7 @@ try {
           <div style="font-size:0.8125rem;font-weight:600;color:var(--foreground);"><?=e($a['full_name'])?></div>
           <div class="fs-2xs-mt"><?=e($a['job_title']??'Open application')?></div>
         </div>
-        <span style="font-size:0.625rem;padding:0.1rem 0.4rem;border-radius:9999px;background:#fef9c3;color:#b45309;font-weight:700;"><?=strtoupper($a['status']??'new')?></span>
+        <span style="font-size:0.625rem;padding:0.1rem 0.4rem;border-radius:9999px;background:var(--warning-soft);color:var(--warning-fg);font-weight:700;"><?=strtoupper($a['status']??'new')?></span>
       </div>
       <?php endforeach;?>
     </div>

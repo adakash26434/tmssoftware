@@ -70,9 +70,9 @@ $items = query("SELECT * FROM contact_submissions $whereSQL ORDER BY created_at 
 
 $statuses = ['new','read','replied','archived'];
 $STATUS = [
-    'new'      => ['#fef9c3','#92400e','New'],
+    'new'      => ['var(--warning-soft)','var(--warning-fg)','New'],
     'read'     => ['#dbeafe','var(--primary-dark)','Read'],
-    'replied'  => ['#dcfce7','#15803d','Replied'],
+    'replied'  => ['var(--success-soft)','var(--success-fg)','Replied'],
     'archived' => ['var(--muted)','var(--muted-foreground)','Archived'],
 ];
 
@@ -92,7 +92,7 @@ foreach ($counts_raw as $c) $counts[$c['status']] = $c['cnt'];
   <div>
     <h2 style="font-family:var(--font-display);font-size:1.0625rem;font-weight:700;color:var(--foreground);">Contact Submissions (<?= $total ?>)</h2>
     <?php if ($counts['new'] ?? 0): ?>
-    <p style="font-size:0.8125rem;color:#b91c1c;margin-top:0.25rem;font-weight:500;">● <?= $counts['new'] ?> unread</p>
+    <p style="font-size:0.8125rem;color:var(--danger-fg);margin-top:0.25rem;font-weight:500;">● <?= $counts['new'] ?> unread</p>
     <?php endif; ?>
   </div>
   <a href="?export=csv" class="btn btn-outline btn-sm">⬇ Export CSV</a>
@@ -181,7 +181,7 @@ foreach ($counts_raw as $c) $counts[$c['status']] = $c['cnt'];
       <?= csrfField() ?>
       <input type="hidden" name="action" value="delete">
       <input type="hidden" name="id" value="<?= (int)$c['id'] ?>">
-      <button type="submit" class="btn btn-sm" style="border:1px solid #fca5a5;color:#dc2626;background:transparent;"> Delete</button>
+      <button type="submit" class="btn btn-sm" style="border:1px solid var(--danger-border);color:var(--danger);background:transparent;"> Delete</button>
     </form>
   </div>
   <?php if ($c['notes']): ?>

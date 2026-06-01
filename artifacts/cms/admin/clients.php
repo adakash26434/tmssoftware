@@ -112,19 +112,19 @@ tr:hover .cl-actions { opacity:1; }
 </div>
 
 <?php if ($success): ?>
-<div style="display:flex;align-items:center;gap:.625rem;padding:.75rem 1rem;background:#f0fdf4;border:1px solid #86efac;border-radius:var(--radius-md);margin-bottom:1.125rem;color:#15803d;font-size:.875rem;">
+<div style="display:flex;align-items:center;gap:.625rem;padding:.75rem 1rem;background:var(--success-soft);border:1px solid var(--success-border);border-radius:var(--radius-md);margin-bottom:1.125rem;color:var(--success-fg);font-size:.875rem;">
   <i data-lucide="check-circle" style="width:15px;height:15px;flex-shrink:0;"></i><?= $success ?>
 </div>
 <?php endif; ?>
 <?php if ($error): ?>
-<div style="display:flex;align-items:center;gap:.625rem;padding:.75rem 1rem;background:#fef2f2;border:1px solid #fca5a5;border-radius:var(--radius-md);margin-bottom:1.125rem;color:#b91c1c;font-size:.875rem;">
+<div style="display:flex;align-items:center;gap:.625rem;padding:.75rem 1rem;background:var(--danger-soft);border:1px solid var(--danger-border);border-radius:var(--radius-md);margin-bottom:1.125rem;color:var(--danger-fg);font-size:.875rem;">
   <i data-lucide="alert-circle" style="width:15px;height:15px;flex-shrink:0;"></i><?= e($error) ?>
 </div>
 <?php endif; ?>
 
 <!-- ── Summary pills ─────────────────────────────────────────────────────────── -->
 <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.25rem;">
-  <?php $pills=[['','All',$counts['total'],'var(--muted)','#475569'],['active','Active',$counts['active'],'#dcfce7','#15803d'],['unclaimed','Unclaimed',$counts['unclaimed'],'#fef9c3','#92400e'],['inactive','Inactive',$counts['inactive'],'#fee2e2','#b91c1c'],['claimed','Portal Active',$counts['claimed'],'#dbeafe','var(--primary-dark)']];
+  <?php $pills=[['','All',$counts['total'],'var(--muted)','#475569'],['active','Active',$counts['active'],'var(--success-soft)','var(--success-fg)'],['unclaimed','Unclaimed',$counts['unclaimed'],'var(--warning-soft)','var(--warning-fg)'],['inactive','Inactive',$counts['inactive'],'var(--danger-soft)','var(--danger-fg)'],['claimed','Portal Active',$counts['claimed'],'#dbeafe','var(--primary-dark)']];
   foreach($pills as [$f,$l,$c,$bg,$col]):$active=$filt===$f; ?>
   <a href="?status=<?= urlencode($f) ?>&q=<?= urlencode($q) ?>&province=<?= urlencode($fprov) ?>"
      class="stat-pill" style="background:<?=$active?$col:$bg?>;color:<?=$active?'#fff':$col?>;border-color:<?=$col?>;">
@@ -183,7 +183,7 @@ tr:hover .cl-actions { opacity:1; }
           <!-- Client ID -->
           <td style="padding:.8125rem 1rem;">
             <code style="font-family:monospace;font-size:.8rem;font-weight:700;padding:.2rem .625rem;border-radius:.375rem;
-                   background:<?=$claimed?'#dcfce7':'#dbeafe'?>;color:<?=$claimed?'#15803d':'var(--primary-dark)'?>;">
+                   background:<?=$claimed?'var(--success-soft)':'#dbeafe'?>;color:<?=$claimed?'var(--success-fg)':'var(--primary-dark)'?>;">
               <?= e($c['client_code']) ?>
             </code>
           </td>
@@ -223,7 +223,7 @@ tr:hover .cl-actions { opacity:1; }
               <div><?= e($c['product']) ?></div>
             <?php endif; ?>
             <?php if($c['integration']): ?><div style="font-size:.7rem;color:var(--muted-foreground);"><?= e($c['integration']) ?></div><?php endif; ?>
-            <?php if(!$c['cbs_use']): ?><span style="font-size:.65rem;background:#fef9c3;color:#92400e;padding:.1rem .4rem;border-radius:9999px;">CBS off</span><?php endif; ?>
+            <?php if(!$c['cbs_use']): ?><span style="font-size:.65rem;background:var(--warning-soft);color:var(--warning-fg);padding:.1rem .4rem;border-radius:9999px;">CBS off</span><?php endif; ?>
           </td>
 
           <!-- Portal account -->
@@ -239,8 +239,8 @@ tr:hover .cl-actions { opacity:1; }
           <!-- Status -->
           <td style="padding:.8125rem 1rem;">
             <span style="padding:.2rem .625rem;border-radius:9999px;font-size:.6875rem;font-weight:700;
-                   background:<?=$c['status']==='active'?'#dcfce7':'#fee2e2'?>;
-                   color:<?=$c['status']==='active'?'#15803d':'#b91c1c'?>;">
+                   background:<?=$c['status']==='active'?'var(--success-soft)':'var(--danger-soft)'?>;
+                   color:<?=$c['status']==='active'?'var(--success-fg)':'var(--danger-fg)'?>;">
               <?= ucfirst($c['status']) ?>
             </span>
             <?php if($c['expiry_month']): ?><div style="font-size:.65rem;color:var(--muted-foreground);margin-top:.2rem;">Expires <?= e($c['expiry_month']) ?></div><?php endif; ?>

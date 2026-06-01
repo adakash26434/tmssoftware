@@ -66,15 +66,15 @@ try {
 } catch(\Throwable $e) { echo '<div class="alert alert-error">Error: '.$e->getMessage().'</div>'; }
 
 $STATUS_COLORS = [
-    'open'        => ['#fee2e2','#b91c1c'],
-    'in_progress' => ['#fef9c3','#854d0e'],
+    'open'        => ['var(--danger-soft)','var(--danger-fg)'],
+    'in_progress' => ['var(--warning-soft)','#854d0e'],
     'replied'     => ['#f3e8ff','#7e22ce'],
-    'resolved'    => ['#dcfce7','#15803d'],
+    'resolved'    => ['var(--success-soft)','var(--success-fg)'],
     'closed'      => ['var(--muted)','var(--muted-foreground)'],
 ];
 $PRI_COLORS = [
-    'urgent' => ['#fee2e2','#b91c1c'],
-    'high'   => ['#fef9c3','#b45309'],
+    'urgent' => ['var(--danger-soft)','var(--danger-fg)'],
+    'high'   => ['var(--warning-soft)','var(--warning-fg)'],
     'normal' => ['#dbeafe','var(--primary-dark)'],
     'low'    => ['var(--muted)','var(--muted-foreground)'],
 ];
@@ -164,7 +164,7 @@ $PRI_COLORS = [
           [$pbg,$pcol] = $PRI_COLORS[$t['priority']] ?? ['#dbeafe','var(--primary-dark)'];
           $isUrgent    = $t['priority']==='urgent' && in_array($t['status'],['open','in_progress']);
           $slaBreach   = !empty($t['sla_breached']);
-          $rowBg = $slaBreach ? '#fff1f2' : ($isUrgent ? '#fef2f2' : 'transparent');
+          $rowBg = $slaBreach ? '#fff1f2' : ($isUrgent ? 'var(--danger-soft)' : 'transparent');
           $tktNum = 'TKT-' . date('Y') . '-' . str_pad((int)$t['number'], 5, '0', STR_PAD_LEFT);
         ?>
         <tr class="ticket-row" data-bg="<?=$rowBg?>"
@@ -178,7 +178,7 @@ $PRI_COLORS = [
           </td>
           <td style="padding:0.75rem 1rem;font-size:0.75rem;font-weight:700;color:var(--muted-foreground);white-space:nowrap;">
             <?=$tktNum?>
-            <?php if($slaBreach):?><span title="SLA Breached" style="font-size:0.6875rem;color:#b91c1c;display:block;"> SLA</span><?php endif;?>
+            <?php if($slaBreach):?><span title="SLA Breached" style="font-size:0.6875rem;color:var(--danger-fg);display:block;"> SLA</span><?php endif;?>
           </td>
           <td style="padding:0.75rem 1rem;max-width:260px;">
             <a href="<?=url('admin/ticket.php?id='.$t['id'])?>" style="font-weight:600;color:var(--foreground);text-decoration:none;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='var(--foreground)'">

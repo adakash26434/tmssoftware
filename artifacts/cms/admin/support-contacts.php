@@ -46,10 +46,10 @@ catch(\Throwable $e) { $error = 'Table not found.'; }
 
 $TYPE_CFG = [
     'phone'     => ['','Phone / Call',   '#dbeafe','var(--primary-dark)'],
-    'whatsapp'  => ['','WhatsApp',       '#dcfce7','#15803d'],
+    'whatsapp'  => ['','WhatsApp',       'var(--success-soft)','var(--success-fg)'],
     'email'     => ['','Email',          '#f3e8ff','#7e22ce'],
-    'emergency' => ['','Emergency',      '#fee2e2','#b91c1c'],
-    'address'   => ['','Address',        '#fef9c3','#b45309'],
+    'emergency' => ['','Emergency',      'var(--danger-soft)','var(--danger-fg)'],
+    'address'   => ['','Address',        'var(--warning-soft)','var(--warning-fg)'],
     'branch'    => ['','Branch Office',  '#e0e7ff','#4338ca'],
 ];
 ?>
@@ -77,10 +77,10 @@ $TYPE_CFG = [
         <div style="font-weight:700;font-size:0.9375rem;"><?=e($c['label'])?></div>
         <span style="padding:0.125rem 0.5rem;border-radius:9999px;font-size:0.625rem;font-weight:600;background:<?=$bg?>;color:<?=$col?>;"><?=$typeLabel?></span>
         <?php if(!empty($c['department'])):?><span style="margin-left:0.25rem;padding:0.125rem 0.5rem;border-radius:9999px;font-size:0.625rem;font-weight:600;background:#e0e7ff;color:#3730a3;"><?=ucfirst(e($c['department']))?></span><?php endif;?>
-        <?php if($c['is_primary']):?><span style="margin-left:0.25rem;padding:0.125rem 0.5rem;border-radius:9999px;font-size:0.625rem;font-weight:600;background:#fef9c3;color:#b45309;">PRIMARY</span><?php endif;?>
+        <?php if($c['is_primary']):?><span style="margin-left:0.25rem;padding:0.125rem 0.5rem;border-radius:9999px;font-size:0.625rem;font-weight:600;background:var(--warning-soft);color:var(--warning-fg);">PRIMARY</span><?php endif;?>
       </div>
     </div>
-    <span style="font-size:0.625rem;padding:0.125rem 0.5rem;border-radius:9999px;background:<?=$c['active']?'#dcfce7':'var(--muted)'?>;color:<?=$c['active']?'#15803d':'var(--muted-foreground)'?>;font-weight:600;"><?=$c['active']?'Active':'Hidden'?></span>
+    <span style="font-size:0.625rem;padding:0.125rem 0.5rem;border-radius:9999px;background:<?=$c['active']?'var(--success-soft)':'var(--muted)'?>;color:<?=$c['active']?'var(--success-fg)':'var(--muted-foreground)'?>;font-weight:600;"><?=$c['active']?'Active':'Hidden'?></span>
   </div>
 
   <div style="font-size:0.9375rem;font-weight:600;color:var(--foreground);margin-bottom:0.375rem;"><?=e($c['value'])?></div>
@@ -98,7 +98,7 @@ $TYPE_CFG = [
       <?=csrfField()?>
       <input type="hidden" name="action" value="delete">
       <input type="hidden" name="id" value="<?=$c['id']?>">
-      <button type="submit" style="padding:0.375rem 0.625rem;border-radius:0.5rem;border:1px solid #fecaca;background:#fef2f2;font-size:0.75rem;cursor:pointer;color:#b91c1c;"></button>
+      <button type="submit" style="padding:0.375rem 0.625rem;border-radius:0.5rem;border:1px solid #fecaca;background:var(--danger-soft);font-size:0.75rem;cursor:pointer;color:var(--danger-fg);"></button>
     </form>
   </div>
 </div>

@@ -23,10 +23,10 @@ try {
 } catch(\Throwable $e) {}
 
 $STATUS_COLORS = [
-    'open'        => ['#fee2e2','#b91c1c','Open'],
-    'in_progress' => ['#fef9c3','#854d0e','In Progress'],
+    'open'        => ['var(--danger-soft)','var(--danger-fg)','Open'],
+    'in_progress' => ['var(--warning-soft)','#854d0e','In Progress'],
     'replied'     => ['#f3e8ff','#7e22ce','Replied'],
-    'resolved'    => ['#dcfce7','#15803d','Resolved'],
+    'resolved'    => ['var(--success-soft)','var(--success-fg)','Resolved'],
     'closed'      => ['var(--muted)','var(--muted-foreground)','Closed'],
 ];
 $PRI = ['low'=>'Low','normal'=>'Normal','high'=>'High','urgent'=>'Urgent'];

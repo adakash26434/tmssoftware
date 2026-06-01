@@ -90,7 +90,7 @@ foreach ($conversations as $c) { if (($c['unread_admin']??0) > 0) $unread_total+
     <a href="?filter=<?=$filter?>&id=<?=$c['id']?>"
        style="display:flex;align-items:flex-start;gap:0.625rem;padding:0.75rem 1rem;border-bottom:1px solid var(--border);text-decoration:none;background:<?=$isActive?'var(--primary-light)':'transparent'?>;transition:background 0.12s;"
        onmouseover="if(!<?=$isActive?'true':'false'?>)this.style.background='var(--muted)'" onmouseout="if(!<?=$isActive?'true':'false'?>)this.style.background='transparent'">
-      <div style="width:2rem;height:2rem;border-radius:9999px;background:<?=$c['status']==='open'?'#dcfce7':'var(--muted)'?>;display:grid;place-items:center;font-size:0.75rem;font-weight:700;color:<?=$c['status']==='open'?'#15803d':'var(--muted-foreground)'?>;flex-shrink:0;">
+      <div style="width:2rem;height:2rem;border-radius:9999px;background:<?=$c['status']==='open'?'var(--success-soft)':'var(--muted)'?>;display:grid;place-items:center;font-size:0.75rem;font-weight:700;color:<?=$c['status']==='open'?'var(--success-fg)':'var(--muted-foreground)'?>;flex-shrink:0;">
         <?=strtoupper(substr($c['visitor_name']??'V',0,1))?>
       </div>
       <div class="flex-1-min">
@@ -100,7 +100,7 @@ foreach ($conversations as $c) { if (($c['unread_admin']??0) > 0) $unread_total+
         </div>
         <div style="font-size:0.6875rem;color:var(--muted-foreground);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><?=e($c['visitor_email']??'anonymous')?></div>
         <div style="display:flex;align-items:center;gap:0.375rem;margin-top:0.2rem;">
-          <span style="font-size:0.625rem;padding:0.1rem 0.35rem;border-radius:9999px;background:<?=$c['status']==='open'?'#dcfce7':'var(--muted)'?>;color:<?=$c['status']==='open'?'#15803d':'var(--muted-foreground)'?>;font-weight:600;"><?=strtoupper($c['status'])?></span>
+          <span style="font-size:0.625rem;padding:0.1rem 0.35rem;border-radius:9999px;background:<?=$c['status']==='open'?'var(--success-soft)':'var(--muted)'?>;color:<?=$c['status']==='open'?'var(--success-fg)':'var(--muted-foreground)'?>;font-weight:600;"><?=strtoupper($c['status'])?></span>
           <span style="font-size:0.625rem;color:var(--muted-foreground);"><?=($c['msg_count']??0)?> msgs · <?=timeAgo($c['last_message_at']??$c['created_at'])?></span>
         </div>
       </div>
@@ -128,7 +128,7 @@ foreach ($conversations as $c) { if (($c['unread_admin']??0) > 0) $unread_total+
       <div class="fs-xs-mt"><?=e($active_conv['visitor_email']??'No email')?> · Started <?=timeAgo($active_conv['created_at'])?></div>
     </div>
     <div style="display:flex;gap:0.5rem;">
-      <span style="padding:0.25rem 0.625rem;border-radius:9999px;font-size:0.6875rem;font-weight:600;background:<?=$active_conv['status']==='open'?'#dcfce7':'var(--muted)'?>;color:<?=$active_conv['status']==='open'?'#15803d':'var(--muted-foreground)'?>;">
+      <span style="padding:0.25rem 0.625rem;border-radius:9999px;font-size:0.6875rem;font-weight:600;background:<?=$active_conv['status']==='open'?'var(--success-soft)':'var(--muted)'?>;color:<?=$active_conv['status']==='open'?'var(--success-fg)':'var(--muted-foreground)'?>;">
         <?=strtoupper($active_conv['status'])?>
       </span>
       <form method="POST" class="inline">

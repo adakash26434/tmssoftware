@@ -107,8 +107,8 @@ $staff = [];
 try { $staff = query("SELECT id, display_name, email FROM users WHERE role IN ('admin','staff','editor') ORDER BY display_name"); }
 catch(\Throwable $e) {}
 
-$STATUS_MAP = ['open'=>['#dbeafe','var(--primary-dark)'],'in_progress'=>['#fef9c3','#854d0e'],'replied'=>['#f3e8ff','#7e22ce'],'resolved'=>['#dcfce7','#15803d'],'closed'=>['var(--muted)','var(--muted-foreground)']];
-$PRI_MAP    = ['low'=>['var(--muted)','var(--muted-foreground)'],'normal'=>['#dbeafe','var(--primary-dark)'],'high'=>['#fef9c3','#b45309'],'urgent'=>['#fee2e2','#b91c1c']];
+$STATUS_MAP = ['open'=>['#dbeafe','var(--primary-dark)'],'in_progress'=>['var(--warning-soft)','#854d0e'],'replied'=>['#f3e8ff','#7e22ce'],'resolved'=>['var(--success-soft)','var(--success-fg)'],'closed'=>['var(--muted)','var(--muted-foreground)']];
+$PRI_MAP    = ['low'=>['var(--muted)','var(--muted-foreground)'],'normal'=>['#dbeafe','var(--primary-dark)'],'high'=>['var(--warning-soft)','var(--warning-fg)'],'urgent'=>['var(--danger-soft)','var(--danger-fg)']];
 [$sbg,$scol] = $STATUS_MAP[$ticket['status']] ?? ['var(--muted)','var(--muted-foreground)'];
 [$pbg,$pcol] = $PRI_MAP[$ticket['priority']] ?? ['var(--muted)','var(--muted-foreground)'];
 ?>
@@ -199,18 +199,18 @@ $PRI_MAP    = ['low'=>['var(--muted)','var(--muted-foreground)'],'normal'=>['#db
 
     <!-- Internal Notes -->
     <div x-show="rtab==='notes'">
-      <div style="padding:0.75rem 1rem;border-radius:0.625rem;background:#fef9c3;border:1px solid #fde68a;font-size:0.8125rem;color:#92400e;margin-bottom:1rem;">
-        <span style="display:flex;align-items:center;gap:0.375rem;"><?= icon('lock',14,'color:#92400e;') ?></span> Internal notes are <strong>never visible to clients</strong>. Use for investigation, escalation, or internal coordination.
+      <div style="padding:0.75rem 1rem;border-radius:0.625rem;background:var(--warning-soft);border:1px solid var(--warning-border);font-size:0.8125rem;color:var(--warning-fg);margin-bottom:1rem;">
+        <span style="display:flex;align-items:center;gap:0.375rem;"><?= icon('lock',14,'color:var(--warning-fg);') ?></span> Internal notes are <strong>never visible to clients</strong>. Use for investigation, escalation, or internal coordination.
       </div>
 
       <?php if (!empty($notes)): ?>
       <div style="display:flex;flex-direction:column;gap:0.875rem;margin-bottom:1.25rem;">
         <?php foreach ($notes as $n): ?>
-        <div style="padding:1rem;border-radius:0.875rem;background:#fefce8;border:1px solid #fde68a;">
+        <div style="padding:1rem;border-radius:0.875rem;background:#fefce8;border:1px solid var(--warning-border);">
           <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem;">
-            <span class="avatar avatar-sm" style="background:#fde68a;color:#92400e;font-size:0.6875rem;"><?= strtoupper(substr($n['display_name']??'S',0,1)) ?></span>
-            <span style="font-size:0.75rem;font-weight:600;color:#92400e;"><?= e($n['display_name'] ?? 'Staff') ?></span>
-            <span style="font-size:0.6875rem;color:#b45309;">· <?= date('M j, g:ia', strtotime($n['created_at'])) ?></span>
+            <span class="avatar avatar-sm" style="background:#fde68a;color:var(--warning-fg);font-size:0.6875rem;"><?= strtoupper(substr($n['display_name']??'S',0,1)) ?></span>
+            <span style="font-size:0.75rem;font-weight:600;color:var(--warning-fg);"><?= e($n['display_name'] ?? 'Staff') ?></span>
+            <span style="font-size:0.6875rem;color:var(--warning-fg);">· <?= date('M j, g:ia', strtotime($n['created_at'])) ?></span>
           </div>
           <div style="font-size:0.875rem;color:#1e293b;line-height:1.6;white-space:pre-wrap;"><?= e($n['body']) ?></div>
         </div>
@@ -218,8 +218,8 @@ $PRI_MAP    = ['low'=>['var(--muted)','var(--muted-foreground)'],'normal'=>['#db
       </div>
       <?php endif; ?>
 
-      <div class="st-card" style="padding:1.25rem;background:#fefce8;border:1px solid #fde68a;">
-        <div style="font-size:0.8125rem;font-weight:700;color:#92400e;margin-bottom:0.875rem;display:flex;align-items:center;gap:0.375rem;"><?= icon('sticky-note',14,'color:#92400e;') ?> Add Internal Note</div>
+      <div class="st-card" style="padding:1.25rem;background:#fefce8;border:1px solid var(--warning-border);">
+        <div style="font-size:0.8125rem;font-weight:700;color:var(--warning-fg);margin-bottom:0.875rem;display:flex;align-items:center;gap:0.375rem;"><?= icon('sticky-note',14,'color:var(--warning-fg);') ?> Add Internal Note</div>
         <form method="POST" class="col-1-tight">
           <?= csrfField() ?><input type="hidden" name="action" value="note">
           <textarea name="note_body" class="form-input" rows="4" required placeholder="Write an internal note..."></textarea>

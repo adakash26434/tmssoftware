@@ -52,7 +52,7 @@ try {
 
 $ROLE_CFG = [
     'superadmin' => ['#fce7f3','#be185d','Super Admin'],
-    'admin'      => ['#fee2e2','#b91c1c','Admin'],
+    'admin'      => ['var(--danger-soft)','var(--danger-fg)','Admin'],
     'support'    => ['#f3e8ff','#7e22ce','Support'],
     'editor'     => ['#e0e7ff','#4338ca','Editor'],
 ];
@@ -67,9 +67,9 @@ $ROLE_CFG = [
   $roleCounts = array_count_values(array_column($staff,'role'));
   $cards = [
     ['Total Staff',  count($staff),                    '','#dbeafe','var(--primary-dark)'],
-    ['Active Now',   count(array_filter($staff,fn($s)=>$s['active'])), '','#dcfce7','#15803d'],
-    ['Open Tickets', array_sum(array_column($staff,'open_tickets')),   '','#fef9c3','#b45309'],
-    ['Resolved',     array_sum(array_column($staff,'resolved_tickets')),'','#dcfce7','#15803d'],
+    ['Active Now',   count(array_filter($staff,fn($s)=>$s['active'])), '','var(--success-soft)','var(--success-fg)'],
+    ['Open Tickets', array_sum(array_column($staff,'open_tickets')),   '','var(--warning-soft)','var(--warning-fg)'],
+    ['Resolved',     array_sum(array_column($staff,'resolved_tickets')),'','var(--success-soft)','var(--success-fg)'],
   ];
   foreach($cards as [$lbl,$val,$ico,$bg,$col]):?>
   <div style="padding:1rem;border-radius:0.875rem;border:1px solid var(--border);background:var(--card);">
@@ -112,7 +112,7 @@ $ROLE_CFG = [
     <!-- Role badge -->
     <div style="display:flex;flex-direction:column;align-items:center;gap:0.375rem;">
       <span style="padding:0.25rem 0.875rem;border-radius:9999px;font-size:0.6875rem;font-weight:700;background:<?=$rbg?>;color:<?=$rcol?>;"><?=$rlbl?></span>
-      <span style="font-size:0.6875rem;color:<?=$s['active']?'#15803d':'#b91c1c'?>;font-weight:600;"><?=$s['active']?'● Active':'● Inactive'?></span>
+      <span style="font-size:0.6875rem;color:<?=$s['active']?'var(--success-fg)':'var(--danger-fg)'?>;font-weight:600;"><?=$s['active']?'● Active':'● Inactive'?></span>
     </div>
 
     <!-- Ticket stats -->
@@ -122,7 +122,7 @@ $ROLE_CFG = [
         <div class="fs-2xs-mt">Open</div>
       </div>
       <div class="text-center">
-        <div style="font-family:var(--font-display);font-size:1.25rem;font-weight:800;color:#15803d;"><?=$s['resolved_tickets']?></div>
+        <div style="font-family:var(--font-display);font-size:1.25rem;font-weight:800;color:var(--success-fg);"><?=$s['resolved_tickets']?></div>
         <div class="fs-2xs-mt">Resolved</div>
       </div>
       <div class="text-center">
@@ -136,10 +136,10 @@ $ROLE_CFG = [
     <div style="min-width:120px;">
       <div style="display:flex;justify-content:space-between;font-size:0.6875rem;margin-bottom:0.25rem;">
         <span class="text-muted">Resolution rate</span>
-        <span style="font-weight:700;color:#15803d;"><?=$pct?>%</span>
+        <span style="font-weight:700;color:var(--success-fg);"><?=$pct?>%</span>
       </div>
       <div style="height:6px;border-radius:9999px;background:var(--muted);">
-        <div style="height:100%;border-radius:9999px;background:#16a34a;width:<?=$pct?>%;"></div>
+        <div style="height:100%;border-radius:9999px;background:var(--success-fg);width:<?=$pct?>%;"></div>
       </div>
     </div>
     <?php endif;?>
@@ -157,7 +157,7 @@ $ROLE_CFG = [
         <?=csrfField()?>
         <input type="hidden" name="action" value="toggle_active">
         <input type="hidden" name="id" value="<?=$s['id']?>">
-        <button type="submit" style="padding:0.3rem 0.75rem;border-radius:0.5rem;border:1px solid var(--border);background:var(--card);font-size:0.75rem;cursor:pointer;color:<?=$s['active']?'#b91c1c':'#15803d'?>;">
+        <button type="submit" style="padding:0.3rem 0.75rem;border-radius:0.5rem;border:1px solid var(--border);background:var(--card);font-size:0.75rem;cursor:pointer;color:<?=$s['active']?'var(--danger-fg)':'var(--success-fg)'?>;">
           <?=$s['active']?'Deactivate':'Activate'?>
         </button>
       </form>

@@ -19,8 +19,8 @@ foreach ($components as $c) {
 }
 
 $statusColors = [
-  'operational'=>'#16a34a','degraded'=>'#eab308','partial'=>'#f97316',
-  'major'=>'#dc2626','maintenance'=>'#0ea5e9'];
+  'operational'=>'var(--success-fg)','degraded'=>'#eab308','partial'=>'#f97316',
+  'major'=>'var(--danger)','maintenance'=>'#0ea5e9'];
 $statusLabels = [
   'operational'=>'All Systems Operational','degraded'=>'Degraded Performance',
   'partial'=>'Partial Outage','major'=>'Major Outage','maintenance'=>'Maintenance'];

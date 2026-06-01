@@ -120,10 +120,10 @@ try {
 $STAGES = [
     'prospect'     => ['','#dbeafe','var(--primary-dark)','Prospect'],
     'contacted'    => ['','#f3e8ff','#7e22ce','Contacted'],
-    'proposal_sent'=> ['','#fef9c3','#b45309','Proposal Sent'],
+    'proposal_sent'=> ['','var(--warning-soft)','var(--warning-fg)','Proposal Sent'],
     'negotiation'  => ['','#ffedd5','#c2410c','Negotiation'],
-    'won'          => ['','#dcfce7','#15803d','Won'],
-    'lost'         => ['','#fee2e2','#b91c1c','Lost'],
+    'won'          => ['','var(--success-soft)','var(--success-fg)','Won'],
+    'lost'         => ['','var(--danger-soft)','var(--danger-fg)','Lost'],
     'on_hold'      => ['','var(--muted)','var(--muted-foreground)','On Hold'],
 ];
 $SOURCE_ICONS = ['demo_request'=>'','contact_form'=>'','referral'=>'','cold_call'=>'','website'=>'','exhibition'=>'','other'=>''];
@@ -151,10 +151,10 @@ $SOURCE_ICONS = ['demo_request'=>'','contact_form'=>'','referral'=>'','cold_call
   <?php
   $statsCards = [
     ['Total Leads',      $stats['total']      ?? 0, '#f8fafc','#0f172a',''],
-    ['Today\'s F/U',     $stats['due_today']  ?? 0, ($stats['due_today']>0?'#fef9c3':'#f8fafc'),($stats['due_today']>0?'#b45309':'#0f172a'),'⏰'],
-    ['Overdue',          $stats['overdue']    ?? 0, ($stats['overdue']>0?'#fee2e2':'#f8fafc'),   ($stats['overdue']>0?'#b91c1c':'#0f172a'),  ''],
+    ['Today\'s F/U',     $stats['due_today']  ?? 0, ($stats['due_today']>0?'var(--warning-soft)':'#f8fafc'),($stats['due_today']>0?'var(--warning-fg)':'#0f172a'),'⏰'],
+    ['Overdue',          $stats['overdue']    ?? 0, ($stats['overdue']>0?'var(--danger-soft)':'#f8fafc'),   ($stats['overdue']>0?'var(--danger-fg)':'#0f172a'),  ''],
     ['Proposal Sent',    $stats['s_proposal'] ?? 0, '#f3e8ff','#7e22ce',''],
-    ['Won',              $stats['s_won']       ?? 0, '#dcfce7','#15803d',''],
+    ['Won',              $stats['s_won']       ?? 0, 'var(--success-soft)','var(--success-fg)',''],
     ['Accepted Proposals',$prop_stats['accepted']??0,'#dbeafe','var(--primary-dark)',''],
   ];
   foreach ($statsCards as [$lbl,$val,$bg,$col,$ico]):?>
@@ -254,7 +254,7 @@ $SOURCE_ICONS = ['demo_request'=>'','contact_form'=>'','referral'=>'','cold_call
       </td>
       <td>
         <?php if ($nf): ?>
-        <span style="font-size:0.8125rem;font-weight:600;color:<?= $nfOverdue?'#b91c1c':($nfToday?'#b45309':'var(--foreground)') ?>;">
+        <span style="font-size:0.8125rem;font-weight:600;color:<?= $nfOverdue?'var(--danger-fg)':($nfToday?'var(--warning-fg)':'var(--foreground)') ?>;">
           <?= $nfOverdue ? ' ' : ($nfToday ? '⏰ ' : '') ?>
           <?= date('M j, Y', $nfTs) ?>
         </span>
@@ -275,7 +275,7 @@ $SOURCE_ICONS = ['demo_request'=>'','contact_form'=>'','referral'=>'','cold_call
             <?= csrfField() ?>
             <input type="hidden" name="action" value="delete_lead">
             <input type="hidden" name="lead_id" value="<?= $l['id'] ?>">
-            <button type="submit" class="btn btn-ghost btn-sm" style="padding:0.25rem 0.5rem;color:#b91c1c;"></button>
+            <button type="submit" class="btn btn-ghost btn-sm" style="padding:0.25rem 0.5rem;color:var(--danger-fg);"></button>
           </form>
         </div>
       </td>
@@ -299,11 +299,11 @@ $SOURCE_ICONS = ['demo_request'=>'','contact_form'=>'','referral'=>'','cold_call
       <?= csrfField() ?><input type="hidden" name="action" value="add_lead">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.875rem;">
         <div class="form-group">
-          <label class="form-label">Contact Name <span style="color:#b91c1c;">*</span></label>
+          <label class="form-label">Contact Name <span style="color:var(--danger-fg);">*</span></label>
           <input type="text" name="name" class="form-input" required placeholder="Ram Bahadur Thapa">
         </div>
         <div class="form-group">
-          <label class="form-label">Organisation <span style="color:#b91c1c;">*</span></label>
+          <label class="form-label">Organisation <span style="color:var(--danger-fg);">*</span></label>
           <input type="text" name="org_name" class="form-input" required placeholder="Shree Cooperative">
         </div>
         <div class="form-group">

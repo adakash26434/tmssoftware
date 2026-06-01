@@ -866,7 +866,7 @@ $tabs = [
           </div>
 
           <!-- Mini website mockup -->
-          <div style="border:1px solid var(--border);border-radius:0.75rem;overflow:hidden;background:#fff;font-family:'Plus Jakarta Sans',sans-serif;">
+          <div style="border:1px solid var(--border);border-radius:0.75rem;overflow:hidden;background:#fff;font-family:var(--font-display);">
             <!-- Fake navbar -->
             <div style="padding:0.625rem 1rem;background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
               <div style="display:flex;align-items:center;gap:0.375rem;">

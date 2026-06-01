@@ -143,15 +143,15 @@ catch(\Throwable $e) {}
 $STAGES = [
     'prospect'     => ['','#dbeafe','var(--primary-dark)','Prospect'],
     'contacted'    => ['','#f3e8ff','#7e22ce','Contacted'],
-    'proposal_sent'=> ['','#fef9c3','#b45309','Proposal Sent'],
+    'proposal_sent'=> ['','var(--warning-soft)','var(--warning-fg)','Proposal Sent'],
     'negotiation'  => ['','#ffedd5','#c2410c','Negotiation'],
-    'won'          => ['','#dcfce7','#15803d','Won'],
-    'lost'         => ['','#fee2e2','#b91c1c','Lost'],
+    'won'          => ['','var(--success-soft)','var(--success-fg)','Won'],
+    'lost'         => ['','var(--danger-soft)','var(--danger-fg)','Lost'],
     'on_hold'      => ['','var(--muted)','var(--muted-foreground)','On Hold'],
 ];
 $TYPE_ICONS  = ['call'=>'','email'=>'','meeting'=>'','demo'=>'','whatsapp'=>'','other'=>''];
-$OUT_COLORS  = ['positive'=>['#dcfce7','#15803d',' Positive'],'neutral'=>['#dbeafe','var(--primary-dark)',' Neutral'],'negative'=>['#fee2e2','#b91c1c',' Negative'],'no_answer'=>['var(--muted)','var(--muted-foreground)',' No Answer']];
-$PROP_STATUS = ['draft'=>['var(--muted)','var(--muted-foreground)','Draft'],'sent'=>['#dbeafe','var(--primary-dark)','Sent'],'viewed'=>['#f3e8ff','#7e22ce','Viewed'],'accepted'=>['#dcfce7','#15803d','Accepted'],'rejected'=>['#fee2e2','#b91c1c','Rejected'],'expired'=>['#fef9c3','#b45309','Expired']];
+$OUT_COLORS  = ['positive'=>['var(--success-soft)','var(--success-fg)',' Positive'],'neutral'=>['#dbeafe','var(--primary-dark)',' Neutral'],'negative'=>['var(--danger-soft)','var(--danger-fg)',' Negative'],'no_answer'=>['var(--muted)','var(--muted-foreground)',' No Answer']];
+$PROP_STATUS = ['draft'=>['var(--muted)','var(--muted-foreground)','Draft'],'sent'=>['#dbeafe','var(--primary-dark)','Sent'],'viewed'=>['#f3e8ff','#7e22ce','Viewed'],'accepted'=>['var(--success-soft)','var(--success-fg)','Accepted'],'rejected'=>['var(--danger-soft)','var(--danger-fg)','Rejected'],'expired'=>['var(--warning-soft)','var(--warning-fg)','Expired']];
 $SOURCE_ICONS= ['demo_request'=>'','contact_form'=>'','referral'=>'','cold_call'=>'','website'=>'','exhibition'=>'','other'=>''];
 [$ico,$sbg,$scol,$slbl] = $STAGES[$lead['stage']] ?? ['','var(--muted)','var(--muted-foreground)','Unknown'];
 ?>
@@ -172,7 +172,7 @@ $SOURCE_ICONS= ['demo_request'=>'','contact_form'=>'','referral'=>'','cold_call'
         </div>
         <span style="padding:0.3rem 0.875rem;border-radius:9999px;font-size:0.8125rem;font-weight:700;background:<?=$sbg?>;color:<?=$scol?>;"><?=$ico?> <?=$slbl?></span>
         <?php if ($lead['deal_value']): ?>
-        <span style="padding:0.3rem 0.875rem;border-radius:9999px;font-size:0.8125rem;font-weight:700;background:#dcfce7;color:#15803d;"> NPR <?= number_format((float)$lead['deal_value']) ?></span>
+        <span style="padding:0.3rem 0.875rem;border-radius:9999px;font-size:0.8125rem;font-weight:700;background:var(--success-soft);color:var(--success-fg);"> NPR <?= number_format((float)$lead['deal_value']) ?></span>
         <?php endif; ?>
       </div>
     </div>
@@ -238,7 +238,7 @@ $SOURCE_ICONS= ['demo_request'=>'','contact_form'=>'','referral'=>'','cold_call'
               <input type="date" name="next_followup" class="form-input">
             </div>
             <div class="grid-full">
-              <label class="form-label fs-xs">Notes / Summary <span style="color:#b91c1c;">*</span></label>
+              <label class="form-label fs-xs">Notes / Summary <span style="color:var(--danger-fg);">*</span></label>
               <textarea name="notes" class="form-input" rows="3" required placeholder="What was discussed? Key points, objections, next steps…"></textarea>
             </div>
           </div>
@@ -296,7 +296,7 @@ $SOURCE_ICONS= ['demo_request'=>'','contact_form'=>'','referral'=>'','cold_call'
           <?= csrfField() ?><input type="hidden" name="action" value="add_proposal">
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
             <div class="grid-full">
-              <label class="form-label fs-xs">Proposal Title <span style="color:#b91c1c;">*</span></label>
+              <label class="form-label fs-xs">Proposal Title <span style="color:var(--danger-fg);">*</span></label>
               <input type="text" name="title" class="form-input" required placeholder="e.g. Software Package – ABC Company">
             </div>
             <div class="grid-full">
@@ -382,7 +382,7 @@ $SOURCE_ICONS= ['demo_request'=>'','contact_form'=>'','referral'=>'','cold_call'
               <?= csrfField() ?>
               <input type="hidden" name="action" value="delete_proposal">
               <input type="hidden" name="proposal_id" value="<?=$p['id']?>">
-              <button type="submit" class="btn btn-ghost btn-sm" style="color:#b91c1c;font-size:0.8125rem;">Delete</button>
+              <button type="submit" class="btn btn-ghost btn-sm" style="color:var(--danger-fg);font-size:0.8125rem;">Delete</button>
             </form>
           </form>
         </div>
@@ -426,10 +426,10 @@ $SOURCE_ICONS= ['demo_request'=>'','contact_form'=>'','referral'=>'','cold_call'
     $nfOverdue = $nfTs < strtotime('today') && !in_array($lead['stage'],['won','lost']);
     $nfToday = $nfTs === strtotime('today');
     ?>
-    <div style="padding:1rem;border-radius:0.875rem;background:<?=$nfOverdue?'#fee2e2':($nfToday?'#fef9c3':'#dcfce7')?>;border:1px solid <?=$nfOverdue?'#fca5a5':($nfToday?'#fde68a':'#bbf7d0')?>;display:flex;align-items:center;gap:0.75rem;">
+    <div style="padding:1rem;border-radius:0.875rem;background:<?=$nfOverdue?'var(--danger-soft)':($nfToday?'var(--warning-soft)':'var(--success-soft)')?>;border:1px solid <?=$nfOverdue?'var(--danger-border)':($nfToday?'var(--warning-border)':'var(--success-border)')?>;display:flex;align-items:center;gap:0.75rem;">
       <span style="font-size:1.5rem;"><?=$nfOverdue?'':($nfToday?'⏰':'')?></span>
       <div>
-        <div style="font-size:0.8125rem;font-weight:700;color:<?=$nfOverdue?'#b91c1c':($nfToday?'#b45309':'#15803d')?>"><?=$nfOverdue?'Overdue follow-up!':($nfToday?'Follow-up today!':'Next follow-up')?></div>
+        <div style="font-size:0.8125rem;font-weight:700;color:<?=$nfOverdue?'var(--danger-fg)':($nfToday?'var(--warning-fg)':'var(--success-fg)')?>"><?=$nfOverdue?'Overdue follow-up!':($nfToday?'Follow-up today!':'Next follow-up')?></div>
         <div style="font-size:0.875rem;font-weight:800;"><?= date('M j, Y', $nfTs) ?></div>
       </div>
     </div>
@@ -488,7 +488,7 @@ $SOURCE_ICONS= ['demo_request'=>'','contact_form'=>'','referral'=>'','cold_call'
         <div class="row-between"><span class="text-muted">Lead ID</span><strong>#<?=$lead['id']?></strong></div>
         <div class="row-between"><span class="text-muted">Created</span><span><?= date('M j, Y', strtotime($lead['created_at'])) ?></span></div>
         <div class="row-between"><span class="text-muted">Last Contact</span><span><?= $lead['last_contact_at'] ? date('M j, Y', strtotime($lead['last_contact_at'])) : '—' ?></span></div>
-        <?php if($lead['won_at']): ?><div class="row-between"><span class="text-muted">Won Date</span><span style="color:#15803d;font-weight:700;"><?= date('M j, Y', strtotime($lead['won_at'])) ?></span></div><?php endif; ?>
+        <?php if($lead['won_at']): ?><div class="row-between"><span class="text-muted">Won Date</span><span style="color:var(--success-fg);font-weight:700;"><?= date('M j, Y', strtotime($lead['won_at'])) ?></span></div><?php endif; ?>
         <?php if($lead['lost_reason']): ?><div><span style="color:var(--muted-foreground);font-size:0.75rem;">Lost reason:</span><p style="margin-top:0.25rem;"><?= e($lead['lost_reason']) ?></p></div><?php endif; ?>
         <div class="row-between"><span class="text-muted">Follow-ups</span><strong><?= count($followups) ?></strong></div>
         <div class="row-between"><span class="text-muted">Proposals</span><strong><?= count($proposals) ?></strong></div>

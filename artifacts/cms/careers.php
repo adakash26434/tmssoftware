@@ -119,7 +119,7 @@ ob_start(); ?>
                 <?php if(!empty($job['department'])): ?><span class="badge badge-primary"><?= e($job['department']) ?></span><?php endif;?>
                 <?php if(!empty($job['type'])): ?><span class="badge badge-secondary"><?= e(ucfirst(str_replace('_',' ',$job['type']))) ?></span><?php endif;?>
                 <?php if(!empty($job['location'])): ?><span class="badge" style="background:var(--background);border:1px solid var(--border);color:var(--muted-foreground);"> <?= e($job['location']) ?></span><?php endif;?>
-                <?php if(!empty($job['salary_range'])): ?><span class="badge" style="background:#f0fdf4;border:1px solid #bbf7d0;color:#15803d;"> <?= e($job['salary_range']) ?></span><?php endif;?>
+                <?php if(!empty($job['salary_range'])): ?><span class="badge" style="background:var(--success-soft);border:1px solid var(--success-border);color:var(--success-fg);"> <?= e($job['salary_range']) ?></span><?php endif;?>
               </div>
               <h3 style="font-family:var(--font-display);font-size:var(--text-lg);font-weight:700;color:var(--foreground);"><?= e($job['title']) ?></h3>
               <?php if(!empty($job['short_desc'])): ?>
@@ -131,7 +131,7 @@ ob_start(); ?>
                 <span x-text="open ? 'Hide Details ▲' : 'Details ▼'"></span>
               </button>
               <?php if ($apply_success && (int)($_POST['apply_job_id']??0) === (int)$job['id']): ?>
-              <span class="badge" style="background:#f0fdf4;border:1px solid #bbf7d0;color:#15803d;padding:0.5rem 1rem;"> Applied!</span>
+              <span class="badge" style="background:var(--success-soft);border:1px solid var(--success-border);color:var(--success-fg);padding:0.5rem 1rem;"> Applied!</span>
               <?php else: ?>
               <button @click="applyId=<?= (int)$job['id'] ?>" class="btn btn-primary btn-sm"><?= __("cta_apply_now") ?> →</button>
               <?php endif; ?>

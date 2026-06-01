@@ -26,10 +26,10 @@ try {
 } catch(\Throwable $e) { $error = 'orders table not found.'; }
 
 $STATUS_STYLES = [
-    'pending'   => ['#fef9c3','#b45309'],
+    'pending'   => ['var(--warning-soft)','var(--warning-fg)'],
     'confirmed' => ['#dbeafe','var(--primary-dark)'],
-    'active'    => ['#dcfce7','#15803d'],
-    'cancelled' => ['#fee2e2','#b91c1c'],
+    'active'    => ['var(--success-soft)','var(--success-fg)'],
+    'cancelled' => ['var(--danger-soft)','var(--danger-fg)'],
     'completed' => ['var(--muted)','var(--muted-foreground)'],
 ];
 ?>
@@ -80,7 +80,7 @@ $STATUS_STYLES = [
         <td class="p-row">
           <form method="POST" class="inline" onsubmit="return confirm('Delete order?')">
             <?=csrfField()?><input type="hidden" name="action" value="delete"><input type="hidden" name="id" value="<?=$o['id']?>">
-            <button type="submit" class="btn btn-sm" style="background:#fee2e2;color:#b91c1c;border:none;"></button>
+            <button type="submit" class="btn btn-sm" style="background:var(--danger-soft);color:var(--danger-fg);border:none;"></button>
           </form>
         </td>
       </tr>

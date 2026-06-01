@@ -24,10 +24,10 @@ if (empty($contacts)) {
 
 $TYPE_CFG = [
     'phone'     => ['','#dbeafe','var(--primary-dark)'],
-    'whatsapp'  => ['','#dcfce7','#15803d'],
+    'whatsapp'  => ['','var(--success-soft)','var(--success-fg)'],
     'email'     => ['','#f3e8ff','#7e22ce'],
-    'emergency' => ['','#fee2e2','#b91c1c'],
-    'address'   => ['','#fef9c3','#b45309'],
+    'emergency' => ['','var(--danger-soft)','var(--danger-fg)'],
+    'address'   => ['','var(--warning-soft)','var(--warning-fg)'],
     'branch'    => ['','#e0e7ff','#4338ca'],
 ];
 
@@ -72,7 +72,7 @@ foreach ($items as $c):
   <div class="flex-1-min">
     <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.25rem;">
       <div style="font-size:0.6875rem;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:<?=$icol?>;"><?=e($label)?></div>
-      <?php if($isPrimary):?><span style="font-size:0.5625rem;padding:0.1rem 0.375rem;border-radius:9999px;background:#fef9c3;color:#b45309;font-weight:700;">PRIMARY</span><?php endif;?>
+      <?php if($isPrimary):?><span style="font-size:0.5625rem;padding:0.1rem 0.375rem;border-radius:9999px;background:var(--warning-soft);color:var(--warning-fg);font-weight:700;">PRIMARY</span><?php endif;?>
     </div>
     <div style="font-size:0.9375rem;font-weight:700;color:var(--foreground);word-break:break-word;"><?=e($value)?></div>
     <?php if($desc):?><div class="caption-meta"><?=e($desc)?></div><?php endif;?>

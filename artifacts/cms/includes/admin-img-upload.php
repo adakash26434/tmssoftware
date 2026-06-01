@@ -64,7 +64,7 @@ $_iu_uid      = 'imgup_' . bin2hex(random_bytes(4)); // unique per widget
             onclick="stImgClear('<?= $_iu_uid ?>')"
             id="<?= $_iu_uid ?>_clear"
             class="btn btn-sm"
-            style="color:#b91c1c;background:#fee2e2;border:none;">
+            style="color:var(--danger-fg);background:var(--danger-soft);border:none;">
       <i data-lucide="x" style="width:12px;height:12px;"></i> Remove
     </button>
     <?php endif; ?>
@@ -132,7 +132,7 @@ $_iu_uid      = 'imgup_' . bin2hex(random_bytes(4)); // unique per widget
       var c = document.createElement('button');
       c.type = 'button'; c.id = uid + '_clear';
       c.className = 'btn btn-sm';
-      c.style.cssText = 'color:#b91c1c;background:#fee2e2;border:none;';
+      c.style.cssText = 'color:var(--danger-fg);background:var(--danger-soft);border:none;';
       c.innerHTML = '<i data-lucide="x" style="width:12px;height:12px;"></i> Remove';
       c.onclick = function() { stImgClear(uid); };
       btn.appendChild(c);

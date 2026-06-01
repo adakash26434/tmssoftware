@@ -204,7 +204,7 @@ ob_start(); ?>
           <!-- Live support badge -->
           <div style="margin-top:1rem;display:flex;align-items:center;gap:0.5rem;padding:0.625rem 0.875rem;background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.2);border-radius:var(--radius-md);">
             <span style="width:0.5rem;height:0.5rem;border-radius:9999px;background:#22c55e;animation:pulse-dot 2s ease-in-out infinite;flex-shrink:0;"></span>
-            <span style="font-size:var(--text-xs);font-weight:700;color:#16a34a;">Support is currently active</span>
+            <span style="font-size:var(--text-xs);font-weight:700;color:var(--success-fg);">Support is currently active</span>
           </div>
         </div>
 

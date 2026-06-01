@@ -188,7 +188,7 @@ require_once '../includes/admin-layout.php';
     <?php if ($isEdit): ?>
     <div style="margin-top:.375rem;display:flex;align-items:center;gap:.625rem;flex-wrap:wrap;">
       <span class="badge-code"><?= e($client['client_code']) ?></span>
-      <span style="padding:.2rem .625rem;border-radius:9999px;font-size:.7rem;font-weight:700;background:<?= $client['status']==='active'?'#dcfce7':'#fee2e2' ?>;color:<?= $client['status']==='active'?'#15803d':'#b91c1c' ?>;">
+      <span style="padding:.2rem .625rem;border-radius:9999px;font-size:.7rem;font-weight:700;background:<?= $client['status']==='active'?'var(--success-soft)':'var(--danger-soft)' ?>;color:<?= $client['status']==='active'?'var(--success-fg)':'var(--danger-fg)' ?>;">
         <?= ucfirst($client['status']) ?>
       </span>
     </div>
@@ -197,13 +197,13 @@ require_once '../includes/admin-layout.php';
 </div>
 
 <?php if ($success): ?>
-<div style="display:flex;align-items:center;gap:.625rem;padding:.875rem 1.125rem;background:#f0fdf4;border:1px solid #86efac;border-radius:var(--radius-md);margin-bottom:1.25rem;color:#15803d;font-size:.875rem;">
+<div style="display:flex;align-items:center;gap:.625rem;padding:.875rem 1.125rem;background:var(--success-soft);border:1px solid var(--success-border);border-radius:var(--radius-md);margin-bottom:1.25rem;color:var(--success-fg);font-size:.875rem;">
   <i data-lucide="check-circle" style="width:16px;height:16px;flex-shrink:0;"></i>
   <?= $success ?>
 </div>
 <?php endif; ?>
 <?php if ($error): ?>
-<div style="display:flex;align-items:center;gap:.625rem;padding:.875rem 1.125rem;background:#fef2f2;border:1px solid #fca5a5;border-radius:var(--radius-md);margin-bottom:1.25rem;color:#b91c1c;font-size:.875rem;">
+<div style="display:flex;align-items:center;gap:.625rem;padding:.875rem 1.125rem;background:var(--danger-soft);border:1px solid var(--danger-border);border-radius:var(--radius-md);margin-bottom:1.25rem;color:var(--danger-fg);font-size:.875rem;">
   <i data-lucide="alert-circle" style="width:16px;height:16px;flex-shrink:0;"></i>
   <?= e($error) ?>
 </div>

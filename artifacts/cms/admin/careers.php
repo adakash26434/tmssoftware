@@ -86,7 +86,7 @@ $TYPE_LABELS = ['full-time'=>'Full-time','part-time'=>'Part-time','contract'=>'C
      Job Listings (<?=count($jobs)?>)
   </a>
   <a href="?tab=apps" style="padding:0.625rem 1.25rem;font-size:0.875rem;font-weight:600;text-decoration:none;border-bottom:2px solid <?=$tab==='apps'?'var(--primary)':'transparent'?>;color:<?=$tab==='apps'?'var(--primary)':'var(--muted-foreground)'?>;margin-bottom:-2px;">
-     Applications (<?=count($apps)?>) <?php if($pending_apps>0):?><span style="margin-left:0.25rem;padding:0.1rem 0.4rem;border-radius:9999px;background:#fee2e2;color:#b91c1c;font-size:0.625rem;font-weight:700;"><?=$pending_apps?></span><?php endif;?>
+     Applications (<?=count($apps)?>) <?php if($pending_apps>0):?><span style="margin-left:0.25rem;padding:0.1rem 0.4rem;border-radius:9999px;background:var(--danger-soft);color:var(--danger-fg);font-size:0.625rem;font-weight:700;"><?=$pending_apps?></span><?php endif;?>
   </a>
 </div>
 
@@ -106,21 +106,21 @@ $TYPE_LABELS = ['full-time'=>'Full-time','part-time'=>'Part-time','contract'=>'C
         <div class="flex-1">
           <div style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;margin-bottom:0.25rem;">
             <span style="font-weight:700;color:var(--foreground);"><?=e($j['title'])?></span>
-            <?php if($isActive):?><span style="font-size:0.625rem;padding:0.1rem 0.35rem;border-radius:9999px;background:#dcfce7;color:#15803d;font-weight:700;">OPEN</span><?php else:?><span style="font-size:0.625rem;padding:0.1rem 0.35rem;border-radius:9999px;background:var(--muted);color:var(--muted-foreground);font-weight:700;">CLOSED</span><?php endif;?>
+            <?php if($isActive):?><span style="font-size:0.625rem;padding:0.1rem 0.35rem;border-radius:9999px;background:var(--success-soft);color:var(--success-fg);font-weight:700;">OPEN</span><?php else:?><span style="font-size:0.625rem;padding:0.1rem 0.35rem;border-radius:9999px;background:var(--muted);color:var(--muted-foreground);font-weight:700;">CLOSED</span><?php endif;?>
           </div>
           <div class="fs-sm-mt">
             <?=e($j['department']??'All Teams')?> · <?=e($j['location'])?> · <?=$TYPE_LABELS[$j['type']]??$j['type']?>
             <?php if(!empty($j['salary_range'])):?> · <?=e($j['salary_range'])?><?php endif;?>
           </div>
           <?php if(!empty($j['deadline'])):?>
-          <div style="font-size:0.75rem;color:<?=strtotime($j['deadline'])<time()?'#b91c1c':'#b45309'?>;margin-top:0.25rem;">⏳ Deadline: <?=date('M j, Y',strtotime($j['deadline']))?></div>
+          <div style="font-size:0.75rem;color:<?=strtotime($j['deadline'])<time()?'var(--danger-fg)':'var(--warning-fg)'?>;margin-top:0.25rem;">⏳ Deadline: <?=date('M j, Y',strtotime($j['deadline']))?></div>
           <?php endif;?>
         </div>
         <div style="display:flex;gap:0.375rem;flex-shrink:0;">
           <a href="?edit=<?=$j['id']?>&tab=jobs" class="btn btn-ghost btn-sm">Edit</a>
           <form method="POST" class="inline" onsubmit="return confirm('Delete?')">
             <?=csrfField()?><input type="hidden" name="action" value="delete_job"><input type="hidden" name="id" value="<?=$j['id']?>">
-            <button type="submit" class="btn btn-sm" style="background:#fee2e2;color:#b91c1c;border:none;"></button>
+            <button type="submit" class="btn btn-sm" style="background:var(--danger-soft);color:var(--danger-fg);border:none;"></button>
           </form>
         </div>
       </div>
@@ -216,7 +216,7 @@ $TYPE_LABELS = ['full-time'=>'Full-time','part-time'=>'Part-time','contract'=>'C
         <tr><td colspan="6" class="p-empty">No applications yet.</td></tr>
         <?php else: foreach($apps as $a):
           $status = $a['status'] ?? 'new';
-          $scls = ['new'=>['#fef9c3','#b45309'],'reviewing'=>['#dbeafe','var(--primary-dark)'],'shortlisted'=>['#e0e7ff','#4338ca'],'interview'=>['#f3e8ff','#7e22ce'],'hired'=>['#dcfce7','#15803d'],'rejected'=>['#fee2e2','#b91c1c']];
+          $scls = ['new'=>['var(--warning-soft)','var(--warning-fg)'],'reviewing'=>['#dbeafe','var(--primary-dark)'],'shortlisted'=>['#e0e7ff','#4338ca'],'interview'=>['#f3e8ff','#7e22ce'],'hired'=>['var(--success-soft)','var(--success-fg)'],'rejected'=>['var(--danger-soft)','var(--danger-fg)']];
           [$sbg,$scol] = $scls[$status] ?? ['var(--muted)','var(--muted-foreground)'];
         ?>
         <tr style="border-bottom:1px solid var(--border);">
@@ -244,7 +244,7 @@ $TYPE_LABELS = ['full-time'=>'Full-time','part-time'=>'Part-time','contract'=>'C
               <?php endif;?>
               <form method="POST" class="inline" onsubmit="return confirm('Remove?')">
                 <?=csrfField()?><input type="hidden" name="action" value="delete_app"><input type="hidden" name="id" value="<?=$a['id']?>">
-                <button type="submit" class="btn btn-sm" style="background:#fee2e2;color:#b91c1c;border:none;"></button>
+                <button type="submit" class="btn btn-sm" style="background:var(--danger-soft);color:var(--danger-fg);border:none;"></button>
               </form>
             </div>
           </td>

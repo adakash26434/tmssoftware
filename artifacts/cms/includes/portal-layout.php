@@ -163,7 +163,7 @@ require __DIR__ . '/head.php';
       </div>
       <a href="<?= url('logout.php') ?>"
          style="display:flex;align-items:center;gap:0.625rem;padding:0.5rem 0.75rem;border-radius:0.625rem;font-size:0.8125rem;font-weight:500;color:var(--destructive);text-decoration:none;"
-         onmouseover="this.style.background='#fef2f2'" onmouseout="this.style.background='transparent'">
+         onmouseover="this.style.background='var(--danger-soft)'" onmouseout="this.style.background='transparent'">
         <?= icon('log-out',16,'color:var(--destructive);') ?> <?= isNepali() ? 'साइन आउट' : 'Sign out' ?>
       </a>
     </div>
@@ -235,9 +235,9 @@ require __DIR__ . '/head.php';
              LIMIT 3"
         );
     } catch(\Throwable $e) {}
-    $__annBg   = ['info'=>'#eff6ff','warning'=>'#fffbeb','danger'=>'#fef2f2','success'=>'#f0fdf4'];
-    $__annBord = ['info'=>'#bfdbfe','warning'=>'#fde68a','danger'=>'#fecaca','success'=>'#bbf7d0'];
-    $__annTxt  = ['info'=>'var(--primary-dark)','warning'=>'#92400e','danger'=>'#dc2626','success'=>'#166534'];
+    $__annBg   = ['info'=>'#eff6ff','warning'=>'#fffbeb','danger'=>'var(--danger-soft)','success'=>'var(--success-soft)'];
+    $__annBord = ['info'=>'#bfdbfe','warning'=>'var(--warning-border)','danger'=>'#fecaca','success'=>'var(--success-border)'];
+    $__annTxt  = ['info'=>'var(--primary-dark)','warning'=>'var(--warning-fg)','danger'=>'var(--danger)','success'=>'var(--success-fg)'];
     $__annIcon = ['info'=>icon('info',16),'warning'=>icon('alert-triangle',16),'danger'=>icon('alert-circle',16),'success'=>icon('check-circle',16)];
     foreach($__announcements as $__ann):
         $__type = $__ann['type'] ?? 'info';
@@ -267,7 +267,7 @@ require __DIR__ . '/head.php';
     <div style="color:#78350f;font-size:0.8125rem;margin-top:0.125rem;">Check your inbox for a verification link we sent to <strong><?= e($__user['email']) ?></strong></div>
   </div>
   <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
-    <a href="<?= url('portal/resend-verification.php') ?>" class="btn btn-outline btn-sm" style="font-size:0.75rem;border-color:#d97706;color:#92400e;">Resend Email</a>
+    <a href="<?= url('portal/resend-verification.php') ?>" class="btn btn-outline btn-sm" style="font-size:0.75rem;border-color:var(--warning);color:var(--warning-fg);">Resend Email</a>
   </div>
 </div>
 <?php endif; ?>

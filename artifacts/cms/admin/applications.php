@@ -64,11 +64,11 @@ try {
 
 $STATUS_COLORS = [
     'new'         => ['#dbeafe','var(--primary-dark)','New'],
-    'reviewing'   => ['#fef9c3','#854d0e','Reviewing'],
-    'shortlisted' => ['#dcfce7','#15803d','Shortlisted'],
+    'reviewing'   => ['var(--warning-soft)','#854d0e','Reviewing'],
+    'shortlisted' => ['var(--success-soft)','var(--success-fg)','Shortlisted'],
     'interview'   => ['#f3e8ff','#7e22ce','Interview'],
-    'rejected'    => ['#fee2e2','#b91c1c','Rejected'],
-    'hired'       => ['#d1fae5','#065f46','Hired '],
+    'rejected'    => ['var(--danger-soft)','var(--danger-fg)','Rejected'],
+    'hired'       => ['var(--success-soft)','#065f46','Hired '],
 ];
 
 $detail = null;

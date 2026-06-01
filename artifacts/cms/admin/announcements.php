@@ -60,7 +60,7 @@ if (!empty($_GET['edit'])) {
     try { $edit = queryOne("SELECT * FROM announcements WHERE id=?", [(int)$_GET['edit']]); } catch(\Throwable $e) {}
 }
 
-$TYPES = ['info'=>['','#dbeafe','var(--primary-dark)'],'success'=>['','#dcfce7','#15803d'],'warning'=>['','#fef9c3','#b45309'],'danger'=>['','#fee2e2','#b91c1c'],'promo'=>['','#f3e8ff','#7e22ce']];
+$TYPES = ['info'=>['','#dbeafe','var(--primary-dark)'],'success'=>['','var(--success-soft)','var(--success-fg)'],'warning'=>['','var(--warning-soft)','var(--warning-fg)'],'danger'=>['','var(--danger-soft)','var(--danger-fg)'],'promo'=>['','#f3e8ff','#7e22ce']];
 $SCOPES = ['banner'=>'Inline Banner (top of page)','popup'=>'Modal Popup','toast'=>'Toast Notification'];
 ?>
 
@@ -93,7 +93,7 @@ $SCOPES = ['banner'=>'Inline Banner (top of page)','popup'=>'Modal Popup','toast
       <div class="flex-1-min">
         <div style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;">
           <span style="font-size:0.875rem;font-weight:600;color:var(--foreground);"><?=e($item['title'])?></span>
-          <?php if($live):?><span style="font-size:0.6rem;padding:0.1rem 0.4rem;border-radius:9999px;background:#dcfce7;color:#15803d;font-weight:700;">LIVE</span><?php endif;?>
+          <?php if($live):?><span style="font-size:0.6rem;padding:0.1rem 0.4rem;border-radius:9999px;background:var(--success-soft);color:var(--success-fg);font-weight:700;">LIVE</span><?php endif;?>
           <span style="font-size:0.6875rem;padding:0.1rem 0.5rem;border-radius:9999px;background:var(--muted);color:var(--muted-foreground);"><?=$SCOPES[$item['scope']]??$item['scope']?></span>
         </div>
         <div style="font-size:0.75rem;color:var(--muted-foreground);margin-top:0.125rem;">
@@ -114,7 +114,7 @@ $SCOPES = ['banner'=>'Inline Banner (top of page)','popup'=>'Modal Popup','toast
           <?=csrfField()?>
           <input type="hidden" name="action" value="delete">
           <input type="hidden" name="id" value="<?=$item['id']?>">
-          <button type="submit" class="btn btn-sm" style="background:#fee2e2;color:#b91c1c;border:none;"></button>
+          <button type="submit" class="btn btn-sm" style="background:var(--danger-soft);color:var(--danger-fg);border:none;"></button>
         </form>
       </div>
     </div>

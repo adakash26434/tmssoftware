@@ -18,10 +18,10 @@ foreach ($tickets as $t) {
 }
 
 $STATUS_COLORS = [
-    'open'        => ['#fee2e2','#b91c1c','Open'],
-    'in_progress' => ['#fef9c3','#854d0e','In Progress'],
+    'open'        => ['var(--danger-soft)','var(--danger-fg)','Open'],
+    'in_progress' => ['var(--warning-soft)','#854d0e','In Progress'],
     'replied'     => ['#f3e8ff','#7e22ce','Replied'],
-    'resolved'    => ['#dcfce7','#15803d','Resolved'],
+    'resolved'    => ['var(--success-soft)','var(--success-fg)','Resolved'],
     'closed'      => ['var(--muted)','var(--muted-foreground)','Closed'],
 ];
 
@@ -83,9 +83,9 @@ try {
   </a>
   <?php
   $stat_statuses = [
-    ['open',        '#fee2e2','#b91c1c','alert-circle','Open',       $counts['open']],
-    ['in_progress', '#fef9c3','#92400e','loader','In Progress', $counts['in_progress']+$counts['replied']],
-    ['resolved',    '#dcfce7','#15803d','check-circle','Resolved',    $counts['resolved']+$counts['closed']],
+    ['open',        'var(--danger-soft)','var(--danger-fg)','alert-circle','Open',       $counts['open']],
+    ['in_progress', 'var(--warning-soft)','var(--warning-fg)','loader','In Progress', $counts['in_progress']+$counts['replied']],
+    ['resolved',    'var(--success-soft)','var(--success-fg)','check-circle','Resolved',    $counts['resolved']+$counts['closed']],
   ];
   foreach ($stat_statuses as [$s,$bg,$col,$iconName,$label,$cnt]):?>
   <a href="<?= url('portal/tickets.php?status='.$s) ?>" style="text-decoration:none;display:block;padding:1.25rem;border-radius:1rem;border:1px solid var(--border);background:<?=$bg?>;text-align:center;transition:box-shadow 0.2s;"
@@ -99,10 +99,10 @@ try {
 <!-- Subscription renewal alerts -->
 <?php if (!empty($expiringSubs)): ?>
 <div style="display:flex;align-items:flex-start;gap:0.875rem;padding:1rem 1.25rem;border-radius:0.875rem;background:#fffbeb;border:1px solid #fde047;margin-bottom:1.5rem;">
-  <?= icon('alert-triangle',22,'color:#b45309;flex-shrink:0;') ?>
+  <?= icon('alert-triangle',22,'color:var(--warning-fg);flex-shrink:0;') ?>
   <div class="flex-1">
-    <div style="font-weight:700;color:#b45309;font-size:0.9375rem;">Software Renewal Required</div>
-    <div style="font-size:0.8125rem;color:#92400e;margin-top:0.2rem;">
+    <div style="font-weight:700;color:var(--warning-fg);font-size:0.9375rem;">Software Renewal Required</div>
+    <div style="font-size:0.8125rem;color:var(--warning-fg);margin-top:0.2rem;">
       <?php foreach(array_values($expiringSubs) as $i=>$s): $d=ceil((strtotime($s['expires_at'])-time())/86400); ?>
       <span><?=e($s['product_name'])?> expires in <strong><?=$d?> day<?=$d>1?'s':''?></strong><?=($i<count($expiringSubs)-1?'; ':'')?></span>
       <?php endforeach; ?>
@@ -124,8 +124,8 @@ try {
   <div>
   <?php foreach($activeSubs as $i=>$s):
     $last = $i === count($activeSubs)-1;
-    $sBg  = $s['status']==='trial' ? '#dbeafe' : '#dcfce7';
-    $sCol = $s['status']==='trial' ? 'var(--primary-dark)' : '#15803d';
+    $sBg  = $s['status']==='trial' ? '#dbeafe' : 'var(--success-soft)';
+    $sCol = $s['status']==='trial' ? 'var(--primary-dark)' : 'var(--success-fg)';
     $sLbl = ucfirst($s['status']);
   ?>
   <div style="display:flex;align-items:center;gap:1rem;padding:0.875rem 1.5rem;<?=!$last?'border-bottom:1px solid var(--border);':''?>">

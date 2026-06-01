@@ -74,7 +74,7 @@ $enforced    = !empty($__user['require_2fa']) || mustEnable2fa($__user);
   <div class="st-card p-tile">
     <?php if ($enabled): ?>
       <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.25rem;">
-        <span class="badge" style="background:#dcfce7;color:#15803d;">✓ Enabled</span>
+        <span class="badge" style="background:var(--success-soft);color:var(--success-fg);">✓ Enabled</span>
         <span style="color:var(--muted-foreground);font-size:0.875rem;">Your account is protected.</span>
       </div>
       <?php if (!$enforced): ?>

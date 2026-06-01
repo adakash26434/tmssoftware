@@ -155,7 +155,7 @@ function renderSidebar(array $cfg): void {
     <?php endif; ?>
     <a href="<?= htmlspecialchars($logoutHref) ?>"
        style="display:flex;align-items:center;gap:0.625rem;padding:0.5rem 0.75rem;border-radius:0.5rem;font-size:0.8125rem;font-weight:500;color:#ef4444;text-decoration:none;"
-       onmouseover="this.style.background='<?= $isDark ? 'rgba(239,68,68,0.12)' : '#fef2f2' ?>'"
+       onmouseover="this.style.background='<?= $isDark ? 'rgba(239,68,68,0.12)' : 'var(--danger-soft)' ?>'"
        onmouseout="this.style.background='transparent'">
       <?= icon('log-out', 15) ?> Sign out
     </a>

@@ -107,7 +107,7 @@ try {
 } catch(\Throwable $e) { $error = 'Could not load users.'; }
 
 $ROLE_STYLES = [
-    'admin'   => ['#fee2e2','#b91c1c'],
+    'admin'   => ['var(--danger-soft)','var(--danger-fg)'],
     'support' => ['#f3e8ff','#7e22ce'],
     'editor'  => ['#e0e7ff','#4338ca'],
 ];
@@ -201,12 +201,12 @@ $ROLE_STYLES = [
           </form>
         </td>
         <td class="p-row">
-          <span style="padding:0.2rem 0.5rem;border-radius:9999px;font-size:0.6875rem;font-weight:600;background:<?=$is_active?'#dcfce7':'#fee2e2'?>;color:<?=$is_active?'#15803d':'#b91c1c'?>;"><?=$is_active?'Active':'Inactive'?></span>
+          <span style="padding:0.2rem 0.5rem;border-radius:9999px;font-size:0.6875rem;font-weight:600;background:<?=$is_active?'var(--success-soft)':'var(--danger-soft)'?>;color:<?=$is_active?'var(--success-fg)':'var(--danger-fg)'?>;"><?=$is_active?'Active':'Inactive'?></span>
         </td>
         <td class="p-row">
           <?php $on=(int)$u['totp_enabled']; $req=(int)$u['require_2fa']; ?>
           <div style="display:flex;flex-direction:column;gap:0.25rem;">
-            <span style="padding:0.15rem 0.45rem;border-radius:9999px;font-size:0.65rem;font-weight:600;background:<?=$on?'#dcfce7':'#fef3c7'?>;color:<?=$on?'#15803d':'#92400e'?>;width:fit-content;">
+            <span style="padding:0.15rem 0.45rem;border-radius:9999px;font-size:0.65rem;font-weight:600;background:<?=$on?'var(--success-soft)':'var(--warning-soft)'?>;color:<?=$on?'var(--success-fg)':'var(--warning-fg)'?>;width:fit-content;">
               <?=$on?'Enabled':'Off'?>
             </span>
             <form method="POST" style="display:flex;gap:0.25rem;align-items:center;" title="Require this user to set up 2FA at next sign-in">

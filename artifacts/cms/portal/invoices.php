@@ -25,16 +25,16 @@ try {
 } catch(\Throwable $e) {}
 
 $STATUS_CFG = [
-    'active'    => ['#dcfce7','#15803d',' Active'],
+    'active'    => ['var(--success-soft)','var(--success-fg)',' Active'],
     'trial'     => ['#dbeafe','var(--primary-dark)',' Trial'],
-    'expired'   => ['#fee2e2','#b91c1c',' Expired'],
-    'suspended' => ['#fef9c3','#b45309',' Suspended'],
+    'expired'   => ['var(--danger-soft)','var(--danger-fg)',' Expired'],
+    'suspended' => ['var(--warning-soft)','var(--warning-fg)',' Suspended'],
     'cancelled' => ['var(--muted)','var(--muted-foreground)',' Cancelled'],
 ];
 $ORDER_STATUS = [
-    'active'    => ['#dcfce7','#15803d','Active'],
-    'pending'   => ['#fef9c3','#b45309','Pending'],
-    'expired'   => ['#fee2e2','#b91c1c','Expired'],
+    'active'    => ['var(--success-soft)','var(--success-fg)','Active'],
+    'pending'   => ['var(--warning-soft)','var(--warning-fg)','Pending'],
+    'expired'   => ['var(--danger-soft)','var(--danger-fg)','Expired'],
     'cancelled' => ['var(--muted)','var(--muted-foreground)','Cancelled'],
     'trial'     => ['#dbeafe','var(--primary-dark)','Trial'],
 ];
@@ -94,9 +94,9 @@ $ORDER_STATUS = [
           </td>
           <td style="padding:0.875rem 1rem;white-space:nowrap;">
             <?php if($s['expires_at']): ?>
-            <span style="color:<?=$isExpiringSoon?'#b45309':'var(--foreground)'?>;font-weight:<?=$isExpiringSoon?'600':'400'?>;">
+            <span style="color:<?=$isExpiringSoon?'var(--warning-fg)':'var(--foreground)'?>;font-weight:<?=$isExpiringSoon?'600':'400'?>;">
               <?= date('M j, Y', strtotime($s['expires_at'])) ?>
-              <?php if($isExpiringSoon):?><span style="font-size:0.6875rem;font-weight:600;background:#fef9c3;color:#b45309;padding:0.125rem 0.375rem;border-radius:9999px;margin-left:0.25rem;"> Expiring</span><?php endif;?>
+              <?php if($isExpiringSoon):?><span style="font-size:0.6875rem;font-weight:600;background:var(--warning-soft);color:var(--warning-fg);padding:0.125rem 0.375rem;border-radius:9999px;margin-left:0.25rem;"> Expiring</span><?php endif;?>
             </span>
             <?php else: ?>
             <span class="text-muted">—</span>

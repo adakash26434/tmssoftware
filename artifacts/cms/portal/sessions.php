@@ -60,9 +60,9 @@ function _ua_short(string $ua): string {
         <?php else: foreach ($rows as $r):
           $ev = $r['event'];
           $color = match($ev) {
-            'login','2fa_pass' => ['#dcfce7','#15803d'],
+            'login','2fa_pass' => ['var(--success-soft)','var(--success-fg)'],
             'logout'           => ['var(--border)','#475569'],
-            '2fa_fail','login_fail' => ['#fee2e2','#b91c1c'],
+            '2fa_fail','login_fail' => ['var(--danger-soft)','var(--danger-fg)'],
             default            => ['var(--border)','#475569'],
           };
         ?>

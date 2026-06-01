@@ -138,12 +138,12 @@ foreach($revByBilling as $rb) {
 <?php
 $kpis = [
   ['Total Tickets',   $totalTickets,    icon('ticket',16),        '#dbeafe','var(--primary-dark)', null],
-  ['Open / Active',   $openTickets,     icon('alert-circle',16),  '#fee2e2','#b91c1c', null],
-  ['Resolution Rate', $resolvedPct.'%', icon('check-circle',16),  '#dcfce7','#15803d', null],
+  ['Open / Active',   $openTickets,     icon('alert-circle',16),  'var(--danger-soft)','var(--danger-fg)', null],
+  ['Resolution Rate', $resolvedPct.'%', icon('check-circle',16),  'var(--success-soft)','var(--success-fg)', null],
   ['Active Subs',     $totalSubs,       icon('users',16),         '#f5f3ff','#7c3aed', null],
-  ['Contacts',        $totalContacts,   icon('mail',16),          '#fef9c3','#b45309', null],
-  ['Demo Conv. Rate', $convPct.'%',     icon('trending-up',16),   '#dcfce7','#15803d', null],
-  ['Avg Response',    $avgHrs ? $avgHrs.'h' : '—', icon('clock',16), '#f0fdf4','#15803d', null],
+  ['Contacts',        $totalContacts,   icon('mail',16),          'var(--warning-soft)','var(--warning-fg)', null],
+  ['Demo Conv. Rate', $convPct.'%',     icon('trending-up',16),   'var(--success-soft)','var(--success-fg)', null],
+  ['Avg Response',    $avgHrs ? $avgHrs.'h' : '—', icon('clock',16), 'var(--success-soft)','var(--success-fg)', null],
 ];
 foreach ($kpis as [$lbl,$val,$ico,$bg,$col,$href]):?>
 <div style="padding:1rem 1.125rem;border-radius:0.875rem;border:1px solid var(--border);background:var(--card);display:flex;flex-direction:column;gap:0.375rem;">
@@ -163,12 +163,12 @@ foreach ($kpis as [$lbl,$val,$ico,$bg,$col,$href]):?>
   <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:0.875rem;margin-bottom:1.25rem;">
     <?php
     $revKpis = [
-      ['MRR (est.)',        'NPR '.number_format($mrr),        icon('trending-up',14),    '#f0fdf4','#15803d'],
+      ['MRR (est.)',        'NPR '.number_format($mrr),        icon('trending-up',14),    'var(--success-soft)','var(--success-fg)'],
       ['ARR (est.)',        'NPR '.number_format($mrr*12),     icon('bar-chart-2',14),    '#eff6ff','var(--primary-dark)'],
-      ['Active Subscr.',   $activeSubCount,                    icon('check-circle',14),   '#dcfce7','#15803d'],
+      ['Active Subscr.',   $activeSubCount,                    icon('check-circle',14),   'var(--success-soft)','var(--success-fg)'],
       ['Trials',           $subRevTrial,                       icon('play-circle',14),    '#f5f3ff','#7c3aed'],
-      ['Expiring (30d)',   $subRevExpiring,                    icon('alert-triangle',14), '#fffbeb','#b45309'],
-      ['Expired',          $subRevExpired,                     icon('x-circle',14),       '#fee2e2','#b91c1c'],
+      ['Expiring (30d)',   $subRevExpiring,                    icon('alert-triangle',14), '#fffbeb','var(--warning-fg)'],
+      ['Expired',          $subRevExpired,                     icon('x-circle',14),       'var(--danger-soft)','var(--danger-fg)'],
     ];
     foreach($revKpis as [$lbl,$val,$ico,$bg,$col]):?>
     <div style="padding:0.875rem 1rem;border-radius:0.75rem;background:<?=$bg?>;border:1px solid var(--border);display:flex;flex-direction:column;gap:0.375rem;">
@@ -304,7 +304,7 @@ foreach ($kpis as [$lbl,$val,$ico,$bg,$col,$href]):?>
       ?>
       <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;" title="<?=e($labels[$i])?>: <?=$cnt?>">
         <?php if($cnt>0 && $range<=30):?><div style="font-size:0.5rem;color:var(--muted-foreground);"><?=$cnt?></div><?php endif;?>
-        <div style="width:100%;height:<?=$h?>px;border-radius:2px 2px 0 0;background:<?=$cnt?'#10b981':'var(--muted)'?>;min-height:3px;"></div>
+        <div style="width:100%;height:<?=$h?>px;border-radius:2px 2px 0 0;background:<?=$cnt?'var(--secondary)':'var(--muted)'?>;min-height:3px;"></div>
         <?php if($showLabel):?><div class="caption-center"><?=e(date('M j',strtotime($dates[$i])))?></div><?php endif;?>
       </div>
       <?php endforeach;?>
@@ -324,10 +324,10 @@ foreach ($kpis as [$lbl,$val,$ico,$bg,$col,$href]):?>
     <h3 class="eyebrow"> By Status</h3>
     <?php
     $statusColors = [
-      'open'        => ['#fee2e2','#b91c1c'],
-      'in_progress' => ['#fef9c3','#b45309'],
+      'open'        => ['var(--danger-soft)','var(--danger-fg)'],
+      'in_progress' => ['var(--warning-soft)','var(--warning-fg)'],
       'replied'     => ['#f3e8ff','#7e22ce'],
-      'resolved'    => ['#dcfce7','#15803d'],
+      'resolved'    => ['var(--success-soft)','var(--success-fg)'],
       'closed'      => ['var(--muted)','var(--muted-foreground)'],
     ];
     $totalForStatus = max(1, array_sum($statusMap));
@@ -353,7 +353,7 @@ foreach ($kpis as [$lbl,$val,$ico,$bg,$col,$href]):?>
   <div class="st-card p-card">
     <h3 class="eyebrow"> By Priority</h3>
     <?php
-    $priColors = ['urgent'=>['#fee2e2','#b91c1c'],'high'=>['#fef9c3','#b45309'],'normal'=>['#dbeafe','var(--primary-dark)'],'low'=>['#dcfce7','#15803d']];
+    $priColors = ['urgent'=>['var(--danger-soft)','var(--danger-fg)'],'high'=>['var(--warning-soft)','var(--warning-fg)'],'normal'=>['#dbeafe','var(--primary-dark)'],'low'=>['var(--success-soft)','var(--success-fg)']];
     $totalForPri = max(1, array_sum($priMap));
     foreach ($priColors as $p=>[$pbg,$pcol]):
       $cnt = $priMap[$p] ?? 0;
@@ -398,7 +398,7 @@ foreach ($kpis as [$lbl,$val,$ico,$bg,$col,$href]):?>
   <div class="st-card p-card">
     <h3 class="eyebrow"> Demo Funnel</h3>
     <?php
-    $funnelColors = ['new'=>'#3b82f6','contacted'=>'#8b5cf6','scheduled'=>'#f59e0b','won'=>'#10b981','lost'=>'#ef4444'];
+    $funnelColors = ['new'=>'#3b82f6','contacted'=>'#8b5cf6','scheduled'=>'#f59e0b','won'=>'var(--secondary)','lost'=>'#ef4444'];
     $funnelMax = max(1, ...array_values($demoFunnel));
     foreach ($demoFunnel as $stage=>$cnt):
       $pct = round($cnt/$funnelMax*100);
@@ -416,7 +416,7 @@ foreach ($kpis as [$lbl,$val,$ico,$bg,$col,$href]):?>
     <?php endforeach;?>
     <?php if($totalDemos>0):?>
     <div style="margin-top:0.75rem;padding-top:0.75rem;border-top:1px solid var(--border);font-size:0.75rem;color:var(--muted-foreground);">
-      Conversion: <strong style="color:#10b981;"><?=$convPct?>%</strong> (<?=$wonDemos?>/<?=$totalDemos?> won)
+      Conversion: <strong style="color:var(--secondary);"><?=$convPct?>%</strong> (<?=$wonDemos?>/<?=$totalDemos?> won)
     </div>
     <?php endif;?>
   </div>
@@ -459,8 +459,8 @@ foreach ($kpis as [$lbl,$val,$ico,$bg,$col,$href]):?>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
       <?php foreach([
         ['Total Chats',  $chatTotal, '#dbeafe','var(--primary-dark)'],
-        ['Open',         $chatOpen,  '#fef9c3','#b45309'],
-        ['Closed',       $chatClosed,'#dcfce7','#15803d'],
+        ['Open',         $chatOpen,  'var(--warning-soft)','var(--warning-fg)'],
+        ['Closed',       $chatClosed,'var(--success-soft)','var(--success-fg)'],
         ["New ({$range}d)",$chatNew, '#f5f3ff','#7c3aed'],
       ] as [$lbl,$v,$bg,$col]):?>
       <div style="padding:0.875rem;border-radius:0.75rem;background:var(--background);border:1px solid var(--border);text-align:center;">

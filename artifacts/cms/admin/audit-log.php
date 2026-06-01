@@ -52,8 +52,8 @@ try {
 
 // Action colour map
 function auditActionColor(string $action): array {
-    if (str_contains($action, 'delete') || str_contains($action, 'banned'))   return ['#fee2e2','#b91c1c'];
-    if (str_contains($action, 'create') || str_contains($action, 'register')) return ['#dcfce7','#15803d'];
+    if (str_contains($action, 'delete') || str_contains($action, 'banned'))   return ['var(--danger-soft)','var(--danger-fg)'];
+    if (str_contains($action, 'create') || str_contains($action, 'register')) return ['var(--success-soft)','var(--success-fg)'];
     if (str_contains($action, 'update') || str_contains($action, 'edit'))     return ['#dbeafe','var(--primary-dark)'];
     if (str_contains($action, 'login') || str_contains($action, 'logout'))    return ['#f3e8ff','#7e22ce'];
     return ['var(--muted)','var(--muted-foreground)'];

@@ -73,7 +73,7 @@ $log = query("SELECT * FROM email_intake_log ORDER BY fetched_at DESC LIMIT 50")
           <td><?= e($l['from_email']) ?></td>
           <td><?= e(truncate($l['subject'] ?? '', 60)) ?></td>
           <td><?php if ($l['ticket_id']): ?><a href="ticket.php?id=<?= $l['ticket_id'] ?>">#<?= $l['ticket_id'] ?></a><?php else: ?>—<?php endif; ?></td>
-          <td><span class="badge badge-<?= $l['status']==='created'?'success':($l['status']==='failed'?'error':'ghost') ?>"><?= e($l['status']) ?></span><?= $l['error'] ? '<br><small style="color:#b91c1c">'.e($l['error']).'</small>' : '' ?></td>
+          <td><span class="badge badge-<?= $l['status']==='created'?'success':($l['status']==='failed'?'error':'ghost') ?>"><?= e($l['status']) ?></span><?= $l['error'] ? '<br><small style="color:var(--danger-fg)">'.e($l['error']).'</small>' : '' ?></td>
         </tr>
       <?php endforeach; ?>
     </tbody>

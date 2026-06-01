@@ -221,13 +221,13 @@ require __DIR__ . '/includes/head.php';
     str.style.display='block';
     var s = checkStrength(v);
     var labels=['','Weak','Fair','Good','Strong'];
-    var colors=['','#dc2626','#d97706','var(--primary)','#16a34a'];
+    var colors=['','var(--danger)','var(--warning)','var(--primary)','var(--success-fg)'];
     str.textContent = 'Password strength: ' + (labels[s]||'');
     str.style.color = colors[s]||'var(--muted-foreground)';
     str.style.borderColor = colors[s]||'var(--border)';
   });
   pw2.addEventListener('input', function(){
-    pw2.style.borderColor = pw2.value && pw2.value !== pw.value ? '#dc2626' : '';
+    pw2.style.borderColor = pw2.value && pw2.value !== pw.value ? 'var(--danger)' : '';
   });
   var form = document.querySelector('form');
   var btn  = document.getElementById('signup-btn');

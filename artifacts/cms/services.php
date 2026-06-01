@@ -77,7 +77,7 @@ $__svcMockups = [
   <div class="p-card-sm">
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.625rem;margin-bottom:0.875rem;">
       <div style="background:var(--card);border:1px solid var(--border);border-radius:0.5rem;padding:0.5rem 0.625rem;">
-        <div style="font-size:var(--text-2xs);font-weight:800;color:#16a34a;font-family:var(--font-display);">99.9%</div>
+        <div style="font-size:var(--text-2xs);font-weight:800;color:var(--success-fg);font-family:var(--font-display);">99.9%</div>
         <div style="font-size:var(--text-3xs);color:var(--muted-foreground);">Uptime</div>
       </div>
       <div style="background:var(--card);border:1px solid var(--border);border-radius:0.5rem;padding:0.5rem 0.625rem;">
@@ -85,7 +85,7 @@ $__svcMockups = [
         <div style="font-size:var(--text-3xs);color:var(--muted-foreground);">Servers</div>
       </div>
       <div style="background:var(--card);border:1px solid var(--border);border-radius:0.5rem;padding:0.5rem 0.625rem;">
-        <div style="font-size:var(--text-2xs);font-weight:800;color:#d97706;font-family:var(--font-display);">Daily</div>
+        <div style="font-size:var(--text-2xs);font-weight:800;color:var(--warning);font-family:var(--font-display);">Daily</div>
         <div style="font-size:var(--text-3xs);color:var(--muted-foreground);">Backups</div>
       </div>
       <div style="background:var(--card);border:1px solid var(--border);border-radius:0.5rem;padding:0.5rem 0.625rem;">
@@ -94,19 +94,19 @@ $__svcMockups = [
       </div>
     </div>
     <div style="display:flex;align-items:center;gap:0.5rem;padding:0.45rem 0;border-bottom:1px solid var(--border);">
-      <span style="width:0.5rem;height:0.5rem;border-radius:9999px;background:#16a34a;flex-shrink:0;"></span>
+      <span style="width:0.5rem;height:0.5rem;border-radius:9999px;background:var(--success-fg);flex-shrink:0;"></span>
       <span style="flex:1;font-size:var(--text-3xs);color:var(--foreground);font-family:monospace;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">ankurinfotech.com.np</span>
-      <span style="font-size:var(--text-3xs);font-weight:700;color:#16a34a;white-space:nowrap;">Active</span>
+      <span style="font-size:var(--text-3xs);font-weight:700;color:var(--success-fg);white-space:nowrap;">Active</span>
     </div>
     <div style="display:flex;align-items:center;gap:0.5rem;padding:0.45rem 0;border-bottom:1px solid var(--border);">
-      <span style="width:0.5rem;height:0.5rem;border-radius:9999px;background:#16a34a;flex-shrink:0;"></span>
+      <span style="width:0.5rem;height:0.5rem;border-radius:9999px;background:var(--success-fg);flex-shrink:0;"></span>
       <span style="flex:1;font-size:var(--text-3xs);color:var(--foreground);font-family:monospace;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">dms.pokhara-sahakari.com.np</span>
-      <span style="font-size:var(--text-3xs);font-weight:700;color:#16a34a;white-space:nowrap;">Active</span>
+      <span style="font-size:var(--text-3xs);font-weight:700;color:var(--success-fg);white-space:nowrap;">Active</span>
     </div>
     <div style="display:flex;align-items:center;gap:0.5rem;padding:0.45rem 0;border-bottom:1px solid var(--border);">
-      <span style="width:0.5rem;height:0.5rem;border-radius:9999px;background:#d97706;flex-shrink:0;"></span>
+      <span style="width:0.5rem;height:0.5rem;border-radius:9999px;background:var(--warning);flex-shrink:0;"></span>
       <span style="flex:1;font-size:var(--text-3xs);color:var(--foreground);font-family:monospace;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">api.lumbini-coop.org</span>
-      <span style="font-size:var(--text-3xs);font-weight:700;color:#d97706;white-space:nowrap;">Maintenance</span>
+      <span style="font-size:var(--text-3xs);font-weight:700;color:var(--warning);white-space:nowrap;">Maintenance</span>
     </div>
     <div style="margin-top:0.75rem;display:flex;align-items:center;gap:0.5rem;padding:0.4rem 0.625rem;background:rgba(37,99,235,0.07);border:1px solid rgba(37,99,235,0.15);border-radius:0.5rem;">
       <i data-lucide="map-pin" style="width:11px;height:11px;color:var(--primary);flex-shrink:0;"></i>
@@ -119,7 +119,7 @@ $__svcMockups = [
   <div class="mockup-chrome">
     <div class="row-tight"><span class="mockup-dot dot-danger"></span><span class="mockup-dot dot-warning"></span><span class="mockup-dot dot-success"></span></div>
     <div style="flex:1;background:var(--background);border-radius:0.25rem;padding:0.15rem 0.5rem;display:flex;align-items:center;gap:0.3rem;">
-      <i data-lucide="shield-check" style="width:9px;height:9px;color:#16a34a;flex-shrink:0;"></i>
+      <i data-lucide="shield-check" style="width:9px;height:9px;color:var(--success-fg);flex-shrink:0;"></i>
       <span style="font-size:var(--text-3xs);color:var(--muted-foreground);font-family:monospace;">Domain Manager</span>
     </div>
   </div>
@@ -130,7 +130,7 @@ $__svcMockups = [
         <div style="font-size:var(--text-2xs);font-weight:600;color:var(--foreground);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">himalaya-coop.com.np</div>
         <div style="font-size:var(--text-3xs);color:var(--muted-foreground);">Expires: 2082 Baishakh</div>
       </div>
-      <span style="font-size:var(--text-3xs);font-weight:700;color:#16a34a;white-space:nowrap;">Registered</span>
+      <span style="font-size:var(--text-3xs);font-weight:700;color:var(--success-fg);white-space:nowrap;">Registered</span>
     </div>
     <div style="display:flex;align-items:center;gap:0.5rem;padding:0.5rem 0;border-bottom:1px solid var(--border);">
       <i data-lucide="globe" style="width:11px;height:11px;color:var(--primary);flex-shrink:0;"></i>
@@ -138,7 +138,7 @@ $__svcMockups = [
         <div style="font-size:var(--text-2xs);font-weight:600;color:var(--foreground);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">seti-saving.org.np</div>
         <div style="font-size:var(--text-3xs);color:var(--muted-foreground);">Expires: 2082 Ashwin</div>
       </div>
-      <span style="font-size:var(--text-3xs);font-weight:700;color:#16a34a;white-space:nowrap;">Registered</span>
+      <span style="font-size:var(--text-3xs);font-weight:700;color:var(--success-fg);white-space:nowrap;">Registered</span>
     </div>
     <div style="display:flex;align-items:center;gap:0.5rem;padding:0.5rem 0;border-bottom:1px solid var(--border);">
       <i data-lucide="globe" style="width:11px;height:11px;color:var(--primary);flex-shrink:0;"></i>
@@ -146,11 +146,11 @@ $__svcMockups = [
         <div style="font-size:var(--text-2xs);font-weight:600;color:var(--foreground);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">newroad-finance.com</div>
         <div style="font-size:var(--text-3xs);color:var(--muted-foreground);">Expires: 2081 Shrawan</div>
       </div>
-      <span style="font-size:var(--text-3xs);font-weight:700;color:#d97706;white-space:nowrap;">Expiring</span>
+      <span style="font-size:var(--text-3xs);font-weight:700;color:var(--warning);white-space:nowrap;">Expiring</span>
     </div>
     <div style="margin-top:0.75rem;display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
       <div style="display:flex;align-items:center;gap:0.375rem;padding:0.35rem 0.5rem;background:var(--card);border:1px solid var(--border);border-radius:0.375rem;">
-        <i data-lucide="shield-check" style="width:10px;height:10px;color:#16a34a;flex-shrink:0;"></i>
+        <i data-lucide="shield-check" style="width:10px;height:10px;color:var(--success-fg);flex-shrink:0;"></i>
         <span style="font-size:var(--text-3xs);font-weight:600;color:var(--foreground);">Free SSL</span>
       </div>
       <div style="display:flex;align-items:center;gap:0.375rem;padding:0.35rem 0.5rem;background:var(--card);border:1px solid var(--border);border-radius:0.375rem;">
@@ -162,7 +162,7 @@ $__svcMockups = [
         <span style="font-size:var(--text-3xs);font-weight:600;color:var(--foreground);">Email Hosting</span>
       </div>
       <div style="display:flex;align-items:center;gap:0.375rem;padding:0.35rem 0.5rem;background:var(--card);border:1px solid var(--border);border-radius:0.375rem;">
-        <i data-lucide="settings" style="width:10px;height:10px;color:#d97706;flex-shrink:0;"></i>
+        <i data-lucide="settings" style="width:10px;height:10px;color:var(--warning);flex-shrink:0;"></i>
         <span style="font-size:var(--text-3xs);font-weight:600;color:var(--foreground);">DNS Mgmt</span>
       </div>
     </div>
@@ -181,29 +181,29 @@ $__svcMockups = [
         <div style="font-size:var(--text-3xs);color:var(--muted-foreground);">Sent</div>
       </div>
       <div style="background:var(--card);border:1px solid var(--border);border-radius:0.5rem;padding:0.4rem;text-align:center;">
-        <div style="font-size:0.9rem;font-weight:800;color:#16a34a;font-family:var(--font-display);">1,198</div>
+        <div style="font-size:0.9rem;font-weight:800;color:var(--success-fg);font-family:var(--font-display);">1,198</div>
         <div style="font-size:var(--text-3xs);color:var(--muted-foreground);">Delivered</div>
       </div>
       <div style="background:var(--card);border:1px solid var(--border);border-radius:0.5rem;padding:0.4rem;text-align:center;">
-        <div style="font-size:0.9rem;font-weight:800;color:#dc2626;font-family:var(--font-display);">42</div>
+        <div style="font-size:0.9rem;font-weight:800;color:var(--danger);font-family:var(--font-display);">42</div>
         <div style="font-size:var(--text-3xs);color:var(--muted-foreground);">Failed</div>
       </div>
     </div>
     <div style="display:flex;align-items:center;gap:0.625rem;padding:0.5rem 0;border-bottom:1px solid var(--border);">
-      <i data-lucide="message-square" style="width:12px;height:12px;color:#d97706;flex-shrink:0;"></i>
+      <i data-lucide="message-square" style="width:12px;height:12px;color:var(--warning);flex-shrink:0;"></i>
       <div style="flex:1;">
         <div style="font-size:var(--text-2xs);font-weight:600;color:var(--foreground);">EMI Reminder — Shrawan</div>
         <div style="font-size:var(--text-3xs);color:var(--muted-foreground);">1,200 recipients</div>
       </div>
-      <span style="font-size:var(--text-3xs);font-weight:700;color:#d97706;white-space:nowrap;">Scheduled</span>
+      <span style="font-size:var(--text-3xs);font-weight:700;color:var(--warning);white-space:nowrap;">Scheduled</span>
     </div>
     <div style="display:flex;align-items:center;gap:0.625rem;padding:0.5rem 0;border-bottom:1px solid var(--border);">
-      <i data-lucide="message-square" style="width:12px;height:12px;color:#16a34a;flex-shrink:0;"></i>
+      <i data-lucide="message-square" style="width:12px;height:12px;color:var(--success-fg);flex-shrink:0;"></i>
       <div style="flex:1;">
         <div style="font-size:var(--text-2xs);font-weight:600;color:var(--foreground);">AGM Notice 2081</div>
         <div style="font-size:var(--text-3xs);color:var(--muted-foreground);">850 recipients</div>
       </div>
-      <span style="font-size:var(--text-3xs);font-weight:700;color:#16a34a;white-space:nowrap;">Sent</span>
+      <span style="font-size:var(--text-3xs);font-weight:700;color:var(--success-fg);white-space:nowrap;">Sent</span>
     </div>
     <div style="display:flex;align-items:center;gap:0.625rem;padding:0.5rem 0;border-bottom:1px solid var(--border);">
       <i data-lucide="message-square" style="width:12px;height:12px;color:var(--primary);flex-shrink:0;"></i>
@@ -214,8 +214,8 @@ $__svcMockups = [
       <span style="font-size:var(--text-3xs);font-weight:700;color:var(--primary);white-space:nowrap;">Live</span>
     </div>
     <div style="margin-top:0.75rem;display:flex;align-items:center;gap:0.5rem;padding:0.4rem 0.625rem;background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.2);border-radius:0.5rem;">
-      <i data-lucide="zap" style="width:11px;height:11px;color:#d97706;flex-shrink:0;"></i>
-      <span style="font-size:var(--text-2xs);font-weight:700;color:#d97706;">Ncell & NTC · 96.6% delivery rate</span>
+      <i data-lucide="zap" style="width:11px;height:11px;color:var(--warning);flex-shrink:0;"></i>
+      <span style="font-size:var(--text-2xs);font-weight:700;color:var(--warning);">Ncell & NTC · 96.6% delivery rate</span>
     </div>
   </div>
 </div>',
@@ -228,15 +228,15 @@ $__svcMockups = [
   <div class="p-card-sm">
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;margin-bottom:0.875rem;">
       <div style="background:var(--card);border:1px solid var(--border);border-radius:0.5rem;padding:0.4rem 0.625rem;display:flex;align-items:center;gap:0.375rem;">
-        <span style="font-size:0.9rem;font-weight:800;color:#16a34a;font-family:var(--font-display);">0</span>
+        <span style="font-size:0.9rem;font-weight:800;color:var(--success-fg);font-family:var(--font-display);">0</span>
         <span style="font-size:var(--text-3xs);color:var(--muted-foreground);">Critical</span>
       </div>
       <div style="background:var(--card);border:1px solid var(--border);border-radius:0.5rem;padding:0.4rem 0.625rem;display:flex;align-items:center;gap:0.375rem;">
-        <span style="font-size:0.9rem;font-weight:800;color:#dc2626;font-family:var(--font-display);">2</span>
+        <span style="font-size:0.9rem;font-weight:800;color:var(--danger);font-family:var(--font-display);">2</span>
         <span style="font-size:var(--text-3xs);color:var(--muted-foreground);">High</span>
       </div>
       <div style="background:var(--card);border:1px solid var(--border);border-radius:0.5rem;padding:0.4rem 0.625rem;display:flex;align-items:center;gap:0.375rem;">
-        <span style="font-size:0.9rem;font-weight:800;color:#d97706;font-family:var(--font-display);">5</span>
+        <span style="font-size:0.9rem;font-weight:800;color:var(--warning);font-family:var(--font-display);">5</span>
         <span style="font-size:var(--text-3xs);color:var(--muted-foreground);">Medium</span>
       </div>
       <div style="background:var(--card);border:1px solid var(--border);border-radius:0.5rem;padding:0.4rem 0.625rem;display:flex;align-items:center;gap:0.375rem;">
@@ -245,28 +245,28 @@ $__svcMockups = [
       </div>
     </div>
     <div style="display:flex;align-items:center;gap:0.5rem;padding:0.45rem 0;border-bottom:1px solid var(--border);">
-      <i data-lucide="shield" style="width:11px;height:11px;color:#16a34a;flex-shrink:0;"></i>
+      <i data-lucide="shield" style="width:11px;height:11px;color:var(--success-fg);flex-shrink:0;"></i>
       <span style="flex:1;font-size:var(--text-2xs);color:var(--foreground);">SQL Injection Test</span>
-      <span style="font-size:var(--text-3xs);font-weight:700;color:#16a34a;white-space:nowrap;">Passed</span>
+      <span style="font-size:var(--text-3xs);font-weight:700;color:var(--success-fg);white-space:nowrap;">Passed</span>
     </div>
     <div style="display:flex;align-items:center;gap:0.5rem;padding:0.45rem 0;border-bottom:1px solid var(--border);">
-      <i data-lucide="shield" style="width:11px;height:11px;color:#dc2626;flex-shrink:0;"></i>
+      <i data-lucide="shield" style="width:11px;height:11px;color:var(--danger);flex-shrink:0;"></i>
       <span style="flex:1;font-size:var(--text-2xs);color:var(--foreground);">XSS Vulnerability Scan</span>
-      <span style="font-size:var(--text-3xs);font-weight:700;color:#dc2626;white-space:nowrap;">2 Found</span>
+      <span style="font-size:var(--text-3xs);font-weight:700;color:var(--danger);white-space:nowrap;">2 Found</span>
     </div>
     <div style="display:flex;align-items:center;gap:0.5rem;padding:0.45rem 0;border-bottom:1px solid var(--border);">
-      <i data-lucide="shield" style="width:11px;height:11px;color:#16a34a;flex-shrink:0;"></i>
+      <i data-lucide="shield" style="width:11px;height:11px;color:var(--success-fg);flex-shrink:0;"></i>
       <span style="flex:1;font-size:var(--text-2xs);color:var(--foreground);">SSL/TLS Configuration</span>
-      <span style="font-size:var(--text-3xs);font-weight:700;color:#16a34a;white-space:nowrap;">Passed</span>
+      <span style="font-size:var(--text-3xs);font-weight:700;color:var(--success-fg);white-space:nowrap;">Passed</span>
     </div>
     <div style="display:flex;align-items:center;gap:0.5rem;padding:0.45rem 0;border-bottom:1px solid var(--border);">
-      <i data-lucide="shield" style="width:11px;height:11px;color:#16a34a;flex-shrink:0;"></i>
+      <i data-lucide="shield" style="width:11px;height:11px;color:var(--success-fg);flex-shrink:0;"></i>
       <span style="flex:1;font-size:var(--text-2xs);color:var(--foreground);">IT Compliance</span>
-      <span style="font-size:var(--text-3xs);font-weight:700;color:#16a34a;white-space:nowrap;">Compliant</span>
+      <span style="font-size:var(--text-3xs);font-weight:700;color:var(--success-fg);white-space:nowrap;">Compliant</span>
     </div>
     <div style="margin-top:0.75rem;display:flex;align-items:center;gap:0.5rem;padding:0.4rem 0.625rem;background:rgba(220,38,38,0.07);border:1px solid rgba(220,38,38,0.2);border-radius:0.5rem;">
-      <i data-lucide="file-text" style="width:11px;height:11px;color:#dc2626;flex-shrink:0;"></i>
-      <span style="font-size:var(--text-2xs);font-weight:700;color:#dc2626;">Full PDF report · IT security compliant</span>
+      <i data-lucide="file-text" style="width:11px;height:11px;color:var(--danger);flex-shrink:0;"></i>
+      <span style="font-size:var(--text-2xs);font-weight:700;color:var(--danger);">Full PDF report · IT security compliant</span>
     </div>
   </div>
 </div>',

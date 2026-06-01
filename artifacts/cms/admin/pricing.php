@@ -102,7 +102,7 @@ $showForm = !empty($_GET['new']) || $editing;
         <a href="?edit=<?=$p['id']?>" class="btn btn-ghost btn-sm">Edit</a>
         <form method="POST" class="inline" onsubmit="return confirm('Delete this plan?')">
           <?=csrfField()?><input type="hidden" name="action" value="delete"><input type="hidden" name="id" value="<?=$p['id']?>">
-          <button type="submit" class="btn btn-sm" style="background:#fee2e2;color:#b91c1c;border:none;">Delete</button>
+          <button type="submit" class="btn btn-sm" style="background:var(--danger-soft);color:var(--danger-fg);border:none;">Delete</button>
         </form>
       </div>
     </div>
