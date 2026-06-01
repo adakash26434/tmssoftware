@@ -297,7 +297,7 @@ $SOURCE_ICONS = ['demo_request'=>'','contact_form'=>'','referral'=>'','cold_call
     </div>
     <form method="POST">
       <?= csrfField() ?><input type="hidden" name="action" value="add_lead">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.875rem;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.875rem;align-items:start;">
         <div class="form-group">
           <label class="form-label">Contact Name <span style="color:var(--danger-fg);">*</span></label>
           <input type="text" name="name" class="form-input" required placeholder="Ram Bahadur Thapa">
