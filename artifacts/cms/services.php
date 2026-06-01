@@ -25,19 +25,24 @@ $__svcDefaults = [
 $services = [];
 try {
     $rows = query(
-        "SELECT id,title,slug,tagline,summary,badge,lucide_icon,icon_color,highlights,features,price_from,active
+        "SELECT id,title,slug,tagline,summary,badge,lucide_icon,icon_color,highlights,features,price_from,active,screenshot_url
          FROM services WHERE active=1 ORDER BY position,id LIMIT 20"
     );
     foreach ($rows as $r) {
         $highs = json_decode($r['highlights'] ?? '[]', true) ?: [];
-        if (empty($highs) && !empty($r['features'])) {
-            // Legacy: features stored as comma-separated string or JSON array
+        // Features → pill chips (separate from highlights)
+        $chips = [];
+        if (!empty($r['features'])) {
             $decoded = json_decode($r['features'], true);
             if (is_array($decoded)) {
-                $highs = array_slice($decoded, 0, 4);
+                $chips = array_values(array_filter(array_map('trim', $decoded)));
             } else {
-                $highs = array_slice(array_map('trim', explode(',', $r['features'])), 0, 4);
+                $chips = array_values(array_filter(array_map('trim', explode(',', $r['features']))));
             }
+        }
+        // Fallback: if no highlights, use chips (up to 4) as highlights
+        if (empty($highs) && !empty($chips)) {
+            $highs = array_slice($chips, 0, 4);
         }
         $price     = 'Contact us';
         $priceNote = '';
@@ -49,16 +54,18 @@ try {
         if ($isIncluded) { $price = 'Included'; $priceNote = 'with any plan'; }
         $color = strtolower($r['icon_color'] ?? 'blue');
         $services[] = [
-            'slug'       => $r['slug'],
-            'box'        => $__colorMap[$color] ?? 'icon-box-blue',
-            'badge'      => $r['badge'] ?? '',
-            'name'       => $r['title'],
-            'tagline'    => $r['tagline'] ?? '',
-            'summary'    => $r['summary'] ?? '',
-            'price'      => $price,
-            'price_note' => $priceNote,
-            'icon'       => $r['lucide_icon'] ?: 'layers',
-            'highlights' => $highs,
+            'slug'           => $r['slug'],
+            'box'            => $__colorMap[$color] ?? 'icon-box-blue',
+            'badge'          => $r['badge'] ?? '',
+            'name'           => $r['title'],
+            'tagline'        => $r['tagline'] ?? '',
+            'summary'        => $r['summary'] ?? '',
+            'price'          => $price,
+            'price_note'     => $priceNote,
+            'icon'           => $r['lucide_icon'] ?: 'layers',
+            'highlights'     => $highs,
+            'chips'          => $chips,
+            'screenshot_url' => $r['screenshot_url'] ?? '',
         ];
     }
 } catch (\Throwable $e) {}
@@ -115,6 +122,18 @@ ob_start(); ?>
           <?php if (!empty($svc['summary'])): ?>
           <p class="product-card__summary"><?= e($svc['summary']) ?></p>
           <?php endif; ?>
+
+          <?php if (!empty($svc['chips'])): ?>
+          <div style="display:flex;flex-wrap:wrap;gap:0.3rem;margin-bottom:0.75rem;">
+            <?php foreach ($svc['chips'] as $chip): ?>
+            <span style="display:inline-flex;align-items:center;gap:0.25rem;padding:0.2rem 0.6rem;border-radius:9999px;background:var(--primary-light);color:var(--primary);font-size:0.7rem;font-weight:600;border:1px solid color-mix(in srgb,var(--primary) 20%,transparent);">
+              <i data-lucide="check" style="width:10px;height:10px;flex-shrink:0;"></i>
+              <?= e($chip) ?>
+            </span>
+            <?php endforeach; ?>
+          </div>
+          <?php endif; ?>
+
           <?php if (!empty($svc['highlights'])): ?>
           <ul class="product-card__features">
             <?php foreach ($svc['highlights'] as $h): ?>
@@ -125,6 +144,16 @@ ob_start(); ?>
             <?php endforeach; ?>
           </ul>
           <?php endif; ?>
+
+          <?php if (!empty($svc['screenshot_url'])): ?>
+          <div style="margin-bottom:0.875rem;border-radius:0.625rem;overflow:hidden;border:1px solid var(--border);background:var(--muted);">
+            <img src="<?= e($svc['screenshot_url']) ?>"
+                 alt="<?= e($svc['name']) ?> screenshot"
+                 loading="lazy"
+                 style="width:100%;display:block;max-height:180px;object-fit:cover;">
+          </div>
+          <?php endif; ?>
+
           <a href="<?= url('contact.php') ?>?service=<?= urlencode($svc['name']) ?>" class="btn btn-outline btn-md" style="width:100%;justify-content:center;">
             <?= e(__('services_get_quote')) ?>
             <i data-lucide="arrow-right" class="ic-14"></i>
