@@ -33,4 +33,3 @@ externalPort = 80
 [userenv]
 
 [userenv.shared]
-GITHUB_PAT = "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"

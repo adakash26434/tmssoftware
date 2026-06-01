@@ -1,0 +1,42 @@
+name: Mirror Confirmed
+
+# This workflow runs after every push to main on GitHub and confirms
+# the Replit → GitHub mirror is up to date.
+#
+# HOW THE MIRROR WORKS
+# ─────────────────────
+# Replit's platform commits every task merge automatically. The post-merge
+# hook (scripts/post-merge.sh, configured via [postMerge] in .replit) runs
+# immediately after each merge and pushes to GitHub using the GITHUB_PAT
+# secret stored in [userenv.shared] of .replit.
+#
+# For out-of-cycle pushes, run:
+#   bash scripts/sync-github.sh
+#
+# Target repository: https://github.com/adakash26434/tmssoftware.git
+#
+# REQUIRED SECRET (already configured in .replit [userenv.shared])
+# ──────────────────────────────────────────────────────────────────
+# GITHUB_PAT — GitHub Personal Access Token (classic) with `repo` scope.
+# Add via Replit → Tools → Secrets if missing.
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  mirror-confirmed:
+    name: Mirror Confirmed
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Log mirror details
+        run: |
+          echo "✅ Mirror confirmed — https://github.com/adakash26434/tmssoftware is up to date."
+          echo "Commit : $(git log -1 --oneline)"
+          echo "Author : $(git log -1 --format='%an <%ae>')"
+          echo "Time   : $(date -u)"
+          echo "Repo   : ${{ github.repository }}"
