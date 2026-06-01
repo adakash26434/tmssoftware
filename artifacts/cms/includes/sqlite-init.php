@@ -501,6 +501,199 @@ function sqliteMigrate(PDO $pdo): void {
         message         TEXT NOT NULL,
         created_at      TEXT NOT NULL DEFAULT (datetime('now'))
     );
+
+    CREATE TABLE IF NOT EXISTS user_sessions (
+        id            INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id       INTEGER NOT NULL,
+        event         TEXT NOT NULL DEFAULT 'login',
+        ip            TEXT,
+        user_agent    TEXT,
+        device        TEXT,
+        session_token TEXT,
+        created_at    TEXT NOT NULL DEFAULT (datetime('now'))
+    );
+
+    CREATE TABLE IF NOT EXISTS api_tokens (
+        id            INTEGER PRIMARY KEY AUTOINCREMENT,
+        name          TEXT NOT NULL,
+        token_prefix  TEXT,
+        token_hash    TEXT,
+        client_id     INTEGER DEFAULT NULL,
+        scopes        TEXT,
+        last_used_at  TEXT,
+        revoked_at    TEXT,
+        created_at    TEXT NOT NULL DEFAULT (datetime('now'))
+    );
+
+    CREATE TABLE IF NOT EXISTS api_request_log (
+        id          INTEGER PRIMARY KEY AUTOINCREMENT,
+        token_id    INTEGER DEFAULT NULL,
+        path        TEXT,
+        method      TEXT DEFAULT 'GET',
+        status_code INTEGER,
+        ip          TEXT,
+        created_at  TEXT NOT NULL DEFAULT (datetime('now'))
+    );
+
+    CREATE TABLE IF NOT EXISTS audit_log (
+        id           INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id      INTEGER DEFAULT NULL,
+        action       TEXT NOT NULL,
+        target_table TEXT,
+        target_id    INTEGER,
+        old_val      TEXT,
+        new_val      TEXT,
+        ip           TEXT,
+        user_agent   TEXT,
+        created_at   TEXT NOT NULL DEFAULT (datetime('now'))
+    );
+
+    CREATE TABLE IF NOT EXISTS banners (
+        id           INTEGER PRIMARY KEY AUTOINCREMENT,
+        title        TEXT NOT NULL,
+        subtitle     TEXT,
+        image_url    TEXT,
+        link_url     TEXT,
+        btn_text     TEXT,
+        banner_style TEXT DEFAULT 'default',
+        page_target  TEXT DEFAULT 'all',
+        position     INTEGER NOT NULL DEFAULT 10,
+        active       INTEGER NOT NULL DEFAULT 1,
+        created_at   TEXT NOT NULL DEFAULT (datetime('now')),
+        updated_at   TEXT NOT NULL DEFAULT (datetime('now'))
+    );
+
+    CREATE TABLE IF NOT EXISTS client_licenses (
+        id                INTEGER PRIMARY KEY AUTOINCREMENT,
+        client_id         INTEGER DEFAULT NULL,
+        license_key       TEXT UNIQUE,
+        product           TEXT,
+        activation_status TEXT NOT NULL DEFAULT 'inactive',
+        hardware_id       TEXT,
+        activated_at      TEXT,
+        expires_at        TEXT,
+        created_at        TEXT NOT NULL DEFAULT (datetime('now'))
+    );
+
+    CREATE TABLE IF NOT EXISTS cron_runs (
+        id          INTEGER PRIMARY KEY AUTOINCREMENT,
+        job         TEXT NOT NULL,
+        status      TEXT NOT NULL DEFAULT 'ok',
+        output      TEXT,
+        started_at  TEXT,
+        finished_at TEXT NOT NULL DEFAULT (datetime('now'))
+    );
+
+    CREATE TABLE IF NOT EXISTS email_intake_log (
+        id          INTEGER PRIMARY KEY AUTOINCREMENT,
+        from_email  TEXT,
+        to_email    TEXT,
+        subject     TEXT,
+        body        TEXT,
+        processed   INTEGER NOT NULL DEFAULT 0,
+        ticket_id   INTEGER DEFAULT NULL,
+        fetched_at  TEXT NOT NULL DEFAULT (datetime('now'))
+    );
+
+    CREATE TABLE IF NOT EXISTS job_applications (
+        id             INTEGER PRIMARY KEY AUTOINCREMENT,
+        job_listing_id INTEGER DEFAULT NULL,
+        name           TEXT NOT NULL,
+        email          TEXT NOT NULL,
+        phone          TEXT,
+        position       TEXT,
+        resume_url     TEXT,
+        cover_letter   TEXT,
+        status         TEXT NOT NULL DEFAULT 'new',
+        notes          TEXT,
+        created_at     TEXT NOT NULL DEFAULT (datetime('now')),
+        updated_at     TEXT NOT NULL DEFAULT (datetime('now'))
+    );
+
+    CREATE TABLE IF NOT EXISTS kb_categories (
+        id          INTEGER PRIMARY KEY AUTOINCREMENT,
+        name        TEXT NOT NULL,
+        slug        TEXT UNIQUE,
+        description TEXT,
+        icon        TEXT,
+        position    INTEGER NOT NULL DEFAULT 10,
+        active      INTEGER NOT NULL DEFAULT 1,
+        created_at  TEXT NOT NULL DEFAULT (datetime('now'))
+    );
+
+    CREATE TABLE IF NOT EXISTS kb_articles (
+        id           INTEGER PRIMARY KEY AUTOINCREMENT,
+        category_id  INTEGER DEFAULT NULL,
+        author_id    INTEGER DEFAULT NULL,
+        title        TEXT NOT NULL,
+        slug         TEXT UNIQUE,
+        excerpt      TEXT,
+        body         TEXT,
+        tags         TEXT,
+        status       TEXT NOT NULL DEFAULT 'draft',
+        language     TEXT NOT NULL DEFAULT 'en',
+        views        INTEGER NOT NULL DEFAULT 0,
+        published_at TEXT,
+        created_at   TEXT NOT NULL DEFAULT (datetime('now')),
+        updated_at   TEXT NOT NULL DEFAULT (datetime('now'))
+    );
+
+    CREATE TABLE IF NOT EXISTS renewal_reminders (
+        id              INTEGER PRIMARY KEY AUTOINCREMENT,
+        client_id       INTEGER DEFAULT NULL,
+        subscription_id INTEGER DEFAULT NULL,
+        remind_at       TEXT NOT NULL,
+        days_before     INTEGER NOT NULL DEFAULT 30,
+        sent            INTEGER NOT NULL DEFAULT 0,
+        sent_at         TEXT,
+        created_at      TEXT NOT NULL DEFAULT (datetime('now'))
+    );
+
+    CREATE TABLE IF NOT EXISTS sla_policies (
+        id                 INTEGER PRIMARY KEY AUTOINCREMENT,
+        name               TEXT NOT NULL,
+        description        TEXT,
+        priority           TEXT NOT NULL DEFAULT 'normal',
+        response_minutes   INTEGER NOT NULL DEFAULT 240,
+        resolution_minutes INTEGER NOT NULL DEFAULT 1440,
+        active             INTEGER NOT NULL DEFAULT 1,
+        created_at         TEXT NOT NULL DEFAULT (datetime('now'))
+    );
+
+    CREATE TABLE IF NOT EXISTS subscribers (
+        id           INTEGER PRIMARY KEY AUTOINCREMENT,
+        email        TEXT NOT NULL UNIQUE,
+        name         TEXT,
+        status       TEXT NOT NULL DEFAULT 'active',
+        source       TEXT,
+        confirmed_at TEXT,
+        created_at   TEXT NOT NULL DEFAULT (datetime('now'))
+    );
+
+    CREATE TABLE IF NOT EXISTS ticket_internal_notes (
+        id         INTEGER PRIMARY KEY AUTOINCREMENT,
+        ticket_id  INTEGER NOT NULL,
+        author_id  INTEGER DEFAULT NULL,
+        body       TEXT NOT NULL,
+        note       TEXT,
+        created_at TEXT NOT NULL DEFAULT (datetime('now'))
+    );
+
+    CREATE TABLE IF NOT EXISTS branches (
+        id         INTEGER PRIMARY KEY AUTOINCREMENT,
+        client_id  INTEGER NOT NULL,
+        code       TEXT,
+        name       TEXT NOT NULL,
+        address    TEXT,
+        district   TEXT,
+        province   TEXT,
+        phone      TEXT,
+        manager    TEXT,
+        is_head    INTEGER NOT NULL DEFAULT 0,
+        active     INTEGER NOT NULL DEFAULT 1,
+        created_at TEXT NOT NULL DEFAULT (datetime('now')),
+        updated_at TEXT NOT NULL DEFAULT (datetime('now'))
+    );
     ");
 }
 
